@@ -21,10 +21,10 @@ export class About extends Component {
          <Col md="3"></Col>
          </Row>     
          <hr></hr>
-        <p style={{fontSize:"20px"}}>My name is Divyum and I'm currently based in Chandigarh, India <i class="em em-flag-in" aria-role="presentation" aria-label="India Flag"></i> . I have a strong passion for Design & Development <i class="em em-male-technologist" aria-role="presentation" aria-label=""></i>. Recently I was working as a UI Developer Intern at  <a href="https://www.xenonstack.com/" target="_blank">XenonStack</a>. I have completed my Bachelor's in Engineering from <a href="http://uiet.puchd.ac.in/" target="_blank">UIET, Panjab University</a>, and I'm currently looking for Full-time Opportunities and I'm open to relocation.
+        <p style={{fontSize:"20px"}}>My name is Divyum and I'm currently based in Hyderabad, India <i class="em em-flag-in" aria-role="presentation" aria-label="India Flag"></i>. Currently I'm working as a UI Developer at <a href="https://finacplus.com/" target="_blank">FinacPlus</a> . Recently I was working as a UI Developer Intern at <a href="https://www.xenonstack.com/" target="_blank">XenonStack</a> . I have completed my Bachelor's in Engineering from <a href="http://uiet.puchd.ac.in/" target="_blank">UIET, Panjab University</a>.
 <br></br>
 <br></br>
-For me, Happiness Lies in the Joy of Achievement. If there's anything I love, it's a good challenge, big or small, and I firmly believe that given enough time and resources, I can achieve any goal. I'm an adaptive person & I look forward to establishing myself by adopting new technologies as well. I'm a Team Player and I have strong technical and interpersonal skills for working in a team and completing a project. 
+For me, Happiness Lies in the Joy of Achievement. If there's anything I love, it's a good challenge.  Reach out to <a href="mailto:divz7777@gmail.com?Subject=Hello%20again" target="_blank" style={{color:"#222222"}}>divz7777@gmail.com</a> to connect!
 </p>
         <hr></hr>
      <h1 className="text-center">EDUCATION</h1>
