@@ -45,7 +45,7 @@ textarea:focus {
   box-shadow: 0 0 5px #FA653C;
 }
 
-h1{
+h2, h1{
   font-family: 'Alegreya', serif;
 }
 p, label{

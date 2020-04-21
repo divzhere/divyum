@@ -12,20 +12,21 @@ export class Home extends Component {
     return (
      <>
      <Helmet>
-    <title>Divyum - Home &#x1F64B;&#x200D;&#x2642;&#xFE0F;</title>
+    <title>Divyum - Home</title>
     </Helmet>
-       <Row>
+       <div className="text-center">
+        <h1 className="display-3">Hello, I'm Divyum.</h1>
+        <p className="lead">UI Developer based in India. <i class="em em-flag-in" aria-role="presentation" aria-label="India Flag"></i> </p>
+        <hr></hr>
+        <Row>
        <Col md="3"></Col>
        <Col md="6">
          <img src={crayon} className="img-fluid" loading="lazy" style={{maxHeight:"600px"}}></img>
          </Col>
          <Col md="3"></Col>
          </Row>  
-       <div className="text-center">
-        <h1 className="display-3">Hello, I'm Divyum.</h1>
-        <hr></hr>
-        <p className="lead">UI Developer based in India. <i class="em em-flag-in" aria-role="presentation" aria-label="India Flag"></i> </p>
-        <hr></hr>
+         <hr></hr>
+
         <div className="icons-group">
         <a href="https://twitter.com/divz7777" target="_blank" style={{color:"#222222"}}><FaTwitter/></a>
         
