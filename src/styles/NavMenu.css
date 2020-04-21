@@ -23,9 +23,21 @@ a.navbar-brand:hover {
  padding-bottom: 30px;
 } */
 
+/* .navbar-nav{
+  font-family: 'Lato', sans-serif;
+  color:#FA653C;
+  font-weight: bolder;
+  text-transform: uppercase;
+  -webkit-transition: all 0.30s ease-in-out;
+  -moz-transition: all 0.30s ease-in-out;
+  -ms-transition: all 0.30s ease-in-out;
+  -o-transition: all 0.30s ease-in-out;
+} */
+
 .navbar-nav{
   font-family: 'Lato', sans-serif;
   font-weight: bolder;
+  color:#FA653C;
   text-transform: uppercase;
   -webkit-transition: all 0.30s ease-in-out;
   -moz-transition: all 0.30s ease-in-out;
@@ -33,11 +45,7 @@ a.navbar-brand:hover {
   -o-transition: all 0.30s ease-in-out;
 }
 
-.nav-items{
-  font-family: 'Lato', sans-serif;
-}
-
-.nav-items:hover > li:hover {
+.navbar-nav:hover > a:hover {
   background-color: black;
 }
 

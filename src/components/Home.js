@@ -24,7 +24,7 @@ export class Home extends Component {
        <div className="text-center">
         <h1 className="display-3">Hello, I'm Divyum.</h1>
         <hr></hr>
-        <p className="lead">UI Developer based in Chandigarh, India. <i class="em em-flag-in" aria-role="presentation" aria-label="India Flag"></i> </p>
+        <p className="lead">UI Developer based in India. <i class="em em-flag-in" aria-role="presentation" aria-label="India Flag"></i> </p>
         <hr></hr>
         <div className="icons-group">
         <a href="https://twitter.com/divz7777" target="_blank" style={{color:"#222222"}}><FaTwitter/></a>
