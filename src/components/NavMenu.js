@@ -64,7 +64,7 @@ export default function NavMenu() {
       <Nav.Link as={Link} to="/" style={{color:"#FA653C"}}>Home</Nav.Link>
       <Nav.Link as={Link} to="/about" style={{color:"#FA653C"}}>About</Nav.Link>
       <Nav.Link style={{color:"#FA653C"}} href="https://drive.google.com/file/d/1uuUtQesY9Pr-BJKgTCIofMFdCARTAscJ/view?usp=sharing" target="_blank">Resume</Nav.Link>  
-      <Nav.Link as={Link} to="/contact" style={{color:"#FA653C"}}>Contact</Nav.Link>
+      <Nav.Link href="mailto:divz7777@gmail.com?Subject=Hello" style={{color:"#FA653C"}} target="_blank">Contact</Nav.Link>
     </Nav>
     
   </Navbar.Collapse>
