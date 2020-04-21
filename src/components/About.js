@@ -8,7 +8,6 @@ import {Helmet} from "react-helmet";
 
 export class About extends Component {
     render() {
-    
         return (
             <div>
             <Helmet>
@@ -17,7 +16,7 @@ export class About extends Component {
             <Row>
        <Col md="3"></Col>
        <Col md="6">
-         <img src={about} className="img-fluid" style={{maxHeight:"600px"}}></img>
+         <img src={about} className="img-fluid" loading="lazy" style={{maxHeight:"600px"}}></img>
          </Col>
          <Col md="3"></Col>
          </Row>     

@@ -42,7 +42,7 @@ export class Contact extends Component {
             <Row>
        <Col md="3"></Col>
        <Col md="6">
-         <img src={contact} className="img-fluid" style={{maxHeight:"600px"}}></img>
+         <img src={contact} className="img-fluid" loading="lazy" style={{maxHeight:"600px"}}></img>
          </Col>
          <Col md="3"></Col>
          </Row> 

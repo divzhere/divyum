@@ -17,7 +17,7 @@ export class Home extends Component {
        <Row>
        <Col md="3"></Col>
        <Col md="6">
-         <img src={crayon} className="img-fluid" style={{maxHeight:"600px"}}></img>
+         <img src={crayon} className="img-fluid" loading="lazy" style={{maxHeight:"600px"}}></img>
          </Col>
          <Col md="3"></Col>
          </Row>  
