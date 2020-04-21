@@ -7,6 +7,11 @@ import { Button } from 'reactstrap';
 import axios from 'axios';
 import {Helmet} from "react-helmet";
 
+const encode = (data) => {
+    return Object.keys(data)
+        .map(key => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
+        .join("&");
+  }
 export class Contact extends Component {
     constructor(props){
         super(props);
@@ -20,19 +25,32 @@ export class Contact extends Component {
         console.log(this.state)
    }
 
-   handleSubmit=(e)=>{
-       e.preventDefault();
-       const body = {
-        name:this.state.name,
-        email:this.state.email,
-        message:this.state.message
-       }
-       axios.post('/api/ContactForms', {body}).then(
-           this.setState({
-            name:'',email:'',message:''
-           })
-       ) 
-   }
+//    handleSubmit=(e)=>{
+//        e.preventDefault();
+//        const body = {
+//         name:this.state.name,
+//         email:this.state.email,
+//         message:this.state.message
+//        }
+//        axios.post('/api/ContactForms', {body}).then(
+//            this.setState({
+//             name:'',email:'',message:''
+//            })
+//        ) 
+//    }
+   
+handleSubmit = e => {
+    fetch("/", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: encode({ "form-name": "contact", ...this.state })
+    })
+      .then(() => alert("Success!"))
+      .catch(error => alert(error));
+
+    e.preventDefault();
+  };
+
     render() {
         return (
             <div>
@@ -53,7 +71,7 @@ I’d love to hear from you! If you’d like to discuss a quote or are intereste
 </p>
 <hr></hr>
         <div>
-  <form onSubmit={this.handleSubmit}>
+  <form onSubmit={this.handleSubmit} netlify>
      <label for="name">Name</label>
      <input type="text" id="name" name="name" onChange={this.handleChange} value={this.state.name}></input>
      
