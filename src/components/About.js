@@ -31,17 +31,20 @@ For me, Happiness Lies in the Joy of Achievement. If there's anything I love, it
     <hr></hr>
         <Timeline>
         <Event interval={"Feb 2020 –  Present"} title={"UI Developer"} subtitle={"FinacPlus"}>
-      {/* • Developing new features, Integerating APIs for web apps using React, Redux.<br></br>
-      • Testing of Components using Jest, Enzyme & Taiko.<br></br>
-      • Documenting and refactoring the frontend codebase. */}
+      • Developing a Single Page application from scratch, while converting wireframes and prototypes to high-quality code in React for managing Loan Underwriting Process.<br></br>
+      • Configuring the CI/CD Pipeline using Azure Pipelines & Managing Deployment using Azure App Services.<br></br>
+      • Working in a Remote Team.
       </Event>
       <Event interval={"Jul 2019 – Jan 2020"} title={"UI Developer Intern"} subtitle={"XenonStack"}>
-      • Developing new features, Integerating APIs for web apps using React, Redux.<br></br>
-      • Testing of Components using Jest, Enzyme & Taiko.<br></br>
-      • Documenting and refactoring the frontend codebase.
+      • Redesigning and developing  New Product Features, User Interface, CMS, Integrating API Endpoints using React and Redux for Career Portal of XenonStack which resulted in an increased number of Job Applications.<br></br>
+      • Creating Reusable React Packages for Modal, Chips, Accordion for XenonStack Design System.<br></br>
+      • Developing the User Interface of  Website Security & Technology Stack Scanner in React, Redux and integrating API Endpoints.<br></br>
+      • Performing Unit Testing using Jest & Enzyme and Automation Testing using Taiko.<br></br>
+      • Worked in an agile Scrum Team 
       </Event>
       <Event interval={"Jun 2018 - Jun 2019"} title={"President"} subtitle={"Rotaract Club Chandigarh Himalayan"}>
-      As the Club President’s my primary role is to lead the club and preside at all meetings of the Club and Board of directors. I also have to motivate, inspire, and coach club committees to ensure that the club’s professional and leadership development activities and Service projects are successful. We are a Non for Profit Organisation based in Tricity, with a membership of more than 700 Club Members.
+      A non-profit organization based in Chandigarh, India has a strength of more than 700 members working for the Development of Underprivileged Kids, Renovating Schools, Menstrual Hygiene, Leadership Development in Youth, and a lot more.  
+<br></br>
       </Event>
     </Timeline>
     <hr></hr>
