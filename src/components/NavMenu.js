@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Navbar, Nav} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import '../styles/NavMenu.css';
@@ -64,7 +64,7 @@ export default function NavMenu() {
       <Nav.Link as={Link} to="/" style={{color:"#FA653C"}}>Home</Nav.Link>
       <Nav.Link as={Link} to="/about" style={{color:"#FA653C"}}>About</Nav.Link>
       <Nav.Link style={{color:"#FA653C"}} href="https://drive.google.com/open?id=1XMlmD2dDsOTSjI6ZKK8ChYcb5Fc88rYE" target="_blank">Resume</Nav.Link>  
-      <Nav.Link as={Link} to="/about" style={{color:"#FA653C"}}>Portfolio</Nav.Link>
+      <Nav.Link as={Link} to="/portfolio" style={{color:"#FA653C"}}>Portfolio</Nav.Link>
       <Nav.Link href="mailto:divz7777@gmail.com?Subject=Hello" style={{color:"#FA653C"}} target="_blank">Contact</Nav.Link>
     </Nav>
     
