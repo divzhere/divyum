@@ -63,7 +63,8 @@ export default function NavMenu() {
     <Nav className="ml-auto nav-items">
       <Nav.Link as={Link} to="/" style={{color:"#FA653C"}}>Home</Nav.Link>
       <Nav.Link as={Link} to="/about" style={{color:"#FA653C"}}>About</Nav.Link>
-      <Nav.Link style={{color:"#FA653C"}} href="https://drive.google.com/file/d/1uuUtQesY9Pr-BJKgTCIofMFdCARTAscJ/view?usp=sharing" target="_blank">Resume</Nav.Link>  
+      <Nav.Link style={{color:"#FA653C"}} href="https://drive.google.com/open?id=1XMlmD2dDsOTSjI6ZKK8ChYcb5Fc88rYE" target="_blank">Resume</Nav.Link>  
+      <Nav.Link as={Link} to="/about" style={{color:"#FA653C"}}>Portfolio</Nav.Link>
       <Nav.Link href="mailto:divz7777@gmail.com?Subject=Hello" style={{color:"#FA653C"}} target="_blank">Contact</Nav.Link>
     </Nav>
     

@@ -24,7 +24,8 @@ export class About extends Component {
         <p style={{fontSize:"20px"}}>My name is Divyum and I'm currently based in Hyderabad, India working as a UI Developer at <a href="https://finacplus.com/" target="_blank">FinacPlus</a> . Recently I was working as a UI Developer Intern at <a href="https://www.xenonstack.com/" target="_blank">XenonStack</a> . I have completed my Bachelor's in Engineering from <a href="http://uiet.puchd.ac.in/" target="_blank">UIET, Panjab University</a>.
 <br></br>
 <br></br>
-For me, Happiness Lies in the Joy of Achievement. If there's anything I love, it's a good challenge.  Reach out to <a href="mailto:divz7777@gmail.com?Subject=Hello%20again" target="_blank" style={{color:"#222222"}}>divz7777@gmail.com</a> to connect!
+For me, Happiness Lies in the Joy of Achievement. If there's anything I love, it's a good challenge.<br></br>  
+If you are interested in more information about collaborating or working with me, Reach out to me at <a href="mailto:divz7777@gmail.com?Subject=Hello%20again" target="_blank">divz7777@gmail.com</a> 
 </p>
         <hr></hr>
     <h2 className="text-center">EXPERIENCE</h2>
@@ -43,21 +44,20 @@ For me, Happiness Lies in the Joy of Achievement. If there's anything I love, it
       • Worked in an agile Scrum Team 
       </Event>
       <Event interval={"Jun 2018 - Jun 2019"} title={"President"} subtitle={"Rotaract Club Chandigarh Himalayan"}>
-      A non-profit organization based in Chandigarh, India has a strength of more than 700 members working for the Development of Underprivileged Kids, Renovating Schools, Menstrual Hygiene, Leadership Development in Youth, and a lot more.  
-<br></br>
+      A non-profit organization based in Chandigarh, India has a strength of more than 700 members working for the Development of Underprivileged Kids, Renovating Schools, Menstrual Hygiene, Leadership Development in Youth, and a lot more.
+      <br></br>
+      • Lead the Club and preside all meetings of the club and Board of Directors
+      • Awarded Best Club and Best President for the tenure 2018-19 by Rotaract International District 3080.
       </Event>
     </Timeline>
     <hr></hr>
     <h2 className="text-center">SKILLS</h2>
     <hr></hr>
         <Timeline>
-      <Event interval={"Frontend Framework"} title={""} subtitle={""}>React</Event>
-      <Event interval={"Data Layer"} title={""} subtitle={""}>Redux</Event>
-      <Event interval={"Testing"} title={""} subtitle={""}>Jest, Enzyme, Taiko</Event>
-      <Event interval={"Text Editor"} title={""} subtitle={""}>VS Code</Event>
-      <Event interval={"Languages"} title={""} subtitle={""}>Java, Javascript</Event>
-      <Event interval={"Graphic Designing & Prototyping"} title={""} subtitle={""}>Adobe Photoshop, Adobe XD, Canva</Event>
-      <Event interval={"Other Skills"} title={""} subtitle={""}>Version Control(Git), Responsive Layout & Design, Agile Methodology, Team Leadership, Leadership Development</Event>
+      <Event interval={"Frontend"} title={""} subtitle={""}>JavaScript, ES6, JSX, React, Redux, HTML, CSS</Event>
+      <Event interval={"Testing"} title={""} subtitle={""}>Jest, Enzyme, Taiko, TDD</Event>
+      <Event interval={"Design"} title={""} subtitle={""}>Adobe Photoshop, Adobe XD</Event>
+      <Event interval={"Others"} title={""} subtitle={""}>Leadership, Graphics Designing, HR Management, NGOs, Social Media</Event>
     </Timeline>
     <hr></hr>
     <h2 className="text-center">EDUCATION</h2>
