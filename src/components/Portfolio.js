@@ -23,7 +23,7 @@ export function Portfolio() {
         • Web app for Private & Hard Money Mortgage Lending company to manage the Loan Underwriting Process.<br></br>
         • Technologies used: React, HTML, CSS, Azure for CI/CD, and Deployment
       </Event>
-      <Event interval={"Jan 2020 - Present"} title={<a href="https://divz.xyz/" target="_blank">divz.xyz</a>} subtitle={"Personal Website"}>
+      <Event interval={"Feb 2020 - Present"} title={<a href="https://divz.xyz/" target="_blank">divz.xyz</a>} subtitle={"Personal Website"}>
       • Technologies used: React, HTML, CSS, Netlify for CI/CD and Deployment, Google Analytics.<br></br>
       </Event>
       <Event interval={"December 2019"} title={<a href="https://webscanner.akirastack.io/" target="_blank">Website Scanner</a>} subtitle={"XenonStack, Chandigarh"}>
