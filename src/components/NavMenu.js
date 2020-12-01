@@ -31,7 +31,7 @@ export default function NavMenu() {
                         </Nav.Link>
                         <Nav.Link
                             style={{ color: '#FA653C' }}
-                            href='https://drive.google.com/open?id=1XMlmD2dDsOTSjI6ZKK8ChYcb5Fc88rYE'
+                            href='https://drive.google.com/file/d/11XOY_KT21GOFkjTr_mMZQifuXIdAf5ID/view'
                             target='_blank'
                         >
                             Resume

@@ -25,35 +25,29 @@ export class About extends Component {
                 </Row>
                 <hr></hr>
                 <p style={{ fontSize: '20px' }}>
-                    My name is Divyum and I'm currently based in Hyderabad, India working as a UI
-                    Developer at{' '}
-                    <a href='https://finacplus.com/' target='_blank'>
-                        FinacPlus
-                    </a>{' '}
-                    . Recently I was working as a UI Developer Intern at{' '}
-                    <a href='https://www.xenonstack.com/' target='_blank'>
-                        XenonStack
-                    </a>{' '}
-                    . I have completed my Bachelor's in Engineering from{' '}
+                    My name is Divyum and I'm currently working as a Frontend Engineer based in India <i
+                            class='em em-flag-in'
+                            aria-role='presentation'
+                            aria-label='India Flag'
+                        ></i>. I have completed my Bachelor's in Engineering in Information Technology from{' '}
                     <a href='http://uiet.puchd.ac.in/' target='_blank'>
-                        UIET, Panjab University
-                    </a>
+                        UIET, Panjab University 🎓
+                    </a> 
                     .<br></br>
-                    <br></br>
-                    For me, Happiness Lies in the Joy of Achievement. If there's anything I love,
-                    it's a good challenge.<br></br>
-                    If you are interested in more information about collaborating or working with
-                    me, Reach out to me at{' '}
-                    <a href='mailto:divz7777@gmail.com?Subject=Hello%20again' target='_blank'>
-                        divz7777@gmail.com
-                    </a>
                 </p>
                 <hr></hr>
-                <h2 className='text-center'>EXPERIENCE</h2>
+                <h2 className='text-center'>TIMELINE</h2>
                 <hr></hr>
                 <Timeline>
+                <Event
+                        interval={'Jun 2020 –  Dec 2020'}
+                        title={'Software Engineer'}
+                        subtitle={'Wrkspot'}
+                    >
+                        • Working in the Remote Product Development Team, developing new product features, user screens using ReactJS.
+                    </Event>
                     <Event
-                        interval={'Feb 2020 –  Present'}
+                        interval={'Feb 2020 –  May 2020'}
                         title={'UI Developer'}
                         subtitle={'FinacPlus'}
                     >

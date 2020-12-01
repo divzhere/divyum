@@ -14,9 +14,9 @@ export class Home extends Component {
                     <title>Divyum - Home</title>
                 </Helmet>
                 <div className='text-center'>
-                    <h1 className='display-3'>Hello, I'm Divyum.</h1>
+                    <h1 className='display-3'>Hello, my name is Divyum.</h1>
                     <p className='lead'>
-                        UI Developer based in India.{' '}
+                        Frontend Engineer based in India.{' '}
                         <i
                             class='em em-flag-in'
                             aria-role='presentation'

@@ -24,8 +24,17 @@ export function Portfolio() {
             </Row>
             <hr></hr>
             <Timeline>
+            <Event
+                    interval={'Jun 2020 - Dec 2020'}
+                    title={<a href='https://dev.wrkspot.com/cloud/signin' target='_blank'>
+                    Wrkspot Onboarding
+                </a>}
+                    subtitle={'Wrkspot, Artesia'}
+                >
+                    • Developing features to assist the Onboarding Process for new Corporations and New Hotels.<br></br>• Technologies used: Reactjs, HTML, SCSS, Javascript
+                </Event>
                 <Event
-                    interval={'Feb 2020 - Present'}
+                    interval={'Feb 2020 - May 2020'}
                     title={'Icecap Loan Underwriting'}
                     subtitle={'Icecap Group, New York'}
                 >
