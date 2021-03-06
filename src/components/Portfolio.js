@@ -1,8 +1,16 @@
 import React from 'react';
 import contact from '../images/contact.png';
-import { Row, Col } from 'reactstrap';
+import webscanner from "../images/screenshot-webscanner.png"
+import netflix from "../images/netflix.png"
+import loan from "../images/loan.png"
+import multiSelect from "../images/multiselect.png"
+import csv from "../images/csv.png"
+import divz from "../images/divz.png"
 import { Helmet } from 'react-helmet';
-import { Timeline, Event } from 'react-timeline-scribble';
+import {
+    Card, CardImg, CardText, CardBody,
+    CardTitle, CardSubtitle, Button, Row, Col, CardGroup
+} from 'reactstrap';
 import { Footer } from './Footer';
 export function Portfolio() {
     return (
@@ -23,63 +31,69 @@ export function Portfolio() {
                 <Col md='3'></Col>
             </Row>
             <hr></hr>
-            <Timeline>
-            <Event
-                    interval={'Jun 2020 - Dec 2020'}
-                    title={<a href='https://dev.wrkspot.com/cloud/signin' target='_blank'>
-                    Wrkspot Onboarding
-                </a>}
-                    subtitle={'Wrkspot, Artesia'}
-                >
-                    • Developing features to assist the Onboarding Process for new Corporations and New Hotels.<br></br>• Technologies used: Reactjs, HTML, SCSS, Javascript
-                </Event>
-                <Event
-                    interval={'Feb 2020 - May 2020'}
-                    title={'Icecap Loan Underwriting'}
-                    subtitle={'Icecap Group, New York'}
-                >
-                    • Web app for Private & Hard Money Mortgage Lending company to manage the Loan
-                    Underwriting Process.<br></br>• Technologies used: React, HTML, CSS, Azure for
-                    CI/CD, and Deployment
-                </Event>
-                <Event
-                    interval={'Feb 2020 - Present'}
-                    title={
-                        <a href='https://divz.xyz/' target='_blank'>
-                            divz.xyz
-                        </a>
-                    }
-                    subtitle={'Personal Website'}
-                >
-                    • Technologies used: React, HTML, CSS, Netlify for CI/CD and Deployment, Google
-                    Analytics.<br></br>
-                </Event>
-                <Event
-                    interval={'December 2019'}
-                    title={
-                        <a href='https://webscanner.akirastack.io/' target='_blank'>
-                            Website Scanner
-                        </a>
-                    }
-                    subtitle={'XenonStack, Chandigarh'}
-                >
-                    • Web app for scanning the Technology Stack and Security Check for websites.
-                    <br></br>• Technologies used: React, Redux, JavaScript, HTML, CSS.
-                </Event>
-                <Event
-                    interval={'September 2019 - November 2019'}
-                    title={
-                        <a href='https://careers.xenonstack.com/' target='_blank'>
-                            XenonStack Careers
-                        </a>
-                    }
-                    subtitle={'XenonStack, Chandigarh'}
-                >
-                    • Worked on adding new features in Content Management System for Admin & User
-                    Portal, Integrated API Endpoints.<br></br>• Technologies used: React, Redux,
-                    JavaScript, HTML, CSS.
-                </Event>
-            </Timeline>
+            <div className="card-row">
+                <CardGroup>
+                    <Card>
+                        <CardImg top width="100%" src={webscanner} alt="Card image cap" />
+                        <CardBody>
+                            <CardTitle tag="h5">Web Scanner</CardTitle>
+                            <CardSubtitle tag="h6" className="mb-2 text-muted">React, Redux, JavaScript, HTML, CSS</CardSubtitle>
+                            <CardText>Scanner to scan website security.</CardText>
+                            <Button color="link"><a href="https://webscanner.akirastack.io/" target="_blank">Link</a></Button>
+                        </CardBody>
+                    </Card>
+                    <Card>
+                    <CardImg top width="100%" src={netflix} alt="Card image cap" />
+                    <CardBody>
+                        <CardTitle tag="h5">Netflix Home Page Clone</CardTitle>
+                        <CardSubtitle tag="h6" className="mb-2 text-muted">React,JavaScript, HTML, CSS</CardSubtitle>
+                        <CardText>Used Movies Database API for making a clone of Netflix Home page UI</CardText>
+                        <Button color="link"><a href="https://compassionate-galileo-0c56b8.netlify.app/" target="_blank">Link</a></Button>
+                        <Button color="link"><a href="https://github.com/divzhere/netflix-clone" target="_blank">Github Repo</a></Button>
+                    </CardBody>
+                </Card>
+                <Card>
+                        <CardImg top width="100%" src={multiSelect} alt="Card image cap" />
+                        <CardBody>
+                            <CardTitle tag="h5">react-multiselect-dropdown</CardTitle>
+                            <CardSubtitle tag="h6" className="mb-2 text-muted">React,JavaScript, HTML, CSS</CardSubtitle>
+                            <CardText>Reusable Multiselect Dropdown Component</CardText>
+                            <Button color="link"><a href="https://csb-duysh.netlify.app/" target="_blank">Link</a></Button>
+                            <Button color="link"><a href="https://github.com/divzhere/react-multiselect-dropdown" target="_blank">Github Repo</a></Button>
+                        </CardBody>
+                    </Card>
+                </CardGroup>
+                <CardGroup>
+                    <Card>
+                        <CardImg top width="100%" src={divz} alt="Card image cap" />
+                        <CardBody>
+                            <CardTitle tag="h5">Personal Website</CardTitle>
+                            <CardSubtitle tag="h6" className="mb-2 text-muted">React,JavaScript, HTML, CSS</CardSubtitle>
+                            <Button color="link"><a href="https://www.divz.xyz/" target="_blank">Link</a></Button>
+                            <Button color="link"><a href="https://github.com/divzhere/divyum" target="_blank">Github Repo</a></Button>
+                        </CardBody>
+                    </Card>
+                    <Card>
+                        <CardImg top width="100%" src={csv} alt="Card image cap" />
+                        <CardBody>
+                            <CardTitle tag="h5">CSV Viewer</CardTitle>
+                            <CardSubtitle tag="h6" className="mb-2 text-muted">React,JavaScript, HTML, CSS</CardSubtitle>
+                            <CardText>Converts a .CSV file to a Table</CardText>
+                            <Button color="link"><a href="https://condescending-panini-86281d.netlify.app/" target="_blank">Link</a></Button>
+                            <Button color="link"><a href="https://github.com/divzhere/CSViewer" target="_blank">Github Repo</a></Button>
+                        </CardBody>
+                    </Card>
+                    <Card>
+                        <CardImg top width="100%" src={loan} alt="Card image cap" />
+                        <CardBody>
+                            <CardTitle tag="h5">Fix n Flip Loans</CardTitle>
+                            <CardSubtitle tag="h6" className="mb-2 text-muted">HTML, CSS</CardSubtitle>
+                            <CardText>Landing page for a Loan lending Company.</CardText>
+                            <Button color="link"><a href="https://loving-goldstine-af3e96.netlify.app/" target="_blank">Link</a></Button>
+                        </CardBody>
+                    </Card>
+                </CardGroup>
+               </div>
             <Footer />
         </div>
     );
