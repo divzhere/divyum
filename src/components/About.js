@@ -40,7 +40,7 @@ export class About extends Component {
                 <hr></hr>
                 <Timeline>
                 <Event
-                        interval={'Jun 2020 –  Dec 2020'}
+                        interval={'Jun 2020 –  Jan 2021'}
                         title={'Software Engineer'}
                         subtitle={'Wrkspot'}
                     >
