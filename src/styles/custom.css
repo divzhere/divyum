@@ -1,7 +1,9 @@
-/* Provide sufficient contrast against white background */
-
 code {
   color: #FA653C;
+}
+
+.container {
+  padding: 0.5rem, 1rem;
 }
 
 .submit-btn {
@@ -15,35 +17,6 @@ code {
 
 .submit-btn:hover {
   background-color: #FA653C;
-}
-
-input,
-textarea {
-  -webkit-transition: all 0.30s ease-in-out;
-  -moz-transition: all 0.30s ease-in-out;
-  -ms-transition: all 0.30s ease-in-out;
-  -o-transition: all 0.30s ease-in-out;
-  width: 100%;
-  padding: 12px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-  margin-top: 6px;
-  margin-bottom: 16px;
-  resize: vertical;
-}
-
-input:focus {
-  outline: #FA653C;
-  border: 1px solid #FA653C;
-  box-shadow: 0 0 5px #FA653C;
-
-}
-
-textarea:focus {
-  outline: #FA653C;
-  border: 1px solid #FA653C;
-  box-shadow: 0 0 5px #FA653C;
 }
 
 h2,
