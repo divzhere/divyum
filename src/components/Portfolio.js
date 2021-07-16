@@ -1,10 +1,10 @@
 import React from "react";
 import contact from "../images/contact.png";
-import webscanner from "../images/screenshot-webscanner.png";
 import netflix from "../images/netflix.png";
 import loan from "../images/loan.png";
 import multiSelect from "../images/multiselect.png";
 import csv from "../images/csv.png";
+import bettermaps from "../images/bettermaps.png"
 import divz from "../images/divz.png";
 import { Helmet } from "react-helmet";
 import {
@@ -31,27 +31,35 @@ export function Portfolio() {
         <Col md="6">
           <img
             src={contact}
-            className="img-fluid"
+            className="img-fluid animate__animated animate__fadeIn"
             loading="lazy"
             style={{ maxHeight: "600px" }}
           ></img>
         </Col>
         <Col md="3"></Col>
       </Row>
-      <hr></hr>
-      <div className="card-row">
+      <hr className="animate__animated animate__fadeIn"></hr>
+      <div className="card-row animate__animated animate__fadeIn animate__delay-1s">
         <CardGroup>
           <Card>
-            <CardImg top width="100%" src={webscanner} alt="Card image cap" />
+            <CardImg top width="100%" src={bettermaps} alt="Card image cap" />
             <CardBody>
-              <CardTitle tag="h5">Web Scanner</CardTitle>
+              <CardTitle tag="h5">Better Maps</CardTitle>
               <CardSubtitle tag="h6" className="mb-2 text-muted">
-                React, Redux, JavaScript, HTML, CSS
+                React, JavaScript, HTML, CSS
               </CardSubtitle>
-              <CardText>Scanner to scan website security.</CardText>
+              <CardText>MVP for a Web app for creating Maps using Mapbox and Maptiler APIs.</CardText>
               <Button color="link">
-                <a href="https://webscanner.akirastack.io/" target="_blank">
+                <a href="https://hungry-hypatia-83f595.netlify.app/" target="_blank">
                   Link
+                </a>
+              </Button>
+              <Button color="link">
+                <a
+                  href="https://github.com/divzhere/BetterMaps"
+                  target="_blank"
+                >
+                  Github Repo
                 </a>
               </Button>
             </CardBody>

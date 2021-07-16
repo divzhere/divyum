@@ -1,5 +1,5 @@
 import React from "react";
-import { FaGithub, FaTwitter, FaLinkedin } from "react-icons/fa";
+import { FaGithub, FaLinkedin } from "react-icons/fa";
 import { AiFillMail } from "react-icons/ai";
 
 let time = new Date();
@@ -10,13 +10,6 @@ export function Footer() {
     <div>
       <hr></hr>
       <div className="icons-group">
-        <a
-          href="https://twitter.com/divz7777"
-          target="_blank"
-          style={{ color: "#333333" }}
-        >
-          <FaTwitter />
-        </a>
         <a
           href="mailto:divz7777@gmail.com?Subject=Hello%20again"
           target="_blank"

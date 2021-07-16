@@ -14,8 +14,8 @@ export class Home extends Component {
           <title>Divyum - Home</title>
         </Helmet>
         <div className="text-center">
-          <h1 className="display-3">Hello, my name is Divyum.</h1>
-          <p className="lead">
+          <h1 className="display-3 animate__animated animate__fadeIn">Hello, my name is Divyum.</h1>
+          <p className="lead animate__animated animate__fadeIn">
             Frontend Engineer based in India.{" "}
             <i
               class="em em-flag-in"
@@ -23,13 +23,13 @@ export class Home extends Component {
               aria-label="India Flag"
             ></i>{" "}
           </p>
-          <hr></hr>
+          <hr className="animate__animated animate__fadeIn"></hr>
           <Row>
             <Col md="3"></Col>
             <Col md="6">
               <img
                 src={crayon}
-                className="img-fluid"
+                className="img-fluid animate__animated animate__fadeIn animate__delay-1s"
                 loading="lazy"
                 style={{ maxHeight: "600px" }}
               ></img>

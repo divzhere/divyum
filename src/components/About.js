@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import about from "../images/about.png";
 import { Row, Col } from "reactstrap";
-import { Timeline, Event } from "react-timeline-scribble";
 import { Helmet } from "react-helmet";
 import { Footer } from "./Footer";
 export class About extends Component {
@@ -16,15 +15,18 @@ export class About extends Component {
           <Col md="6">
             <img
               src={about}
-              className="img-fluid"
+              className="img-fluid animate__animated animate__fadeIn"
               loading="lazy"
               style={{ maxHeight: "600px" }}
             ></img>
           </Col>
           <Col md="3"></Col>
         </Row>
-        <hr></hr>
-        <p style={{ fontSize: "20px" }}>
+        <hr className="animate__animated animate__fadeIn"></hr>
+        <p
+          style={{ fontSize: "20px" }}
+          className="animate__animated animate__fadeIn animate__delay-1s"
+        >
           My name is Divyum and I'm currently working as a Frontend Engineer
           based in India{" "}
           <i
@@ -35,101 +37,36 @@ export class About extends Component {
           . I have completed my Bachelor's in Engineering in Information
           Technology from{" "}
           <a href="http://uiet.puchd.ac.in/" target="_blank">
-            UIET, Panjab University 🎓
+            UIET, Panjab University 🎓.
+          </a>
+          <br></br>
+          <br></br>I have 2+ years of experience working as a Software Developer
+          👨🏻‍💻 with hands-on experience in Frontend Development of web
+          applications 🌐 . I'm proficient in translating designs & wireframes
+          into responsive, high-quality code 🚀 . I have worked in the past with
+          mid-size tech companies such as{" "}
+          <a href="http://collegedunia.com/" target="_blank">
+            CollegeDunia,
+          </a>{" "}
+          <a href="https://www.wrkspot.com/" target="_blank">
+            Wrkspot,
+          </a>{" "}
+          <a href="https://www.finacplus.com/" target="_blank">
+            Finacplus,
+          </a>{" "}
+          and{" "}
+          <a href="https://www.xenonstack.com/" target="_blank">
+            Xenonstack
           </a>
           .<br></br>
+          <br></br>
+          I'm also an aspiring Product Manager, I'm also pursuing PG Diploma in
+          Product Management by{" "}
+          <a href="https://pragmaticleaders.io/" target="_blank">
+            Pragmatics Leaders
+          </a>{" "}
+          currently.
         </p>
-        <hr></hr>
-        <h2 className="text-center">TIMELINE</h2>
-        <hr></hr>
-        <Timeline>
-          <Event
-            interval={"Jun 2020 –  Jan 2021"}
-            title={"Software Engineer"}
-            subtitle={"Wrkspot"}
-          >
-            • Working in the Remote Product Development Team, developing new
-            product features, user screens using ReactJS.
-          </Event>
-          <Event
-            interval={"Feb 2020 –  May 2020"}
-            title={"UI Developer"}
-            subtitle={"FinacPlus"}
-          >
-            • Developing a Single Page application from scratch, while
-            converting wireframes and prototypes to high-quality code in React
-            for managing Loan Underwriting Process.<br></br>• Configuring the
-            CI/CD Pipeline using Azure Pipelines & Managing Deployment using
-            Azure App Services.<br></br>• Working in a Remote Team.
-          </Event>
-          <Event
-            interval={"Jul 2019 – Jan 2020"}
-            title={"UI Developer Intern"}
-            subtitle={"XenonStack"}
-          >
-            • Redesigning and developing New Product Features, User Interface,
-            CMS, Integrating API Endpoints using React and Redux for Career
-            Portal of XenonStack which resulted in an increased number of Job
-            Applications.
-            <br></br>• Creating Reusable React Packages for Modal, Chips,
-            Accordion for XenonStack Design System.<br></br>• Developing the
-            User Interface of Website Security & Technology Stack Scanner in
-            React, Redux and integrating API Endpoints.<br></br>• Performing
-            Unit Testing using Jest & Enzyme and Automation Testing using Taiko.
-            <br></br>• Worked in an agile Scrum Team
-          </Event>
-          <Event
-            interval={"Jun 2018 - Jun 2019"}
-            title={"President"}
-            subtitle={"Rotaract Club Chandigarh Himalayan"}
-          >
-            A non-profit organization based in Chandigarh, India has a strength
-            of more than 700 members working for the Development of
-            Underprivileged Kids, Renovating Schools, Menstrual Hygiene,
-            Leadership Development in Youth, and a lot more.
-            <br></br>• Lead the Club and preside all meetings of the club and
-            Board of Directors.<br></br>• Awarded Best Club and Best President
-            for the tenure 2018-19 by Rotaract International District 3080.
-            <br></br>
-          </Event>
-        </Timeline>
-        <hr></hr>
-        <h2 className="text-center">SKILLS</h2>
-        <hr></hr>
-        <Timeline>
-          <Event interval={"Frontend"} title={""} subtitle={""}>
-            JavaScript, ES6, JSX, React, Redux, HTML, CSS
-          </Event>
-          <Event interval={"Testing"} title={""} subtitle={""}>
-            Jest, Enzyme, Taiko, TDD
-          </Event>
-          <Event interval={"Design"} title={""} subtitle={""}>
-            Adobe Photoshop, Adobe XD
-          </Event>
-          <Event interval={"Others"} title={""} subtitle={""}>
-            Leadership, Graphics Designing, HR Management, NGOs, Social Media
-          </Event>
-        </Timeline>
-        <hr></hr>
-        <h2 className="text-center">EDUCATION</h2>
-        <hr></hr>
-        <Timeline>
-          <Event
-            interval={"2015 – 2019"}
-            title={"UIET,Panjab University"}
-            subtitle={"Bachelor's of Engineering, Information Technology"}
-          ></Event>
-          <Event
-            interval={"2015"}
-            title={"Mount Carmel School, Chandigarh"}
-            subtitle={"CBSE, 12th Standrd"}
-          ></Event>
-          <Event
-            interval={"2013"}
-            title={"Christ King Convent School, Kapurthala"}
-            subtitle={"ICSE, 10th Standard"}
-          ></Event>
-        </Timeline>
         <Footer />
       </div>
     );
