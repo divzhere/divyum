@@ -7,13 +7,14 @@ let year = time.getFullYear();
 
 export function Footer() {
   return (
-    <div>
+    <footer>
       <hr></hr>
       <div className="icons-group">
         <a
           href="mailto:divz7777@gmail.com?Subject=Hello%20again"
           target="_blank"
           style={{ color: "#333333" }}
+          rel="noopener noreferrer"
         >
           <AiFillMail />
         </a>
@@ -21,6 +22,7 @@ export function Footer() {
           href="https://github.com/divzhere"
           target="_blank"
           style={{ color: "#333333" }}
+          rel="noopener noreferrer"
         >
           <FaGithub />
         </a>
@@ -28,6 +30,7 @@ export function Footer() {
           href="https://www.linkedin.com/in/divyum-bhumra-48718b102/"
           target="_blank"
           style={{ color: "#333333" }}
+          rel="noopener noreferrer"
         >
           <FaLinkedin />
         </a>
@@ -42,11 +45,12 @@ export function Footer() {
           href="https://www.icons8.com"
           target="_blank"
           style={{ color: "#333333" }}
+          rel="noopener noreferrer"
         >
           {" "}
           &copy; {year} Icons8 LLC
         </a>
       </p>
-    </div>
+    </footer>
   );
 }
