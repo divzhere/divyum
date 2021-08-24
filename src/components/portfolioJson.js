@@ -9,7 +9,7 @@ export const projects = [
   },
   {
     title: "Amazon Clone",
-    tags: ["React", "SASS", "HTML", "CSS", "Javascript"],
+    tags: ["React", "SASS", "HTML", "CSS", "Javascript", "Firebase", "Stripe"],
     description:
       "Clone of Amazon with Login/Signup, Checkout and Payment features",
     code: "https://github.com/divzhere/AmazonClone",
@@ -43,9 +43,17 @@ export const projects = [
     img: "https://res.cloudinary.com/dbrdml9bf/image/upload/v1629465663/divz.xyz/multiselect.870ec34e_z0peyn.png",
   },
   {
-    title: "Personal Website",
-    tags: ["React", "SASS", "HTML", "CSS", "Javascript"],
-    description: "",
+    title: "divz.xyz",
+    tags: [
+      "React",
+      "SASS",
+      "HTML",
+      "CSS",
+      "Javascript",
+      "Google Analytics",
+      "Cloudinary",
+    ],
+    description: "My personal website",
     code: "https://github.com/divzhere/divyum",
     website: "http://divz.xyz/",
     img: "https://res.cloudinary.com/dbrdml9bf/image/upload/v1629465667/divz.xyz/divz.ff33c1ef_ad4iyu.png",
