@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import about from "../images/about.png";
 import { Row, Col } from "reactstrap";
 import { Helmet } from "react-helmet";
-import { Footer } from "./Footer";
 export class About extends Component {
   render() {
     return (
@@ -109,7 +108,6 @@ export class About extends Component {
             currently.
           </p>
         </article>
-        <Footer />
       </div>
     );
   }

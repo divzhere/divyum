@@ -2,8 +2,6 @@ import React, { Component } from "react";
 import crayon from "../images/crayon-success.png";
 import { Row, Col } from "reactstrap";
 import { Helmet } from "react-helmet";
-import { Footer } from "./Footer";
-
 export class Home extends Component {
   static displayName = Home.name;
 
@@ -53,7 +51,6 @@ export class Home extends Component {
               </Col>
               <Col md="3"></Col>
             </Row>
-            <Footer />
           </div>
         </header>
       </>

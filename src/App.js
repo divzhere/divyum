@@ -4,6 +4,7 @@ import { Layout } from "./components/Layout";
 import { Home } from "./components/Home";
 import { Portfolio } from "./components/Portfolio";
 import { About } from "./components/About";
+import { Footer } from "./components/Footer";
 import "./styles/custom.css";
 
 export default class App extends Component {
@@ -15,6 +16,7 @@ export default class App extends Component {
         <Route exact path="/" component={Home} />
         <Route path="/portfolio" component={Portfolio} />
         <Route path="/about" component={About} />
+        <Footer />
       </Layout>
     );
   }
