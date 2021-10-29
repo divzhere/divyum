@@ -30,7 +30,7 @@ export class Home extends Component {
               Hello, my name is Divyum.
             </h1>
             <p className="lead animate__animated animate__fadeIn">
-              Frontend Engineer based in India.{" "}
+              Product Engineer based in India.{" "}
               <i
                 class="em em-flag-in"
                 aria-role="presentation"
