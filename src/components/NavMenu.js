@@ -45,11 +45,11 @@ export default function NavMenu() {
               Portfolio
             </Nav.Link>
             <Nav.Link
-              href="mailto:divz7777@gmail.com?Subject=Hello"
+              href="https://medium.com/@divyumbhumra"
               style={{ color: "#FA653C" }}
               target="_blank"
             >
-              Contact
+              Blog
             </Nav.Link>
           </Nav>
         </Navbar.Collapse>
