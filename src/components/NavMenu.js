@@ -29,13 +29,13 @@ export default function NavMenu() {
             >
               About
             </Nav.Link>
-            <Nav.Link
-              style={{ color: "#FA653C" }}
-              href="https://drive.google.com/file/d/1Jry2Kbkkaqg4GqY88Vb5JTddJfrpalya/view?usp=sharing"
-              target="_blank"
-            >
-              Resume
-            </Nav.Link>
+//             <Nav.Link
+//               style={{ color: "#FA653C" }}
+//               href="https://drive.google.com/file/d/1Jry2Kbkkaqg4GqY88Vb5JTddJfrpalya/view?usp=sharing"
+//               target="_blank"
+//             >
+//               Resume
+//             </Nav.Link>
             <Nav.Link
               as={Link}
               to="/portfolio"
