@@ -47,7 +47,40 @@ export class About extends Component {
             style={{ fontSize: "20px" }}
             className="animate__animated animate__fadeIn animate__delay-1s"
           >
-            My name is Divyum and I'm currently working as a Product Engineer
+            A product role aspirant with over 3+ years of experience in building
+            tech products. Seeking an opportunity to leverage my diverse skills
+            and experience in Product Management, Software Engineering, Frontend
+            Engineering, Responsive UI/UX Development, Wireframing, Stakeholder
+            Management, and Quality Assurance.
+            <br></br>
+            <br></br>A Bachelor in Engineering in Information Technology from{" "}
+            <a
+              href="http://uiet.puchd.ac.in/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              UIET, Panjab University
+            </a>{" "}
+            along with Diploma in Product Management from{" "}
+            <a
+              href="https://pragmaticleaders.io/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Pragmatics Leaders
+            </a>{" "}
+            coupled with ample profoessional experience in tech will make me a
+            positive asset to your organization.
+            <br></br>
+            <br></br>
+            <a
+              href="https://calendly.com/divyum/meeting"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Let's Talk 🚀
+            </a>
+            {/* My name is Divyum and I'm currently working as a Product Engineer
             based in India{" "}
             <i
               class="em em-flag-in"
@@ -76,7 +109,7 @@ export class About extends Component {
             finally launching the product. And to hone my product skills I have
             also completed a PG diploma course in Product Management by
             Pragmatics Leaders
-            <br></br>
+            <br></br> */}
           </p>
         </article>
       </div>
