@@ -55,4 +55,16 @@ body {
   left: 0;
   height: 100%;
   width: 100%;
+  overflow: scroll;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+::-webkit-scrollbar {
+  width: 0;
+  background: transparent;
+}
+
+.footer_container {
+  padding-bottom: 1rem;
 }
