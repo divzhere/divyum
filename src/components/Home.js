@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import crayon from "../images/crayon-success.png";
 import { Row, Col } from "reactstrap";
 import { Helmet } from "react-helmet";
+import Tilt from "react-parallax-tilt";
+
 export class Home extends Component {
   static displayName = Home.name;
 
@@ -41,13 +43,15 @@ export class Home extends Component {
             <Row>
               <Col md="3"></Col>
               <Col md="6">
-                <img
-                  src={crayon}
-                  className="img-fluid animate__animated animate__fadeIn animate__delay-1s"
-                  loading="lazy"
-                  style={{ maxHeight: "600px" }}
-                  alt="home_illustration"
-                ></img>
+                <Tilt className="track-on-window" trackOnWindow={true}>
+                  <img
+                    src={crayon}
+                    className="img-fluid animate__animated animate__fadeIn animate__delay-1s"
+                    loading="lazy"
+                    style={{ maxHeight: "600px" }}
+                    alt="home_illustration"
+                  ></img>
+                </Tilt>
               </Col>
               <Col md="3"></Col>
             </Row>

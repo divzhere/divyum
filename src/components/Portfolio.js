@@ -15,6 +15,8 @@ import {
   Badge,
 } from "reactstrap";
 import { projects } from "./portfolioJson";
+import Tilt from "react-parallax-tilt";
+
 export function Portfolio() {
   return (
     <div>
@@ -38,13 +40,15 @@ export function Portfolio() {
         <Row>
           <Col md="3"></Col>
           <Col md="6">
-            <img
-              src={contact}
-              className="img-fluid animate__animated animate__fadeIn"
-              loading="lazy"
-              style={{ maxHeight: "600px" }}
-              alt="portfolio_illustration"
-            ></img>
+            <Tilt className="track-on-window" trackOnWindow={true}>
+              <img
+                src={contact}
+                className="img-fluid animate__animated animate__fadeIn"
+                loading="lazy"
+                style={{ maxHeight: "600px" }}
+                alt="portfolio_illustration"
+              ></img>
+            </Tilt>
           </Col>
           <Col md="3"></Col>
         </Row>
@@ -77,7 +81,7 @@ export function Portfolio() {
                 <Button color="link">
                   {project.code && (
                     <Link
-                      to={{pathname:project.code}}
+                      to={{ pathname: project.code }}
                       target="_blank"
                       rel="noopener noreferrer"
                     >

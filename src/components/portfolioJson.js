@@ -1,5 +1,14 @@
 export const projects = [
   {
+    title: "Corkowl",
+    tags: ["Vue.js", "SASS", "HTML", "CSS", "Javascript"],
+    description: "Landing Page for Wine E-commerce SaaS product",
+    code: "",
+    website: "http://www.corkowl.xyz/",
+    img: "https://res.cloudinary.com/dbrdml9bf/image/upload/v1659563896/divz.xyz/Screenshot_2022-08-04_032736_n0bbdo.png",
+  },
+  ,
+  {
     title: "Grammarly Premium Clone ",
     tags: ["React", "SASS", "HTML", "CSS", "Javascript"],
     description: "Frontend clone of Grammarly Premium Landing Page",
