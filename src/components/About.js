@@ -13,7 +13,7 @@ export class About extends Component {
           <meta name="title" content="Divyum - divz.xyz" />
           <meta
             name="description"
-            content="Divyum Bhumra : Frontend Developer based in India"
+            content="Divyum Bhumra :  Developer based in India"
           />
           <meta
             name="keywords"
