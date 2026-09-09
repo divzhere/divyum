@@ -2,6 +2,7 @@
   "name": "divyum-bhumra",
   "version": "0.1.0",
   "private": true,
+  "packageManager": "pnpm@8.10.0",
   "engines": {
     "node": ">=22"
   },
@@ -10,7 +11,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "links:check": "node scripts/check-links.mjs",
+    "bundle:report": "node scripts/check-bundle.mjs",
+    "bundle:check": "node scripts/check-bundle.mjs --baseline tests/baselines/bundle.json --max-growth-kb 40"
   },
   "dependencies": {
     "framer-motion": "13.2.0",
