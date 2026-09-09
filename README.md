@@ -12,6 +12,22 @@ pnpm dev
 
 Run `pnpm lint`, `pnpm typecheck` and `pnpm build` before publishing.
 
+## Quality-suite checkpoint
+
+This branch is not ready to merge. Vitest and Testing Library specifications are
+prepared in `tests/unit` and `tests/integration`, but their dependencies and runner
+configuration are pending approval. They have not run under Vitest, and no unit
+coverage result is claimed. Production lint/type checks do not execute them.
+
+The content specifications cover parsing, draft exclusion, sorting, slug lookup,
+neighbours, reading-time boundaries, and validation. Isolated direct calls to the
+current content loader confirmed three missing V2 validations: duplicate slugs,
+future publication dates, and impossible calendar dates are currently accepted.
+Their rejection tests are intentionally not skipped. Journey specifications cover
+staged versus applied selection, combined threads, retained anchor chapters, and
+restoring the whole story. The browser/CI/accessibility suite and hooks remain to
+be implemented before this workstream can merge.
+
 ## Deployment
 
 The repository deploys through Vercel. The production branch is `master`, and
