@@ -63,6 +63,30 @@ then regenerate it:
 pnpm bundle:report --write-baseline tests/baselines/bundle.json
 ```
 
+## Protect `master` on GitHub
+
+Divyum must configure this; the agent does not change repository protection.
+Local checks alone cannot prevent a direct push. Complete the quality-suite CI
+and run its checks on a PR before selecting them below; those jobs are not yet
+installed in this checkpoint.
+
+1. Open [repository settings](https://github.com/divzhere/divyum/settings/branches)
+   → **Branches** → **Add classic branch protection rule**. If a rule already
+   targets `master`, edit it instead of creating a duplicate.
+2. Set **Branch name pattern** to `master`.
+3. Enable **Require a pull request before merging**. Keep **Require approvals**
+   off for a solo-maintained repository, or require one if another reviewer is
+   available.
+4. Enable **Require status checks to pass before merging** and **Require branches
+   to be up to date before merging**. Select the actual PR checks:
+   `lint-and-types`, `unit`, `build`, `e2e`, `a11y`, `lighthouse`, and `Vercel`.
+   If a slow check moves to nightly-only execution, do not require it on PRs.
+5. Enable **Do not allow bypassing the above settings**. Leave **Allow force
+   pushes**, **Allow deletions**, and PR bypass exceptions disabled.
+6. Click **Create** (or **Save changes** for an existing rule).
+
+See [GitHub's branch-protection instructions](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/managing-a-branch-protection-rule).
+
 ## Publish an essay or note
 
 Add an `.mdx` file to `content/essays` or `content/notes`:
