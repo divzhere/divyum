@@ -2,7 +2,12 @@
 
 import type { FormEvent } from "react";
 import { useMemo, useState } from "react";
-import { AnimatePresence, motion, useReducedMotion, type Variants } from "framer-motion";
+import {
+  AnimatePresence,
+  motion,
+  useReducedMotion,
+  type Variants,
+} from "framer-motion";
 import {
   journeyChapters,
   journeyThemes,
@@ -55,7 +60,8 @@ export function JourneyExplorer() {
 
     return journeyChapters.filter(
       (chapter) =>
-        chapter.anchor || chapter.themes.some((theme) => activeThemes.includes(theme)),
+        chapter.anchor ||
+        chapter.themes.some((theme) => activeThemes.includes(theme)),
     );
   }, [activeThemes]);
 
@@ -99,6 +105,7 @@ export function JourneyExplorer() {
                 onClick={() => setChosenThemes([])}
                 whileHover={reduceMotion ? undefined : { z: 10, rotateX: -1.2 }}
                 whileTap={reduceMotion ? undefined : { scale: 0.99 }}
+                transition={{ type: "tween", duration: 0.16, ease: "easeOut" }}
               >
                 <span>
                   <strong>Whole story</strong>
@@ -114,8 +121,15 @@ export function JourneyExplorer() {
                   <motion.label
                     className={`journey-filter-option${selected ? " is-selected" : ""}`}
                     key={theme.id}
-                    whileHover={reduceMotion ? undefined : { z: 10, rotateX: -1.2 }}
+                    whileHover={
+                      reduceMotion ? undefined : { z: 10, rotateX: -1.2 }
+                    }
                     whileTap={reduceMotion ? undefined : { scale: 0.99 }}
+                    transition={{
+                      type: "tween",
+                      duration: 0.16,
+                      ease: "easeOut",
+                    }}
                   >
                     <input
                       className="journey-filter-input"
@@ -142,6 +156,7 @@ export function JourneyExplorer() {
               type="submit"
               whileHover={reduceMotion ? undefined : { y: -2 }}
               whileTap={reduceMotion ? undefined : { y: 0, scale: 0.99 }}
+              transition={{ type: "tween", duration: 0.16, ease: "easeOut" }}
             >
               Show this journey
             </motion.button>
@@ -152,7 +167,10 @@ export function JourneyExplorer() {
         </div>
       </form>
 
-      <section className="journey-results" aria-labelledby="journey-stories-title">
+      <section
+        className="journey-results"
+        aria-labelledby="journey-stories-title"
+      >
         <aside className="journey-results-aside">
           <span>Visible route</span>
           <strong>{visibleChapters.length} chapters</strong>
@@ -163,8 +181,8 @@ export function JourneyExplorer() {
             <div>
               <h2 id="journey-stories-title">{routeName(activeThemes)}</h2>
               <p>
-                A first map of the story. Dates, photographs and deeper professional
-                chapters can be added as it grows.
+                A first map of the story. Dates, photographs and deeper
+                professional chapters can be added as it grows.
               </p>
             </div>
             <span aria-live="polite">{visibleChapters.length} of 8</span>
@@ -184,7 +202,10 @@ export function JourneyExplorer() {
                   className="journey-chapter"
                   key={chapter.id}
                   variants={chapterVariants}
-                  style={{ transformPerspective: 1000, transformOrigin: "50% 0%" }}
+                  style={{
+                    transformPerspective: 1000,
+                    transformOrigin: "50% 0%",
+                  }}
                 >
                   <div className="journey-marker" aria-hidden="true">
                     <motion.span
@@ -212,7 +233,10 @@ export function JourneyExplorer() {
                       <ul aria-label="Story threads">
                         {chapter.themes.map((theme) => (
                           <li key={theme}>
-                            {journeyThemes.find((item) => item.id === theme)?.label}
+                            {
+                              journeyThemes.find((item) => item.id === theme)
+                                ?.label
+                            }
                           </li>
                         ))}
                       </ul>

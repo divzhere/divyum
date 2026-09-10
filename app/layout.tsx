@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Literata, Public_Sans } from "next/font/google";
 import { Footer } from "@/components/footer";
 import { JsonLd } from "@/components/json-ld";
+import { MotionProvider } from "@/components/motion-provider";
 import { Navigation } from "@/components/navigation";
 import { absoluteUrl, siteConfig } from "@/lib/site";
 import "./globals.css";
@@ -40,7 +41,9 @@ export const metadata: Metadata = {
     siteName: siteConfig.name,
     title: siteConfig.name,
     description: siteConfig.description,
-    images: [{ url: absoluteUrl("/opengraph-image"), width: 1200, height: 630 }],
+    images: [
+      { url: absoluteUrl("/opengraph-image"), width: 1200, height: 630 },
+    ],
   },
   twitter: {
     card: "summary_large_image",
@@ -72,9 +75,11 @@ const themeScript = `
   })();
 `;
 
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  const sameAs = Object.values(siteConfig.social).filter(
-    (value) => value.startsWith("https://"),
+export default function RootLayout({
+  children,
+}: Readonly<{ children: React.ReactNode }>) {
+  const sameAs = Object.values(siteConfig.social).filter((value) =>
+    value.startsWith("https://"),
   );
 
   const structuredData = [
@@ -119,11 +124,13 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           Skip to content
         </a>
         <JsonLd data={structuredData} />
-        <Navigation />
-        <main id="main-content" tabIndex={-1}>
-          {children}
-        </main>
-        <Footer />
+        <MotionProvider>
+          <Navigation />
+          <main id="main-content" tabIndex={-1}>
+            {children}
+          </main>
+          <Footer />
+        </MotionProvider>
       </body>
     </html>
   );
