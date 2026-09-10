@@ -5,3 +5,6 @@ playwright-report
 test-results
 tests/visual/__screenshots__
 pnpm-lock.yaml
+
+# Prettier markdown parser corrupts MDX v3 comment expressions
+*.mdx

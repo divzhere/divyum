@@ -1,51 +1,16 @@
-import fs from "node:fs/promises";
 import path from "node:path";
-import matter from "gray-matter";
 import { z } from "zod";
+import {
+  calendarDateSchema,
+  readMdxCollection,
+  type CollectionEntry,
+} from "./collections.ts";
+import { validateAllFrameworks } from "./frameworks.ts";
 
 export type ContentKind = "essays" | "notes" | "projects";
 export type ProjectStatus = "Building" | "Active" | "Experiment" | "Archived";
 
-type BaseFrontmatter = {
-  title: string;
-  description: string;
-  publishedAt: string;
-  updatedAt?: string;
-  slug?: string;
-  tags: string[];
-  featured: boolean;
-  draft: boolean;
-};
-
-type ProjectFrontmatter = BaseFrontmatter & {
-  status?: ProjectStatus;
-  year?: string;
-  website?: string;
-};
-
-export type ContentEntry = ProjectFrontmatter & {
-  slug: string;
-  body: string;
-  readingTime: number;
-  kind: ContentKind;
-};
-
 const contentDirectory = path.join(process.cwd(), "content");
-
-const calendarDateSchema = z
-  .string()
-  .trim()
-  .refine(
-    (value) => {
-      if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
-      const parsed = new Date(`${value}T00:00:00.000Z`);
-      return (
-        !Number.isNaN(parsed.getTime()) &&
-        parsed.toISOString().slice(0, 10) === value
-      );
-    },
-    { message: "must be a real calendar date in YYYY-MM-DD format" },
-  );
 
 export const contentFrontmatterSchema = z
   .object({
@@ -72,90 +37,28 @@ export const contentFrontmatterSchema = z
     }
   });
 
-function wordsToMinutes(body: string) {
-  const words = body
-    .replace(/<[^>]*>/g, " ")
-    .replace(/[^\p{L}\p{N}'-]+/gu, " ")
-    .trim()
-    .split(/\s+/)
-    .filter(Boolean).length;
+type ContentFrontmatter = z.output<typeof contentFrontmatterSchema>;
 
-  return Math.max(1, Math.ceil(words / 220));
-}
-
-function parseEntry(
-  kind: ContentKind,
-  filePath: string,
-  source: string,
-): ContentEntry {
-  const { data, content } = matter(source);
-  const filename = path.basename(filePath, path.extname(filePath));
-  const result = contentFrontmatterSchema.safeParse(data);
-
-  if (!result.success) {
-    const details = result.error.issues
-      .map(
-        (issue) => `${issue.path.join(".") || "frontmatter"}: ${issue.message}`,
-      )
-      .join("; ");
-    throw new Error(`Invalid frontmatter in ${filePath}: ${details}`);
-  }
-
-  const metadata = result.data;
-
-  return {
-    ...metadata,
-    slug: metadata.slug ?? filename,
-    body: content,
-    readingTime: wordsToMinutes(content),
-    kind,
-  };
-}
-
-async function readDirectory(kind: ContentKind) {
-  const directory = path.join(contentDirectory, kind);
-  const files = await fs.readdir(directory);
-
-  return files.filter((file) => /\.mdx?$/.test(file));
-}
+export type ContentEntry = CollectionEntry<ContentFrontmatter> & {
+  kind: ContentKind;
+};
 
 export async function getAllContent(kind: ContentKind) {
-  const files = await readDirectory(kind);
-  const entries = await Promise.all(
-    files.map(async (file) => {
-      const filePath = path.join(contentDirectory, kind, file);
-      const source = await fs.readFile(filePath, "utf8");
-      return { entry: parseEntry(kind, filePath, source), filePath };
-    }),
+  const entries = await readMdxCollection(
+    path.join(contentDirectory, kind),
+    contentFrontmatterSchema,
   );
 
-  const slugs = new Map<string, string>();
-  for (const { entry, filePath } of entries) {
-    const duplicate = slugs.get(entry.slug);
-    if (duplicate) {
-      throw new Error(
-        `Duplicate slug \"${entry.slug}\" in ${duplicate} and ${filePath}`,
-      );
-    }
-    slugs.set(entry.slug, filePath);
-  }
-
-  return entries
-    .map(({ entry }) => entry)
-    .filter((entry) => !entry.draft)
-    .sort(
-      (first, second) =>
-        new Date(second.publishedAt).getTime() -
-        new Date(first.publishedAt).getTime(),
-    );
+  return entries.map((entry): ContentEntry => ({ ...entry, kind }));
 }
 
 export async function validateAllContent() {
-  await Promise.all(
-    (["essays", "notes", "projects"] as const).map((kind) =>
+  await Promise.all([
+    ...(["essays", "notes", "projects"] as const).map((kind) =>
       getAllContent(kind),
     ),
-  );
+    validateAllFrameworks(),
+  ]);
 }
 
 export async function getContentBySlug(kind: ContentKind, slug: string) {
