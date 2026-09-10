@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Prose } from "@/components/prose";
+import { PointRule } from "@/components/point-rule";
 import type { ContentEntry } from "@/lib/content";
 import { formatDate } from "@/lib/utils";
 
@@ -39,6 +40,8 @@ export function ContentArticle({
           </div>
         </div>
       </header>
+
+      <PointRule className="article-horizon" />
 
       <div className="article-content-grid">
         <div aria-hidden="true" />

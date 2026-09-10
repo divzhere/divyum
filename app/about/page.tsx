@@ -14,8 +14,8 @@ export default function AboutPage() {
     <div className="page-shell inner-page">
       <PageIntro title="About">
         <p>
-          I build software and follow questions that don&apos;t fit neatly inside
-          technology.
+          I build software and follow questions that don&apos;t fit neatly
+          inside technology.
         </p>
       </PageIntro>
 
@@ -24,6 +24,7 @@ export default function AboutPage() {
           India
         </div>
         <div className="story-copy">
+          <h2>Software</h2>
           <p>
             I started my career building software. Seven years of turning ideas
             into working products taught me how much technology can change, and
@@ -35,21 +36,23 @@ export default function AboutPage() {
             philosophy, travel and the study of consciousness.
           </p>
 
+          <h2>Questions</h2>
           <blockquote className="story-question">
-            If technology gives humans increasingly powerful tools, what should we
-            actually use them for?
+            If technology gives humans increasingly powerful tools, what should
+            we actually use them for?
           </blockquote>
 
           <p>
             That question led me toward both modern AI and older traditions of
-            human inquiry, particularly Vedanta, Yoga and Indian philosophy. I am
-            not approaching these subjects as a master. I&apos;m trying to understand
-            them through study, experience and conversation.
+            human inquiry, particularly Vedanta, Yoga and Indian philosophy. I
+            am not approaching these subjects as a master. I&apos;m trying to
+            understand them through study, experience and conversation.
           </p>
+          <h2>Today</h2>
           <p>
             Today I work in software, explore ideas across disciplines and write
-            about what I learn. This site is where that thinking will collect over
-            time.
+            about what I learn. This site is where that thinking will collect
+            over time.
           </p>
         </div>
       </div>

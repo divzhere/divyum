@@ -26,6 +26,14 @@ function MdxLink({
 
 const components = {
   a: MdxLink,
+  pre: (props: ComponentPropsWithoutRef<"pre">) => (
+    <pre {...props} tabIndex={0} role="region" aria-label="Code example" />
+  ),
+  table: (props: ComponentPropsWithoutRef<"table">) => (
+    <div className="prose-table" tabIndex={0} role="region" aria-label="Table">
+      <table {...props} />
+    </div>
+  ),
   img: (props: ComponentPropsWithoutRef<"img">) => (
     <img loading="lazy" decoding="async" {...props} alt={props.alt ?? ""} />
   ),

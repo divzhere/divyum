@@ -16,22 +16,29 @@ export function Footer() {
     <footer className="site-footer">
       <div className="page-shell footer-inner">
         <div>
-          <p className="footer-name">{siteConfig.name}</p>
+          <Link className="footer-name" href="/">
+            {siteConfig.name}
+            <span className="footer-point" aria-hidden="true" />
+          </Link>
           <p className="footer-location">{siteConfig.location}</p>
         </div>
 
         <nav aria-label="Footer navigation">
           <ul className="footer-links">
-            <li>
-              <Link className="text-link" href="/journey">
-                Journey
-              </Link>
-            </li>
-            <li>
-              <Link className="text-link" href="/essays">
-                Writing
-              </Link>
-            </li>
+            {[
+              "Essays",
+              "Notes",
+              "Frameworks",
+              "Library",
+              "Journey",
+              "About",
+            ].map((label) => (
+              <li key={label}>
+                <Link className="text-link" href={`/${label.toLowerCase()}`}>
+                  {label}
+                </Link>
+              </li>
+            ))}
             {siteConfig.projectsVisible && (
               <li>
                 <Link className="text-link" href="/projects">
@@ -48,6 +55,12 @@ export function Footer() {
             ))}
           </ul>
         </nav>
+      </div>
+      <div className="page-shell" aria-hidden="true">
+        <div className="footer-return">
+          <span className="footer-return-line" />
+          <span className="footer-return-point" />
+        </div>
       </div>
     </footer>
   );

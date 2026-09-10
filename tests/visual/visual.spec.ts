@@ -4,10 +4,20 @@ import { publicRoutes } from "../browser-routes";
 test.skip(
   ({ browserName, viewport }) =>
     browserName !== "chromium" ||
-    ![375, 768, 1440].includes(viewport?.width ?? 0),
+    ![375, 390, 768, 1280, 1440, 1728].includes(viewport?.width ?? 0),
 );
 
-for (const route of publicRoutes) {
+const routes = [
+  ...publicRoutes,
+  ...(process.env.V3_DESIGN_LAB
+    ? ["essay", "note", "book"].map((kind) => ({
+        path: `/design/v3/reading/${kind}`,
+        snapshot: `specimen-${kind}`,
+      }))
+    : []),
+];
+
+for (const route of routes) {
   for (const theme of ["light", "dark"] as const) {
     test(`${route.path} matches its ${theme} visual baseline`, async ({
       page,

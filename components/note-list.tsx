@@ -20,11 +20,13 @@ export function NoteList({ notes }: NoteListProps) {
   }
 
   return (
-    <ol className="entry-list">
+    <ol className="entry-list notes-list">
       {notes.map((note) => (
         <li key={note.slug}>
           <Link className="entry-row" href={`/notes/${note.slug}`}>
-            <time dateTime={note.publishedAt}>{formatDate(note.publishedAt)}</time>
+            <time dateTime={note.publishedAt}>
+              {formatDate(note.publishedAt)}
+            </time>
             <span className="entry-title">{note.title}</span>
             <span className="entry-topics">{note.tags.join(", ")}</span>
           </Link>

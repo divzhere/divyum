@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { JsonLd } from "@/components/json-ld";
 import { Prose } from "@/components/prose";
+import { PointRule } from "@/components/point-rule";
 import { frameworkVisuals } from "@/components/frameworks";
 import { frameworkGlyphs } from "@/components/frameworks/glyphs";
 import {
@@ -96,6 +97,7 @@ export default async function FrameworkPage({ params }: FrameworkPageProps) {
             <span aria-hidden="true"> · </span>
             <span>{framework.readingTime} min read</span>
           </p>
+          <PointRule className="article-horizon" />
         </header>
 
         <div className="framework-visual-frame">

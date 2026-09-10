@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { siteConfig } from "@/lib/site";
 
@@ -15,6 +18,8 @@ const navigation = [
 ];
 
 export function Navigation() {
+  const pathname = usePathname();
+
   return (
     <header className="site-header">
       <div className="page-shell nav-inner">
@@ -31,7 +36,16 @@ export function Navigation() {
             <ul>
               {navigation.map((item) => (
                 <li key={item.href}>
-                  <Link className="text-link nav-link" href={item.href}>
+                  <Link
+                    className="text-link nav-link"
+                    href={item.href}
+                    aria-current={
+                      pathname === item.href ||
+                      pathname.startsWith(`${item.href}/`)
+                        ? "page"
+                        : undefined
+                    }
+                  >
                     {item.label}
                   </Link>
                 </li>

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { JsonLd } from "@/components/json-ld";
-import { Prose } from "@/components/prose";
+import { BookArticle } from "@/components/book-article";
 import {
   getAllLibraryEntries,
   getBookBySlug,
@@ -9,7 +9,6 @@ import {
 } from "@/lib/library";
 import { createMetadata } from "@/lib/metadata";
 import { absoluteUrl, siteConfig } from "@/lib/site";
-import { formatDate } from "@/lib/utils";
 
 type BookPageProps = {
   params: Promise<{ slug: string }>;
@@ -74,28 +73,7 @@ export default async function BookPage({ params }: BookPageProps) {
           inLanguage: "en",
         }}
       />
-      <article className="framework-article">
-        <header className="framework-header">
-          <p className="framework-eyebrow">
-            <span>Reading notes</span>
-            <span aria-hidden="true"> · </span>
-            <span>{book.themes.join(", ")}</span>
-          </p>
-          <h1>{book.title}</h1>
-          <p className="framework-subtitle">
-            {book.author}
-            {book.year ? `, ${book.year}` : ""}
-          </p>
-          <p className="framework-dateline">
-            <time dateTime={book.publishedAt}>
-              {formatDate(book.publishedAt)}
-            </time>
-            <span aria-hidden="true"> · </span>
-            <span>{book.readingTime} min read</span>
-          </p>
-        </header>
-        <Prose source={book.body} />
-      </article>
+      <BookArticle book={book} />
     </div>
   );
 }

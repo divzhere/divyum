@@ -1,0 +1,329 @@
+.home {
+  padding-bottom: var(--section-space);
+}
+.section {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: var(--grid-gap);
+  border-top: 1px solid var(--rule);
+  padding-top: 2rem;
+  margin-bottom: var(--section-space);
+}
+.section h2 {
+  margin: 0;
+  font-family: var(--font-literata), Georgia, serif;
+  font-size: var(--type-title);
+  font-weight: 450;
+  letter-spacing: -0.05em;
+  line-height: 1.1;
+}
+.sectionHead {
+  grid-column: 1 / -1;
+}
+.sectionHead p {
+  max-width: 32ch;
+  margin: 1.5rem 0;
+  color: var(--muted);
+}
+.section a[class~="text-link"] {
+  display: inline-block;
+  font-size: 0.875rem;
+}
+.currently h2 {
+  grid-column: 1 / 5;
+}
+.currently dl {
+  grid-column: 6 / -1;
+}
+.writing .sectionHead {
+  grid-column: 1 / 5;
+}
+.links {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+.writingContent {
+  grid-column: 6 / -1;
+  padding-top: 0.4rem;
+}
+.frameworks .sectionHead {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+}
+.frameworks .sectionHead p {
+  grid-row: 2;
+}
+.frameworks .sectionHead a {
+  grid-column: 2;
+  grid-row: 2;
+  margin-bottom: 1.5rem;
+}
+.plates {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--grid-gap);
+  margin-top: 1.5rem;
+}
+.plate {
+  min-width: 0;
+  padding: 1.5rem;
+  border: 1px solid var(--rule);
+  text-decoration: none;
+  transition: border-color var(--motion-ui);
+}
+.plate:hover,
+.plate:focus-visible {
+  border-color: var(--accent);
+}
+.plateMeta {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+.plateMeta span:last-child {
+  max-width: 22ch;
+  text-align: right;
+}
+.diagram {
+  display: grid;
+  place-items: center;
+  height: clamp(12rem, 21vw, 20rem);
+}
+.diagram svg {
+  width: 65%;
+  max-width: 14rem;
+  height: auto;
+  color: var(--accent);
+  stroke: currentColor;
+  stroke-width: 0.18;
+}
+.plate h3 {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 0;
+  font-family: var(--font-literata), Georgia, serif;
+  font-size: clamp(1.3rem, 2vw, 1.75rem);
+  font-weight: 450;
+  line-height: 1.3;
+  letter-spacing: -0.035em;
+}
+.plate h3 span {
+  color: var(--accent);
+  font-family: var(--font-public-sans), sans-serif;
+  font-size: 1rem;
+  transition: transform var(--motion-ui) var(--ease-out-expo);
+}
+.plate:hover h3 span {
+  transform: translate(2px, -2px);
+}
+.plate p {
+  margin: 0.8rem 0 0;
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+.journey .sectionHead {
+  grid-column: 1 / 5;
+}
+.moments {
+  grid-column: 6 / -1;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.moments li {
+  position: relative;
+  padding: 0 0 3rem 2.5rem;
+  border-left: 1px solid var(--rule);
+}
+.moments li::before {
+  position: absolute;
+  top: 0.45rem;
+  left: -4px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  content: "";
+}
+.moments li:last-child {
+  padding-bottom: 0;
+}
+.momentPhase {
+  display: block;
+  margin-bottom: 0.8rem;
+  color: var(--muted);
+  font-size: 0.75rem;
+}
+.moments h3 {
+  margin: 0;
+  max-width: 27ch;
+  font-family: var(--font-literata), Georgia, serif;
+  font-size: clamp(1.5rem, 2.7vw, 2.25rem);
+  line-height: 1.2;
+  font-weight: 450;
+  letter-spacing: -0.04em;
+}
+.moments p {
+  max-width: 49ch;
+  margin: 1rem 0 0;
+  color: var(--muted);
+}
+.library .sectionHead {
+  grid-column: 1 / 5;
+}
+.shelfPreview {
+  grid-column: 6 / -1;
+}
+.spines {
+  display: flex;
+  align-items: end;
+  gap: 0.6rem;
+  list-style: none;
+  margin: 0;
+  padding: 0 0 1rem;
+  border-bottom: 1px solid var(--ink);
+}
+.spine {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1.5rem;
+  width: 20%;
+  min-width: 0;
+  height: 20rem;
+  padding: 1rem 0.8rem;
+  background: var(--soft);
+  border: 1px solid var(--rule);
+  color: var(--ink);
+}
+.spine:nth-child(even) {
+  height: 18rem;
+}
+.spine > span:nth-child(2),
+.spine > a {
+  align-self: center;
+  writing-mode: vertical-rl;
+  font-family: var(--font-literata), Georgia, serif;
+  font-size: 1.25rem;
+  line-height: 1.3;
+}
+.spineTheme,
+.spineStatus {
+  font-size: 0.7rem;
+  overflow-wrap: anywhere;
+}
+.spineTheme {
+  color: var(--accent);
+}
+.spineStatus {
+  color: var(--muted);
+}
+.shelfNote {
+  margin-top: 1rem;
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+.about {
+  margin-bottom: 0;
+}
+.about h2 {
+  grid-column: 1 / 5;
+}
+.about > div {
+  grid-column: 6 / -1;
+}
+.about p {
+  max-width: 28ch;
+  margin: 0 0 2rem;
+  font-family: var(--font-literata), Georgia, serif;
+  font-size: clamp(1.75rem, 3.2vw, 2.75rem);
+  line-height: 1.35;
+  letter-spacing: -0.035em;
+}
+@media (max-width: 1000px) {
+  .plate {
+    padding: 1rem;
+  }
+  .spines {
+    gap: 0.4rem;
+  }
+  .spine {
+    padding: 0.8rem 0.45rem;
+  }
+}
+@media (max-width: 700px) {
+  .section {
+    display: block;
+  }
+  .section h2 {
+    font-size: 2.5rem;
+  }
+  .sectionHead,
+  .currently h2,
+  .about h2 {
+    margin-bottom: 2.5rem;
+  }
+  .frameworks .sectionHead {
+    display: block;
+  }
+  .frameworks .sectionHead a {
+    margin: 0;
+  }
+  .plates {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1rem;
+  }
+  .plate {
+    padding: 1.5rem;
+  }
+  .plateMeta span:last-child {
+    max-width: 26ch;
+  }
+  .diagram {
+    height: 14rem;
+  }
+  .diagram svg {
+    max-width: 10rem;
+  }
+  .plate h3 {
+    font-size: 1.75rem;
+  }
+  .moments li {
+    padding-left: 1.5rem;
+  }
+  .spines {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+  }
+  .spine,
+  .spine:nth-child(even) {
+    width: 100%;
+    height: auto;
+    min-height: 6rem;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    padding: 0.85rem 1rem;
+    gap: 0.4rem;
+  }
+  .spine > span:nth-child(2),
+  .spine > a {
+    writing-mode: horizontal-tb;
+    grid-row: 2;
+  }
+  .spineStatus {
+    grid-column: 2;
+    grid-row: 2;
+    align-self: end;
+  }
+  .spineTheme {
+    font-size: 0.75rem;
+  }
+}

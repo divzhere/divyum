@@ -27,7 +27,7 @@ visual baselines and Lighthouse URLs whenever adding a public route or data mode
 | Build/bundle     | `pnpm build && pnpm bundle:check`        | Production-build failures and more than 40 KiB gzip growth per route                                                 |
 | E2E              | `pnpm test:e2e`                          | Routes, 404/noindex, drafts, feeds, keyboard use, themes, overflow, console errors, reduced motion and no-JS reading |
 | Accessibility    | `pnpm test:a11y`                         | Any axe violations in both themes at 375, 768, 1280 and 1440px                                                       |
-| Visual           | `pnpm test:visual`                       | Screenshot differences at 375, 768 and 1440 px in both themes                                                        |
+| Visual           | `pnpm test:visual`                       | Screenshot differences at 375, 390, 768, 1280, 1440 and 1728 px in both themes                                       |
 | Lighthouse       | `pnpm test:lighthouse`                   | Any current route below 95 in performance, best practices or SEO, or below 100 in accessibility                      |
 | Internal links   | `pnpm links:check http://127.0.0.1:3102` | Broken same-origin links and fragments                                                                               |
 
@@ -53,17 +53,31 @@ the homepage point and rule. Every public framework detail page is included.
 
 ## Motion
 
-The approved Point becoming line direction connects the homepage heading to the
-Currently axis. The full hero is server-rendered; its small rule animation starts
-only after the visitor's motion preference is known.
+The V3 point → line → horizon signature settles in 1,150ms. Its CSS sequence is
+enabled before paint, with complete server-rendered content as the no-JS fallback.
+`app/globals.css` owns the 160/240/450/700ms interaction/reveal tokens;
+`lib/motion.ts` supplies the existing Framer Motion defaults for interactive tools.
+Only the structural horizon participates in a 450ms native ViewTransition.
+There is no full-page fade, delayed navigation or scroll hijacking. At the footer,
+a progressively enhanced scroll timeline returns the line to a point.
+Reduced motion keeps the finished composition with zero animation durations.
 
-Keep entrances on the shared 200ms rhythm: `lib/motion.ts` supplies Framer Motion
-defaults, while `--motion-duration` and `--motion-ease` in `app/globals.css` control
-CSS reveals and hover underlines. `app/template.tsx` fades page navigation;
-`editorial-reveal` handles framework rows, journey chapters and article titles.
-Animate transform and opacity only. Reduced motion uses the finished composition
-with animations disabled. Prototype routes have been removed; their comparison
-remains available in PR #41's history.
+### Local V3 design lab
+
+The two composition studies and three reading specimens are opt-in, noindexed
+routes outside the content collections. They never enter feeds or the sitemap:
+
+```bash
+V3_DESIGN_LAB=1 pnpm build
+V3_DESIGN_LAB=1 pnpm start --port 3113
+V3_DESIGN_LAB=1 PLAYWRIGHT_BASE_URL=http://127.0.0.1:3113 pnpm test:visual
+```
+
+Visit `/design/v3/open-horizon`, `/design/v3/facing-pages`, or
+`/design/v3/reading/{essay,note,book}`. Do not set `V3_DESIGN_LAB` in Vercel.
+Rebuild normally before release; the lab routes must return 404/noindex. The
+normal-release exclusion tests cover all five URLs. See
+[the V3 audit](docs/design/v3-audit.md) and [design results](docs/design/awwwards-v3-results.md).
 
 ## Local hooks
 

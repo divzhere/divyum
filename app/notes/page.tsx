@@ -15,7 +15,7 @@ export default async function NotesPage() {
   const notes = await getAllContent("notes");
 
   return (
-    <div className="page-shell inner-page">
+    <div className="page-shell inner-page notes-page">
       <PageIntro title="Notes">
         <p>
           Observations, unfinished ideas, reading notes and questions worth

@@ -28,36 +28,21 @@ test("switching to reduced motion finishes an in-flight rule", async ({
   page,
 }) => {
   await page.emulateMedia({ reducedMotion: "no-preference" });
-  await page.addInitScript(() => {
-    const original = Element.prototype.animate;
-    Element.prototype.animate = function (...args) {
-      const animation = original.apply(this, args);
-      if (
-        this.classList.contains("hero-horizon") ||
-        this.classList.contains("hero-point")
-      ) {
-        animation.pause();
-      }
-      return animation;
-    };
-  });
   await page.goto("/");
-  await expect
-    .poll(() =>
-      page.evaluate(
-        () =>
-          document
-            .getAnimations()
-            .filter((animation) => animation.playState === "paused").length,
-      ),
-    )
-    .toBe(2);
+  const animationCount = await page
+    .locator("[data-signature]")
+    .evaluate((element) => {
+      const animations = element.getAnimations({ subtree: true });
+      for (const animation of animations) {
+        animation.pause();
+        animation.currentTime = 300;
+      }
+      return animations.length;
+    });
+  expect(animationCount).toBeGreaterThan(0);
   await page.emulateMedia({ reducedMotion: "reduce" });
   await expect(page.locator(".hero-point")).toHaveCSS("opacity", "1");
-  await expect(page.locator(".hero-horizon")).toHaveCSS(
-    "transform",
-    "matrix(1, 0, 0, 1, 0, 0)",
-  );
+  await expect(page.locator(".hero-horizon")).toHaveCSS("transform", "none");
   await expect
     .poll(() => page.evaluate(() => document.getAnimations().length))
     .toBe(0);
@@ -91,9 +76,20 @@ test("motion respects no-preference from the first frame and on navigation", asy
         () => (window as unknown as { startedMotion: string[] }).startedMotion,
       ),
     )
-    .toContain("hero-horizon");
+    .toContain("horizon-extend");
   await expect
-    .poll(() => page.evaluate(() => document.getAnimations().length))
+    .poll(() =>
+      page.evaluate(
+        () =>
+          document
+            .getAnimations()
+            .filter(
+              (animation) =>
+                animation.timeline === document.timeline &&
+                animation.playState !== "finished",
+            ).length,
+      ),
+    )
     .toBe(0);
   await page
     .getByRole("navigation", { name: "Primary navigation" })

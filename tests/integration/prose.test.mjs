@@ -16,10 +16,16 @@ describe("MDX reading links", () => {
     expect(html).toContain("<li>First step</li>");
     expect(html).toContain("<ul>");
     expect(html).toContain("<li>A bullet</li>");
-    expect(html).toContain('<pre><code class="language-js">const value = 1;');
+    expect(html).toContain(
+      '<pre tabindex="0" role="region" aria-label="Code example">',
+    );
+    expect(html).toContain('<code class="language-js">const value = 1;');
     expect(html).toContain('alt="An accessible image"');
     expect(html).toContain('loading="lazy"');
     expect(html).toContain("<table>");
+    expect(html).toContain(
+      '<div class="prose-table" tabindex="0" role="region" aria-label="Table">',
+    );
     expect(html).toContain("<th>Key</th>");
     expect(html).toContain("<td>B</td>");
   });
