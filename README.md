@@ -293,8 +293,14 @@ credentials, query or fragment. An optional frontmatter `canonicalUrl` must equa
 that article's URL on this origin; a conflicting value stops the export.
 
 Only the supported subset syndicates: headings, prose, quotes, gfm tables,
-lists, footnotes, code, images and links. Imports, JSX components and MDX
-expressions fail with an error naming the file and line.
+lists, footnotes, code, images and links. Inline and reference-style links and
+images resolve against the article's canonical URL: `/images/a.jpg` starts at
+the site root; `../images/a.jpg` follows normal browser URL rules. Local anchors
+stay local. Code examples are preserved, including examples of MDX comments.
+Actual authoring comments are removed. Imports, JSX (including HTML-like tags
+and fragments), and live MDX expressions fail with the file and line instead of
+silently disappearing. Use Markdown image/link syntax in exported articles.
+Exports may normalize Markdown formatting; they never rewrite the source file.
 
 The optional Hashnode adapter uses `--publish hashnode` (`--dry-run` previews
 without sending a request). It requires `HASHNODE_TOKEN`,

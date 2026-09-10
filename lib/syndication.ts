@@ -1,8 +1,11 @@
 import { unified } from "unified";
 import remarkParse from "remark-parse";
 import remarkGfm from "remark-gfm";
+import remarkMdx from "remark-mdx";
+import remarkStringify from "remark-stringify";
 import remarkRehype from "remark-rehype";
 import rehypeStringify from "rehype-stringify";
+import type { Root, RootContent } from "mdast";
 import type { ContentEntry } from "./content.ts";
 
 /*
@@ -39,54 +42,85 @@ export function suggestPlatform(tags: string[]): SyndicationPlatform {
     : "substack";
 }
 
-/** Strip MDX comment expressions; they are notes to the source, not prose. */
+const mdxParser = unified().use(remarkParse).use(remarkGfm).use(remarkMdx);
+const markdownWriter = unified()
+  .use(remarkGfm)
+  .use(remarkStringify, { bullet: "-", resourceLink: true });
+
+function* nodes(node: Root | RootContent): Generator<Root | RootContent> {
+  yield node;
+  if ("children" in node) {
+    for (const child of node.children) yield* nodes(child);
+  }
+}
+
+function isComment(node: Root | RootContent) {
+  return (
+    (node.type === "mdxFlowExpression" || node.type === "mdxTextExpression") &&
+    node.data?.estree?.body.length === 0
+  );
+}
+
+/** Remove only actual MDX comments, never the same syntax inside code. */
 export function stripMdxComments(body: string) {
-  return body.replace(/\{\/\*[\s\S]*?\*\/\}/g, "").replace(/\n{3,}/g, "\n\n");
+  const comments = [...nodes(mdxParser.parse(body))].filter(isComment);
+  for (const comment of comments.reverse()) {
+    body =
+      body.slice(0, comment.position!.start.offset!) +
+      body.slice(comment.position!.end.offset!);
+  }
+  return body;
 }
 
 export function assertSupportedMdx(body: string, label: string) {
-  const lines = body.split("\n");
-  let inFence = false;
-
-  for (let index = 0; index < lines.length; index += 1) {
-    const line = lines[index];
-    if (/^\s*(```|~~~)/.test(line)) {
-      inFence = !inFence;
-      continue;
-    }
-    if (inFence) continue;
-
-    if (/^\s*import\s/.test(line) || /^\s*export\s/.test(line)) {
-      throw new Error(
-        `${label}:${index + 1}: import/export statements cannot be syndicated — inline the content or drop it from the syndicated copy`,
-      );
-    }
-    if (/<[A-Z][A-Za-z]*/.test(line)) {
-      throw new Error(
-        `${label}:${index + 1}: JSX component usage (${line.trim().slice(0, 40)}…) cannot be syndicated — platforms cannot render it`,
-      );
-    }
+  let tree: Root;
+  try {
+    tree = mdxParser.parse(body);
+  } catch (error) {
+    throw new Error(
+      `${label}: invalid MDX cannot be syndicated — ${error instanceof Error ? error.message : String(error)}`,
+    );
   }
 
-  const withoutComments = stripMdxComments(body);
-  const fenceStripped = withoutComments.replace(/(```|~~~)[\s\S]*?\1/g, "");
-  const expression = fenceStripped.match(/\{[^\n}]*\}/);
-  if (expression && !/^\{\s*\}$/.test(expression[0])) {
-    throw new Error(
-      `${label}: MDX expression ${expression[0].slice(0, 40)} cannot be syndicated — replace it with plain markdown`,
-    );
+  for (const node of nodes(tree)) {
+    if (isComment(node)) continue;
+    const unsupported =
+      node.type === "mdxjsEsm"
+        ? "import/export statements"
+        : node.type === "mdxJsxFlowElement" || node.type === "mdxJsxTextElement"
+          ? "JSX component usage"
+          : node.type === "mdxFlowExpression" ||
+              node.type === "mdxTextExpression"
+            ? "MDX expression"
+            : null;
+    if (unsupported) {
+      throw new Error(
+        `${label}:${node.position!.start.line}: ${unsupported} cannot be syndicated — replace it with plain markdown`,
+      );
+    }
   }
 }
 
-function absolutize(markdownOrHtml: string, origin: string) {
-  return markdownOrHtml
-    .replace(/(\]\()\/(?!\/)/g, `$1${origin}/`)
-    .replace(/((?:href|src)=")\/(?!\/)/g, `$1${origin}/`);
+function exportTree(entry: ContentEntry, canonical: string) {
+  assertSupportedMdx(entry.body, `${entry.slug}.mdx`);
+  const tree = mdxParser.parse(stripMdxComments(entry.body).trim());
+  for (const node of nodes(tree)) {
+    if (
+      node.type !== "link" &&
+      node.type !== "image" &&
+      node.type !== "definition"
+    )
+      continue;
+    // Anchors stay within the copy; scheme URLs (including mailto:) stay intact.
+    if (!node.url.startsWith("#") && !/^[a-z][a-z0-9+.-]*:/i.test(node.url)) {
+      node.url = new URL(node.url, canonical).href;
+    }
+  }
+  return tree;
 }
 
 export function renderHashnodeMarkdown(entry: ContentEntry, canonical: string) {
-  const origin = new URL(canonical).origin;
-  const body = absolutize(stripMdxComments(entry.body).trim(), origin);
+  const body = markdownWriter.stringify(exportTree(entry, canonical)).trim();
 
   return `---
 title: ${JSON.stringify(entry.title)}
@@ -101,8 +135,7 @@ ${body}
 }
 
 export function renderMediumMarkdown(entry: ContentEntry, canonical: string) {
-  const origin = new URL(canonical).origin;
-  const body = absolutize(stripMdxComments(entry.body).trim(), origin);
+  const body = markdownWriter.stringify(exportTree(entry, canonical)).trim();
 
   return `# ${entry.title}
 
@@ -140,17 +173,9 @@ export async function renderSubstackHtml(
   entry: ContentEntry,
   canonical: string,
 ) {
-  const origin = new URL(canonical).origin;
-  const markdown = stripMdxComments(entry.body).trim();
-
-  const processed = await unified()
-    .use(remarkParse)
-    .use(remarkGfm)
-    .use(remarkRehype)
-    .use(rehypeStringify)
-    .process(markdown);
-
-  const html = flattenFootnotes(absolutize(String(processed), origin));
+  const processor = unified().use(remarkRehype).use(rehypeStringify);
+  const processed = await processor.run(exportTree(entry, canonical));
+  const html = flattenFootnotes(processor.stringify(processed));
 
   return `<p><em>Originally published at <a href="${canonical}">${new URL(canonical).host}</a>.</em></p>
 ${html}

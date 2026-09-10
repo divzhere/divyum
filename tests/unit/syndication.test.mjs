@@ -1,5 +1,10 @@
 import { describe, expect, it } from "vitest";
 import matter from "gray-matter";
+import { unified } from "unified";
+import remarkParse from "remark-parse";
+import remarkGfm from "remark-gfm";
+import remarkRehype from "remark-rehype";
+import rehypeStringify from "rehype-stringify";
 import {
   assertSupportedMdx,
   renderHashnodeMarkdown,
@@ -78,6 +83,31 @@ describe("supported-content contract", () => {
       ),
     ).not.toThrow();
   });
+
+  it.each([
+    "<span>Content that an HTML exporter would drop</span>",
+    "<>A fragment</>",
+    "The answer is {\n  40 + 2\n}.",
+  ])("rejects unsupported MDX instead of silently losing it: %s", (body) => {
+    expect(() => assertSupportedMdx(body, "unsupported.mdx")).toThrow(
+      /unsupported\.mdx.*cannot be syndicated/,
+    );
+  });
+
+  it("accepts MDX examples in inline code and nested or mixed fences", () => {
+    const body =
+      "Use `<Component />` and `{value}`.\n\n````mdx\n```js\n<Example />\n~~~\n{value}\n```\n````";
+    expect(() => assertSupportedMdx(body, "examples.mdx")).not.toThrow();
+  });
+
+  it("does not treat markup inside an authoring comment as live content", () => {
+    expect(() =>
+      assertSupportedMdx(
+        '{/*\nimport X from "x";\n<Component />\n*/}\n\nProse.',
+        "comment.mdx",
+      ),
+    ).not.toThrow();
+  });
 });
 
 describe("platform routing suggestion", () => {
@@ -88,6 +118,87 @@ describe("platform routing suggestion", () => {
 });
 
 describe("renderers", () => {
+  it.each([
+    ["[other](./other)", "https://example.org/essays/other"],
+    ["![photo](../images/photo.jpg)", "https://example.org/images/photo.jpg"],
+    [
+      '[other][ref]\n\n[ref]: other "A title"',
+      "https://example.org/essays/other",
+    ],
+    [
+      "![photo][ref]\n\n[ref]: /images/photo.jpg",
+      "https://example.org/images/photo.jpg",
+    ],
+    [
+      "![photo](//cdn.example.org/photo.jpg)",
+      "https://cdn.example.org/photo.jpg",
+    ],
+    [
+      "[query](?view=print)",
+      "https://example.org/essays/fixture-essay?view=print",
+    ],
+    [
+      '[space](<images/a b.jpg> "Photo title")',
+      "https://example.org/essays/images/a%20b.jpg",
+    ],
+    ["[paren](images/a(b).jpg)", "https://example.org/essays/images/a(b).jpg"],
+  ])(
+    "resolves actual URL nodes against the article URL: %s",
+    async (body, expected) => {
+      const entry = { ...fixtureEntry, body };
+      const htmlOutputs = [await renderSubstackHtml(entry, canonical)];
+      for (const markdown of [
+        renderHashnodeMarkdown(entry, canonical),
+        renderMediumMarkdown(entry, canonical),
+      ]) {
+        // Check the destination readers receive, allowing valid Markdown escaping.
+        const html = await unified()
+          .use(remarkParse)
+          .use(remarkGfm)
+          .use(remarkRehype)
+          .use(rehypeStringify)
+          .process(matter(markdown).content);
+        htmlOutputs.push(String(html));
+      }
+      for (const output of htmlOutputs) {
+        expect(output).toContain(`="${expected}"`);
+      }
+    },
+  );
+
+  it("leaves code examples and their MDX comments intact in each export", async () => {
+    const code = "[link](/example)\n{/* comment in code */}";
+    const entry = {
+      ...fixtureEntry,
+      body: "`[inline](/example)`\n\n```mdx\n" + code + "\n```",
+    };
+    for (const output of [
+      renderHashnodeMarkdown(entry, canonical),
+      renderMediumMarkdown(entry, canonical),
+      await renderSubstackHtml(entry, canonical),
+    ]) {
+      expect(output).toContain("[inline](/example)");
+      expect(output).toContain(code);
+      expect(output).not.toContain("https://example.org/example");
+    }
+  });
+
+  it("keeps local anchors and non-HTTP destinations unchanged", async () => {
+    const entry = {
+      ...fixtureEntry,
+      body: "[Section](#section) [Email](mailto:hello@example.org) [Elsewhere](https://other.example/path)",
+    };
+    for (const output of [
+      renderHashnodeMarkdown(entry, canonical),
+      await renderSubstackHtml(entry, canonical),
+    ]) {
+      expect(output).toContain("#section");
+      expect(output).not.toContain("fixture-essay#section");
+      expect(output).toContain("mailto:hello@example.org");
+      expect(output).toContain("https://other.example/path");
+    }
+  });
+
   it("preserves backslashes and quotes in the exported Hashnode title", () => {
     const title = String.raw`Reading "C:\notes"`;
     const output = renderHashnodeMarkdown(

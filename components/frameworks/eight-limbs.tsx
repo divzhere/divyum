@@ -1,9 +1,9 @@
-/*
-  The Eight Limbs, set typographically: a concentric progression from outer
-  conduct to inner absorption. Deliberately still — a server component with
-  no client JavaScript. The indentation and the thinning rule carry the idea:
-  each limb sits one step further inside the last.
-*/
+"use client";
+
+import { useRef, useState } from "react";
+
+// All eight rings and definitions are server-rendered. Selection connects
+// each named limb to its ring without hiding the rest of the progression.
 
 const limbs = [
   { name: "Yama", gloss: "restraints — conduct toward others" },
@@ -17,17 +17,38 @@ const limbs = [
 ] as const;
 
 export function EightLimbs() {
+  const [selected, setSelected] = useState(0);
+  const buttonRefs = useRef<(HTMLButtonElement | null)[]>([]);
+
+  function onKeyDown(event: React.KeyboardEvent) {
+    const moves: Record<string, number> = {
+      ArrowRight: selected + 1,
+      ArrowDown: selected + 1,
+      ArrowLeft: selected - 1,
+      ArrowUp: selected - 1,
+      Home: 0,
+      End: limbs.length - 1,
+    };
+    const next = moves[event.key];
+    if (next === undefined) return;
+    event.preventDefault();
+    const wrapped = (next + limbs.length) % limbs.length;
+    setSelected(wrapped);
+    buttonRefs.current[wrapped]?.focus();
+  }
+
   return (
     <div className="fw-visual fw-limbs">
       <svg
         className="fw-limbs-rings"
         viewBox="0 0 120 120"
         role="img"
-        aria-label="Eight concentric rings, one per limb, closing toward a centre point."
+        aria-label={`Eight concentric rings from outer conduct to inner absorption. Ring ${selected + 1}, ${limbs[selected].name}, is selected.`}
       >
         {limbs.map((limb, index) => (
           <circle
             className="fw-limbs-ring"
+            data-selected={selected === index}
             key={limb.name}
             cx={60}
             cy={60}
@@ -36,21 +57,36 @@ export function EightLimbs() {
         ))}
         <circle className="fw-limbs-centre" cx={60} cy={60} r={2.4} />
       </svg>
-      <ol className="fw-limbs-list">
+      <ol
+        className="fw-limbs-list"
+        aria-label="Eight limbs. Use arrow keys to move between them."
+      >
         {limbs.map((limb, index) => (
           <li
             className="fw-limbs-item"
             key={limb.name}
             style={{ "--limb-depth": index } as React.CSSProperties}
           >
-            <span className="fw-limbs-name">{limb.name}</span>
-            <span className="fw-limbs-gloss">{limb.gloss}</span>
+            <button
+              className="fw-limbs-choice"
+              ref={(node) => {
+                buttonRefs.current[index] = node;
+              }}
+              type="button"
+              tabIndex={selected === index ? 0 : -1}
+              aria-pressed={selected === index}
+              aria-label={`Limb ${index + 1}: ${limb.name}, ${limb.gloss}`}
+              onClick={() => setSelected(index)}
+              onKeyDown={onKeyDown}
+            >
+              <span className="fw-limbs-name">{limb.name}</span>
+              <span className="fw-limbs-gloss">{limb.gloss}</span>
+            </button>
           </li>
         ))}
       </ol>
       <p className="fw-limbs-caption">
-        Outer conduct first; interior absorption last. The order is the
-        teaching.
+        Select a limb to trace its place from outer conduct to inner absorption.
       </p>
     </div>
   );
