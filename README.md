@@ -234,6 +234,49 @@ The `kind` field also accepts `paper`, `person` and `idea` for later phases;
 only `book` renders today. No cover images — spines are typographic by
 design.
 
+## Scaffold new content
+
+```bash
+pnpm content:new essay "The title"
+pnpm content:new note "The title"
+pnpm content:new framework "The title"
+pnpm content:new book "The title"
+```
+
+Each command writes a correctly-shaped draft with today's date and a slug
+derived from the title, and refuses to overwrite an existing file.
+
+## Syndicate an essay or note
+
+MDX in this repository is the single source of truth; everything published
+elsewhere is a copy that points home. Routing convention: technical essays go
+to Hashnode, everything else to Substack — the script suggests a platform
+from the tags when the optional `syndication` frontmatter is absent.
+
+```bash
+pnpm syndicate <slug> --site-url https://divyum-bhumra.vercel.app
+```
+
+This writes paste-ready files to `.syndication/<slug>/` (gitignored):
+`hashnode.md` (Hashnode frontmatter conventions), `substack.html` (clean HTML
+that survives the editor paste: footnotes flattened, URLs absolute) and
+`medium.md` (for Medium's import flow). Every output carries the canonical
+URL at the top so search credit returns here. Set `NEXT_PUBLIC_SITE_URL` in
+the shell (or pass `--site-url`) — the script refuses to run against a
+placeholder origin.
+
+Only the supported subset syndicates: headings, prose, quotes, gfm tables,
+lists, footnotes, code, images and links. Imports, JSX components and MDX
+expressions fail with an error naming the file and line.
+
+Live publishing exists for Hashnode only (`--publish hashnode`, with
+`--dry-run` to preview), gated behind `HASHNODE_TOKEN` and
+`HASHNODE_PUBLICATION_ID` in `.env.local` (see `.env.example`). Re-runs
+update the article recorded in `.syndication/state.json` instead of creating
+duplicates. Medium stopped issuing integration tokens on 1 January 2025 and
+Substack has no documented write API, so those platforms use the generated
+files.
+
 ## Update the site
 
 - Edit the current snapshot in `lib/currently.ts`.
