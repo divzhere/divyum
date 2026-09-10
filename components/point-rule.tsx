@@ -25,8 +25,8 @@ export function PointRule() {
       { ...editorialTransition, delay: 0.05 },
     );
     return () => {
-      point.stop();
-      line.stop();
+      point.complete();
+      line.complete();
     };
   }, [animate, reduceMotion]);
 

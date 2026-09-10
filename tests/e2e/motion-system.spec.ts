@@ -24,6 +24,45 @@ test("the approved hero stays readable without JavaScript", async ({
   await context.close();
 });
 
+test("switching to reduced motion finishes an in-flight rule", async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.addInitScript(() => {
+    const original = Element.prototype.animate;
+    Element.prototype.animate = function (...args) {
+      const animation = original.apply(this, args);
+      if (
+        this.classList.contains("hero-horizon") ||
+        this.classList.contains("hero-point")
+      ) {
+        animation.pause();
+      }
+      return animation;
+    };
+  });
+  await page.goto("/");
+  await expect
+    .poll(() =>
+      page.evaluate(
+        () =>
+          document
+            .getAnimations()
+            .filter((animation) => animation.playState === "paused").length,
+      ),
+    )
+    .toBe(2);
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await expect(page.locator(".hero-point")).toHaveCSS("opacity", "1");
+  await expect(page.locator(".hero-horizon")).toHaveCSS(
+    "transform",
+    "matrix(1, 0, 0, 1, 0, 0)",
+  );
+  await expect
+    .poll(() => page.evaluate(() => document.getAnimations().length))
+    .toBe(0);
+});
+
 for (const preference of ["reduce", "no-preference"] as const) {
   test(`motion respects ${preference} from the first frame and on navigation`, async ({
     page,
