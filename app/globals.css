@@ -1128,6 +1128,7 @@ a {
 }
 
 .prose a {
+  text-decoration-line: underline;
   text-decoration-color: color-mix(in srgb, var(--accent) 60%, transparent);
   text-decoration-thickness: 1px;
   text-underline-offset: 0.18em;
@@ -1147,6 +1148,14 @@ a {
 .prose ul,
 .prose ol {
   padding-left: 1.35rem;
+}
+
+.prose ul {
+  list-style-type: disc;
+}
+
+.prose ol {
+  list-style-type: decimal;
 }
 
 .prose li {
@@ -2462,6 +2471,10 @@ html[data-theme="dark"] {
   stroke-width: 1;
 }
 
+.fw-limbs-ring[data-selected="true"] {
+  stroke-width: 3;
+}
+
 .fw-limbs-centre {
   fill: var(--fw-teal);
 }
@@ -2479,7 +2492,6 @@ html[data-theme="dark"] {
   align-items: baseline;
   gap: 0.8rem;
   border-top: 1px solid var(--rule);
-  padding: 0.68rem 0;
   padding-left: calc(var(--limb-depth) * 1.1rem);
   counter-increment: limb;
 }
@@ -2495,6 +2507,28 @@ html[data-theme="dark"] {
 .fw-limbs-name {
   font-family: var(--font-literata), Georgia, serif;
   font-size: 1.05rem;
+}
+
+.fw-limbs-choice {
+  display: flex;
+  flex: 1;
+  align-items: baseline;
+  gap: 0.8rem;
+  min-width: 0;
+  min-height: 44px;
+  padding: 0.68rem 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.fw-limbs-choice[aria-pressed="true"] .fw-limbs-name,
+.fw-limbs-choice:hover .fw-limbs-name {
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
 }
 
 .fw-limbs-gloss {

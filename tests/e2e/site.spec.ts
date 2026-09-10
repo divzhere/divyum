@@ -280,6 +280,9 @@ test("draft slugs are absent from both feeds and the sitemap", async ({
     expect(body).not.toContain("example-essay");
     expect(body).not.toContain("example-note");
     expect(body).not.toContain("example-project");
+    expect(body).not.toContain("example-book");
+    expect(body).not.toContain("future-framework-01");
+    expect(body).not.toContain("future-framework-02");
     expect(body).not.toContain("/projects");
   }
 });

@@ -37,6 +37,7 @@ export async function generateMetadata({
     title: framework.title,
     description: framework.description,
     path: `/frameworks/${framework.slug}`,
+    imagePath: `/frameworks/${framework.slug}/opengraph-image`,
     type: "article",
     publishedTime: framework.publishedAt,
     modifiedTime: framework.updatedAt,
