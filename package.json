@@ -14,6 +14,8 @@
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "content:check": "node scripts/check-content.mjs",
+    "content:new": "node scripts/new-content.mjs",
+    "syndicate": "node scripts/syndicate.mjs",
     "test": "vitest",
     "test:unit": "vitest run --coverage",
     "test:e2e": "playwright test tests/e2e",
@@ -58,8 +60,12 @@
     "jsdom": "30.0.1",
     "lint-staged": "17.5.0",
     "prettier": "3.9.6",
+    "rehype-stringify": "^10.0.1",
+    "remark-parse": "^11.0.0",
+    "remark-rehype": "^11.1.2",
     "tailwindcss": "4.3.3",
     "typescript": "6.0.3",
+    "unified": "^11.0.5",
     "vitest": "5.0.0"
   }
 }

@@ -15,6 +15,7 @@
 # tooling
 *.tsbuildinfo
 coverage/
+.syndication/
 playwright-report/
 test-results/
 .lighthouseci/

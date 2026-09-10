@@ -26,6 +26,14 @@ export const contentFrontmatterSchema = z
     status: z.enum(["Building", "Active", "Experiment", "Archived"]).optional(),
     year: z.string().trim().min(1).optional(),
     website: z.url().optional(),
+    canonicalUrl: z.url().optional(),
+    syndication: z
+      .object({
+        hashnode: z.boolean().default(false),
+        substack: z.boolean().default(false),
+        medium: z.boolean().default(false),
+      })
+      .optional(),
   })
   .superRefine((entry, context) => {
     const today = new Date().toISOString().slice(0, 10);

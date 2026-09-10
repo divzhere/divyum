@@ -1,0 +1,102 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`renderers > matches the platform snapshots for the fixture essay > hashnode 1`] = `
+"---
+title: "The \\"fixture\\" essay"
+canonicalUrl: https://example.org/essays/fixture-essay
+tags: technology, philosophy
+---
+
+> Originally published at [example.org](https://example.org/essays/fixture-essay).
+
+A paragraph with **bold**, *italics* and a [relative link](https://example.org/essays/other).
+
+## A heading
+
+> A quotation.
+
+A footnote reference.[^1]
+
+| Column | Value |
+| ------ | ----- |
+| a      | 1     |
+
+- a list item
+- another
+
+\`\`\`js
+const code = "stays verbatim";
+\`\`\`
+
+![An image](https://example.org/images/photo.jpg)
+
+[^1]: The footnote text.
+"
+`;
+
+exports[`renderers > matches the platform snapshots for the fixture essay > medium 1`] = `
+"# The "fixture" essay
+
+*Originally published at [example.org](https://example.org/essays/fixture-essay). Set the canonical link to that URL in Medium's import settings.*
+
+A paragraph with **bold**, *italics* and a [relative link](https://example.org/essays/other).
+
+## A heading
+
+> A quotation.
+
+A footnote reference.[^1]
+
+| Column | Value |
+| ------ | ----- |
+| a      | 1     |
+
+- a list item
+- another
+
+\`\`\`js
+const code = "stays verbatim";
+\`\`\`
+
+![An image](https://example.org/images/photo.jpg)
+
+[^1]: The footnote text.
+"
+`;
+
+exports[`renderers > matches the platform snapshots for the fixture essay > substack 1`] = `
+"<p><em>Originally published at <a href="https://example.org/essays/fixture-essay">example.org</a>.</em></p>
+<p>A paragraph with <strong>bold</strong>, <em>italics</em> and a <a href="https://example.org/essays/other">relative link</a>.</p>
+<h2>A heading</h2>
+<blockquote>
+<p>A quotation.</p>
+</blockquote>
+<p>A footnote reference. [1]</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>a</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>a list item</li>
+<li>another</li>
+</ul>
+<pre><code class="language-js">const code = "stays verbatim";
+</code></pre>
+<p><img src="https://example.org/images/photo.jpg" alt="An image"></p>
+<hr /><p><em>Notes</em></p><ol>
+<li id="user-content-fn-1">
+<p>The footnote text.</p>
+</li>
+</ol>
+"
+`;
