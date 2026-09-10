@@ -15,8 +15,8 @@ export default function JourneyPage() {
     <div className="page-shell inner-page journey-page">
       <PageIntro title="Journey">
         <p>
-          A life can be understood through more than one thread. Choose the part of
-          mine you want to follow.
+          A life can be understood through more than one thread. Choose the part
+          of mine you want to follow.
         </p>
       </PageIntro>
       <JourneyExplorer />

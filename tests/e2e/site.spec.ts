@@ -20,14 +20,29 @@ for (const route of publicRoutes) {
       .poll(() => page.evaluate(() => document.fonts.status))
       .toBe("loaded");
 
-    const overflow = await page.evaluate(
-      () =>
+    const overflow = await page.evaluate(() => ({
+      amount:
         Math.max(
           document.documentElement.scrollWidth,
           document.body.scrollWidth,
         ) - innerWidth,
-    );
-    expect(overflow).toBeLessThanOrEqual(1);
+      offenders: [...document.querySelectorAll<HTMLElement>("body *")]
+        .map((element) => {
+          const bounds = element.getBoundingClientRect();
+          return {
+            element: `${element.tagName.toLowerCase()}.${element.className}`,
+            left: Math.round(bounds.left),
+            right: Math.round(bounds.right),
+            width: Math.round(bounds.width),
+          };
+        })
+        .filter(({ left, right }) => left < -1 || right > innerWidth + 1)
+        .slice(0, 10),
+    }));
+    expect(
+      overflow.amount,
+      JSON.stringify(overflow.offenders, null, 2),
+    ).toBeLessThanOrEqual(1);
     expect(errors).toEqual([]);
   });
 
@@ -105,6 +120,7 @@ test("journey choices are staged, combine as a union and reset", async ({
     }),
   ).toBeVisible();
   await page.getByRole("button", { name: "Show this journey" }).click();
+  await expect(page).toHaveURL(/thread=technology%2Ctravel/);
   await expect(
     page.getByRole("region", { name: "Technology + Travel and place" }),
   ).toBeVisible();
@@ -118,12 +134,75 @@ test("journey choices are staged, combine as a union and reset", async ({
     page.getByRole("heading", { name: "Leading Rotary Chandigarh Himalayan" }),
   ).toHaveCount(0);
 
+  await page.getByRole("button", { name: "Thematic", exact: true }).click();
+  await expect(page).toHaveURL(/order=thematic/);
+  await expect(
+    page.getByRole("button", { name: "Thematic", exact: true }),
+  ).toHaveAttribute("aria-pressed", "true");
+  const orderedHeadings = await page
+    .locator(".journey-chapter h3")
+    .allTextContents();
+  expect(orderedHeadings.slice(0, 3)).toEqual([
+    "Born in Punjab",
+    "Travel became part of how I learn",
+    "Finding my way into technology",
+  ]);
+
+  await page.reload();
+  await expect(
+    page.getByRole("region", { name: "Travel and place + Technology" }),
+  ).toBeVisible();
+  await expect(page.locator(".journey-chapter")).toHaveCount(5);
+
   await page.getByRole("button", { name: /^Whole story/ }).click();
   await page.getByRole("button", { name: "Show this journey" }).click();
+  await expect(page).toHaveURL(/\/journey\?order=thematic$/);
   await expect(
     page.getByRole("region", { name: "The whole journey" }),
   ).toBeVisible();
   await expect(page.locator(".journey-chapter")).toHaveCount(8);
+});
+
+test("journey chapter links are shareable and the professional chapter is explicit", async ({
+  page,
+  viewport,
+}) => {
+  test.skip(viewport?.width !== 768, "covered once per browser engine");
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/journey#rotary");
+  await expect(page.locator("#rotary")).toBeInViewport();
+  await expect(page).toHaveURL(/#rotary$/);
+
+  await page.goto("/journey?thread=technology&order=thematic#technology");
+  await expect(page.locator("#technology")).toBeInViewport();
+  const details = page.getByRole("group", {
+    name: "Professional chapter details",
+  });
+  await expect(details.getByText("Software engineer")).toBeVisible();
+  await expect(details.getByText("Not named here")).toBeVisible();
+  await expect(details.getByText("7+ years")).toBeVisible();
+});
+
+test("journey URL filters remain readable without JavaScript", async ({
+  browser,
+  browserName,
+  viewport,
+}) => {
+  test.skip(
+    browserName !== "chromium" || viewport?.width !== 375,
+    "one browser is sufficient",
+  );
+  const context = await browser.newContext({
+    javaScriptEnabled: false,
+    viewport: { width: 375, height: 812 },
+  });
+  const page = await context.newPage();
+  await page.goto("/journey?thread=community#rotary");
+  await expect(page.locator(".journey-chapter")).toHaveCount(8);
+  await expect(
+    page.getByRole("heading", { name: "Leading Rotary Chandigarh Himalayan" }),
+  ).toBeVisible();
+  await context.close();
 });
 
 for (const route of hiddenRoutes) {
