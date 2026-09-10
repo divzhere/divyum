@@ -28,7 +28,7 @@ the suite does not pretend that absent modules are covered.
 | Unit/integration | `pnpm test:unit`                         | Content and Journey regressions; 80% statement coverage across `lib/`                                                |
 | Build/bundle     | `pnpm build && pnpm bundle:check`        | Production-build failures and more than 40 KiB gzip growth per route                                                 |
 | E2E              | `pnpm test:e2e`                          | Routes, 404/noindex, drafts, feeds, keyboard use, themes, overflow, console errors, reduced motion and no-JS reading |
-| Accessibility    | `pnpm test:a11y`                         | Any axe violations in light and dark themes                                                                          |
+| Accessibility    | `pnpm test:a11y`                         | Any axe violations in both themes at 375, 768, 1280 and 1440px                                                       |
 | Visual           | `pnpm test:visual`                       | Screenshot differences at 375, 768 and 1440 px in both themes                                                        |
 | Lighthouse       | `pnpm test:lighthouse`                   | Any current route below 95 in performance, best practices or SEO, or below 100 in accessibility                      |
 | Internal links   | `pnpm links:check http://127.0.0.1:3102` | Broken same-origin links and fragments                                                                               |

@@ -19,7 +19,7 @@
     "test": "vitest",
     "test:unit": "vitest run --coverage",
     "test:e2e": "playwright test tests/e2e",
-    "test:a11y": "playwright test tests/a11y --project=chromium-1440",
+    "test:a11y": "playwright test tests/a11y --project=chromium-375 --project=chromium-768 --project=chromium-1280 --project=chromium-1440",
     "test:visual": "playwright test tests/visual --project=chromium-375 --project=chromium-768 --project=chromium-1440",
     "test:visual:update": "pnpm test:visual --update-snapshots",
     "test:browser": "playwright test",

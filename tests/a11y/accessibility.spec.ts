@@ -2,10 +2,7 @@ import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
 import { publicRoutes } from "../browser-routes";
 
-test.skip(
-  ({ browserName, viewport }) =>
-    browserName !== "chromium" || viewport?.width !== 1440,
-);
+test.skip(({ browserName }) => browserName !== "chromium");
 
 for (const route of publicRoutes) {
   for (const theme of ["light", "dark"] as const) {
