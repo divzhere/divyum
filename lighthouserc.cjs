@@ -6,6 +6,8 @@ module.exports = {
       url: [
         "http://127.0.0.1:3104/",
         "http://127.0.0.1:3104/essays",
+        "http://127.0.0.1:3104/frameworks",
+        "http://127.0.0.1:3104/frameworks/eisenhower-matrix",
         "http://127.0.0.1:3104/notes",
         "http://127.0.0.1:3104/journey",
         "http://127.0.0.1:3104/about",

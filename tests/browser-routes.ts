@@ -2,6 +2,12 @@ export const publicRoutes = [
   { path: "/", heading: "Divyum Bhumra", snapshot: "home" },
   { path: "/essays", heading: "Essays", snapshot: "essays" },
   { path: "/notes", heading: "Notes", snapshot: "notes" },
+  { path: "/frameworks", heading: "Frameworks", snapshot: "frameworks" },
+  {
+    path: "/frameworks/eisenhower-matrix",
+    heading: "The Eisenhower Matrix",
+    snapshot: "framework-eisenhower",
+  },
   { path: "/journey", heading: "Journey", snapshot: "journey" },
   { path: "/about", heading: "About", snapshot: "about" },
 ] as const;

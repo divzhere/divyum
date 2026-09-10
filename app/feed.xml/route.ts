@@ -1,16 +1,26 @@
 import { getAllContent } from "@/lib/content";
+import { getAllFrameworks } from "@/lib/frameworks";
 import { absoluteUrl, siteConfig } from "@/lib/site";
 import { escapeXml } from "@/lib/utils";
 
 export const dynamic = "force-static";
 
 export async function GET() {
-  const [essays, notes] = await Promise.all([
+  const [essays, notes, frameworks] = await Promise.all([
     getAllContent("essays"),
     getAllContent("notes"),
+    getAllFrameworks(),
   ]);
 
-  const entries = [...essays, ...notes].sort(
+  const frameworkItems = frameworks.map((framework) => ({
+    title: framework.title,
+    description: framework.subtitle,
+    publishedAt: framework.publishedAt,
+    kind: "frameworks",
+    slug: framework.slug,
+  }));
+
+  const entries = [...essays, ...notes, ...frameworkItems].sort(
     (first, second) =>
       new Date(second.publishedAt).getTime() -
       new Date(first.publishedAt).getTime(),

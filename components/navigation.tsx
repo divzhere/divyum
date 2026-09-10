@@ -5,8 +5,11 @@ import { siteConfig } from "@/lib/site";
 const navigation = [
   { href: "/essays", label: "Essays" },
   { href: "/notes", label: "Notes" },
+  { href: "/frameworks", label: "Frameworks" },
   { href: "/journey", label: "Journey" },
-  ...(siteConfig.projectsVisible ? [{ href: "/projects", label: "Projects" }] : []),
+  ...(siteConfig.projectsVisible
+    ? [{ href: "/projects", label: "Projects" }]
+    : []),
   { href: "/about", label: "About" },
 ];
 
@@ -14,7 +17,11 @@ export function Navigation() {
   return (
     <header className="site-header">
       <div className="page-shell nav-inner">
-        <Link className="brand-link" href="/" aria-label={`${siteConfig.name}, home`}>
+        <Link
+          className="brand-link"
+          href="/"
+          aria-label={`${siteConfig.name}, home`}
+        >
           {siteConfig.name}
         </Link>
 
