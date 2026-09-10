@@ -1,6 +1,10 @@
 import path from "node:path";
 import { z } from "zod";
-import { calendarDateSchema, readMdxCollection } from "./collections.ts";
+import {
+  calendarDateSchema,
+  readMdxCollection,
+  validatePublicationDate,
+} from "./collections.ts";
 import { placeholderShelf } from "./library-seed.ts";
 
 /*
@@ -27,22 +31,25 @@ export const bookStatuses = [
 ] as const;
 export type BookStatus = (typeof bookStatuses)[number];
 
-export const librarySchema = z.object({
-  kind: z.enum(libraryKinds).default("book"),
-  title: z.string().trim().min(1, "is required"),
-  author: z.string().trim().min(1, "is required"),
-  year: z.number().int().min(0).max(2100).optional(),
-  slug: z.string().trim().min(1).optional(),
-  status: z.enum(bookStatuses),
-  rating: z.number().min(1).max(10).nullable().default(null),
-  themes: z.array(z.string().trim().min(1)).min(1),
-  coverColor: z
-    .string()
-    .regex(/^#[0-9a-fA-F]{6}$/, "must be a six-digit hex colour"),
-  publishedAt: calendarDateSchema,
-  updatedAt: calendarDateSchema.optional(),
-  draft: z.boolean().default(true),
-});
+export const librarySchema = z
+  .object({
+    kind: z.enum(libraryKinds).default("book"),
+    title: z.string().trim().min(1, "is required"),
+    description: z.string().trim().min(1, "is required"),
+    author: z.string().trim().min(1, "is required"),
+    year: z.number().int().min(0).max(2100).optional(),
+    slug: z.string().trim().min(1).optional(),
+    status: z.enum(bookStatuses),
+    rating: z.number().min(1).max(10).nullable().default(null),
+    themes: z.array(z.string().trim().min(1)).min(1),
+    coverColor: z
+      .string()
+      .regex(/^#[0-9a-fA-F]{6}$/, "must be a six-digit hex colour"),
+    publishedAt: calendarDateSchema,
+    updatedAt: calendarDateSchema.optional(),
+    draft: z.boolean().default(true),
+  })
+  .superRefine(validatePublicationDate);
 
 type LibraryFrontmatter = z.output<typeof librarySchema>;
 

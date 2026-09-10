@@ -28,7 +28,9 @@ export function ContentArticle({
         </div>
         <div>
           <h1 className="editorial-reveal">{entry.title}</h1>
-          <p className="article-description">{entry.description}</p>
+          <p className="article-description">
+            {entry.subtitle ?? entry.description}
+          </p>
           <div className="article-meta">
             <time dateTime={entry.publishedAt}>
               {formatDate(entry.publishedAt)}

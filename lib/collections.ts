@@ -36,6 +36,20 @@ type BaseFields = {
   draft: boolean;
 };
 
+export function validatePublicationDate(
+  entry: BaseFields,
+  context: z.RefinementCtx,
+) {
+  const today = new Date().toISOString().slice(0, 10);
+  if (!entry.draft && entry.publishedAt > today) {
+    context.addIssue({
+      code: "custom",
+      path: ["publishedAt"],
+      message: "cannot be in the future for published content",
+    });
+  }
+}
+
 export type CollectionEntry<Fields> = Fields & {
   slug: string;
   body: string;

@@ -35,7 +35,7 @@ export async function generateMetadata({
 
   return createMetadata({
     title: framework.title,
-    description: framework.subtitle,
+    description: framework.description,
     path: `/frameworks/${framework.slug}`,
     type: "article",
     publishedTime: framework.publishedAt,
@@ -66,7 +66,7 @@ export default async function FrameworkPage({ params }: FrameworkPageProps) {
           "@context": "https://schema.org",
           "@type": "CreativeWork",
           name: framework.title,
-          description: framework.subtitle,
+          description: framework.description,
           datePublished: framework.publishedAt,
           dateModified: framework.updatedAt ?? framework.publishedAt,
           mainEntityOfPage: absoluteUrl(`/frameworks/${framework.slug}`),

@@ -1,6 +1,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import process from "node:process";
+import { z } from "zod";
 import { getContentBySlug } from "../lib/content.ts";
 import {
   assertSupportedMdx,
@@ -36,6 +37,13 @@ const siteUrlFlag = args.includes("--site-url")
   ? args[args.indexOf("--site-url") + 1]
   : null;
 
+try {
+  process.loadEnvFile(path.join(process.cwd(), ".env.local"));
+} catch (error) {
+  if (error.code !== "ENOENT")
+    fail("Cannot read .env.local. Check the file and its permissions.");
+}
+
 if (!slug) {
   fail(
     "Usage: pnpm syndicate <slug> [--publish hashnode] [--dry-run] [--site-url <origin>]",
@@ -48,6 +56,26 @@ if (!siteUrl) {
     "Set NEXT_PUBLIC_SITE_URL (or pass --site-url) to the production origin. " +
       "Without it the canonical URL would point at a placeholder domain and " +
       "syndicated copies would hand their SEO credit to nowhere.",
+  );
+}
+
+let origin;
+try {
+  const url = new URL(siteUrl);
+  if (
+    !["http:", "https:"].includes(url.protocol) ||
+    url.username ||
+    url.password ||
+    url.pathname !== "/" ||
+    url.search ||
+    url.hash
+  ) {
+    throw new Error("not an origin");
+  }
+  origin = url.origin;
+} catch {
+  fail(
+    "The site URL must be an HTTP(S) origin without credentials, a path, query or fragment.",
   );
 }
 
@@ -67,7 +95,12 @@ if (!entry) {
   );
 }
 
-const canonical = new URL(`/${kind}/${entry.slug}`, siteUrl).toString();
+const canonical = new URL(`/${kind}/${entry.slug}`, origin).toString();
+if (entry.canonicalUrl && new URL(entry.canonicalUrl).href !== canonical) {
+  fail(
+    `Invalid canonicalUrl for ${entry.slug}: it must point home to ${canonical}.`,
+  );
+}
 assertSupportedMdx(entry.body, `content/${kind}/${entry.slug}.mdx`);
 
 const outputDirectory = path.join(process.cwd(), ".syndication", entry.slug);
@@ -96,8 +129,8 @@ if (!syndication) {
 if (publishTarget) {
   if (publishTarget !== "hashnode") {
     fail(
-      `Live publishing is only implemented for Hashnode. Medium stopped issuing ` +
-        `integration tokens on 1 January 2025 and Substack has no documented ` +
+      `Live publishing is only implemented for Hashnode. Medium no longer supports its API ` +
+        `or new integrations, and Substack has no verified public ` +
         `write API — paste the generated files instead.`,
     );
   }
@@ -106,16 +139,27 @@ if (publishTarget) {
   const publicationId = process.env.HASHNODE_PUBLICATION_ID;
   if (!token || !publicationId) {
     fail(
-      "Set HASHNODE_TOKEN and HASHNODE_PUBLICATION_ID in .env.local to publish to Hashnode.",
+      "Set HASHNODE_TOKEN and HASHNODE_PUBLICATION_ID in .env.local. Hashnode API access also requires an enabled Pro publication.",
     );
   }
 
   const statePath = path.join(process.cwd(), ".syndication", "state.json");
   let state = {};
   try {
-    state = JSON.parse(await fs.readFile(statePath, "utf8"));
-  } catch {
-    state = {};
+    state = z
+      .record(
+        z.string(),
+        z
+          .object({ hashnode: z.string().trim().min(1).optional() })
+          .passthrough(),
+      )
+      .parse(JSON.parse(await fs.readFile(statePath, "utf8")));
+  } catch (error) {
+    if (error.code !== "ENOENT") {
+      fail(
+        "Cannot read valid .syndication/state.json; repair it before publishing to avoid creating a duplicate post.",
+      );
+    }
   }
   const existingId = state[entry.slug]?.hashnode;
 

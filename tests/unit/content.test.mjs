@@ -50,6 +50,18 @@ async function entry(
 }
 
 describe("published content", () => {
+  it("preserves an optional subtitle separately from the SEO description", async () => {
+    await entry("with-subtitle.mdx", {
+      subtitle: "  A reader-facing introduction.  ",
+    });
+    expect(
+      await content.getContentBySlug("essays", "with-subtitle"),
+    ).toMatchObject({
+      subtitle: "A reader-facing introduction.",
+      description: "Fixture description.",
+    });
+  });
+
   it("returns normalized metadata and readable body from a markdown file", async () => {
     await entry(
       "first-note.md",

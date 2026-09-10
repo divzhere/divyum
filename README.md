@@ -14,11 +14,9 @@ Run `pnpm quality` before opening a pull request.
 
 ## Quality suite
 
-The suite tests the routes and content types that exist now. Every later feature
-PR must extend `tests/browser-routes.ts`, content schemas, unit tests, visual
-baselines and Lighthouse URLs when it adds a public route or data model. Tests for
-frameworks, books and syndication belong in the PR that introduces those features;
-the suite does not pretend that absent modules are covered.
+The suite covers essays, notes, frameworks, books, syndication, Journey and the
+approved motion system. Extend `tests/browser-routes.ts`, schemas, unit tests,
+visual baselines and Lighthouse URLs whenever adding a public route or data model.
 
 | Layer            | Command                                  | What it blocks                                                                                                       |
 | ---------------- | ---------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
@@ -174,6 +172,7 @@ Add an `.mdx` file to `content/essays` or `content/notes`:
 ---
 title: "The title"
 description: "A clear one-sentence description."
+subtitle: "An optional reader-facing introduction."
 publishedAt: "2026-09-09"
 updatedAt: "2026-09-10"
 tags:
@@ -190,7 +189,10 @@ Drafts are excluded from indexes, public routes, RSS and the sitemap. URLs use t
 
 Run `pnpm content:check` before publishing. Dates must be real `YYYY-MM-DD`
 calendar dates, two files in one collection cannot resolve to the same slug, and
-a non-draft cannot have a future publication date.
+a non-draft cannot have a future publication date. These rules also apply to
+frameworks and books. Every MDX file requires a non-empty `description`, including
+drafts. Article headers show `subtitle` when supplied, otherwise `description`;
+search metadata continues to use `description`.
 
 Projects use the same model in `content/projects`, with optional `year`, `status` and `website` fields. Supported statuses are `Building`, `Active`, `Experiment` and `Archived`.
 
@@ -201,16 +203,16 @@ Add an `.mdx` file to `content/frameworks`:
 ```mdx
 ---
 title: "The Framework Name"
+description: "A short description for search, previews and feeds."
 subtitle: "A one-sentence framing"
 origin: "Who it comes from"
 lineage: "western" # western | eastern | personal
 domains:
   - attention
 visual: "EisenhowerMatrix" # must name an implemented visual component
-related:
-  - "another-framework-slug"
-publishedAt: "2026-09-15"
-draft: false
+related: [] # only reference slugs of published frameworks
+publishedAt: "2026-09-10" # replace with the actual publication date
+draft: true
 ---
 
 ## What it says
@@ -233,6 +235,13 @@ implemented visuals. `related` slugs must exist. To add a new visual:
    two in lockstep). Add a small glyph in `components/frameworks/glyphs.tsx`.
 3. Rebuild and refresh visual baselines if the index page changed.
 
+Two private drafts, `future-framework-01.mdx` and `future-framework-02.mdx`, reserve
+space for the next tools without inventing them. Replace their scaffold fields,
+rename them and add real prose before publishing. Their current visual is only a
+schema-valid placeholder. The index automatically places a published entry in its
+lineage/domain group; both slots remain hidden, so the current six-entry index has
+no empty rows or dead links.
+
 ## Add a book to the library
 
 The shelf on `/library` merges two sources:
@@ -241,7 +250,7 @@ The shelf on `/library` merges two sources:
   with real books (title, author, year, status, themes, coverColor) to fill
   the shelf in five minutes. Seed entries never link anywhere.
 - `content/library/<slug>.mdx` — a book with reading notes. Same fields in
-  frontmatter (`kind: "book"`, `status`: `reading` | `read` | `rereading` |
+  frontmatter plus a required `description` (`kind: "book"`, `status`: `reading` | `read` | `rereading` |
   `shelved`, `coverColor` as a six-digit hex, `themes`); the MDX body holds
   the notes. A book with a non-empty body gets `/library/<slug>`; an empty
   body keeps it as an unlinked spine. Drafts stay entirely hidden.
@@ -277,21 +286,41 @@ This writes paste-ready files to `.syndication/<slug>/` (gitignored):
 `hashnode.md` (Hashnode frontmatter conventions), `substack.html` (clean HTML
 that survives the editor paste: footnotes flattened, URLs absolute) and
 `medium.md` (for Medium's import flow). Every output carries the canonical
-URL at the top so search credit returns here. Set `NEXT_PUBLIC_SITE_URL` in
-the shell (or pass `--site-url`) — the script refuses to run against a
-placeholder origin.
+URL at the top. Set `NEXT_PUBLIC_SITE_URL` in `.env.local` or the shell, or pass
+`--site-url`. Shell settings take precedence over `.env.local`; the flag takes
+precedence over both. Use the actual HTTP(S) production origin, with no path,
+credentials, query or fragment. An optional frontmatter `canonicalUrl` must equal
+that article's URL on this origin; a conflicting value stops the export.
 
 Only the supported subset syndicates: headings, prose, quotes, gfm tables,
 lists, footnotes, code, images and links. Imports, JSX components and MDX
 expressions fail with an error naming the file and line.
 
-Live publishing exists for Hashnode only (`--publish hashnode`, with
-`--dry-run` to preview), gated behind `HASHNODE_TOKEN` and
-`HASHNODE_PUBLICATION_ID` in `.env.local` (see `.env.example`). Re-runs
-update the article recorded in `.syndication/state.json` instead of creating
-duplicates. Medium stopped issuing integration tokens on 1 January 2025 and
-Substack has no documented write API, so those platforms use the generated
-files.
+The optional Hashnode adapter uses `--publish hashnode` (`--dry-run` previews
+without sending a request). It requires `HASHNODE_TOKEN`,
+`HASHNODE_PUBLICATION_ID` and an API-enabled Pro publication. Keep credentials in
+`.env.local` (see `.env.example`). Re-runs use the post ID recorded in
+`.syndication/state.json`; invalid state stops the command instead of silently
+creating another post. Keep this ignored state file backed up, and recover the
+existing ID from Hashnode if it is lost. Do not delete state to clear an error.
+
+API availability checked on 10 September 2026:
+
+- Hashnode's [official publishing guide](https://hashnode.com/blog/publishing-a-blog-post-to-hashnode-using-a-custom-editing-interface)
+  documents GraphQL publishing and personal-access-token authentication. Its
+  [13 May 2026 API change](https://hashnode.com/changelog/2026-05-13-graphql-api-paid-access)
+  requires Pro for all queries and mutations. Exports and no-network dry runs are
+  tested; authenticated publishing is not verified without enabled credentials.
+- [Medium's archived API documentation](https://github.com/Medium/medium-api-docs)
+  says the API is unsupported and new integrations are closed. Use the export/import flow.
+- [Substack's API terms](https://substack.com/api-tos) describe public creator and
+  publication data access, not article creation. No public article-write API was
+  verified. Use the HTML paste export; no private cookie-based API is used.
+
+The canonical attribution included in an export is not a guarantee that a paste
+editor creates a search-engine canonical tag. Check the destination platform's
+canonical/import settings when publishing. Nothing is sent by the export command
+alone, and no real article has been published as a test.
 
 ## Add a journey chapter
 
@@ -318,3 +347,28 @@ ordering uses `?order=thematic`.
 - Edit journey chapters and their filters in `lib/journey.ts`.
 - Add real social profiles, email and a newsletter URL in `lib/site.ts`; empty values stay hidden.
 - Set `NEXT_PUBLIC_SITE_URL` to the production origin. The fallback is `https://divyumbhumra.com`.
+
+## Author checklist — all outstanding content decisions
+
+These are intentional authoring placeholders, not invented personal claims.
+
+- [ ] Add first-person practice notes in all six published files under
+      `content/frameworks/`: Eisenhower Matrix, Signal vs Noise, Knowledge Tree,
+      Tat Tvam Asi, Vision to Leverage and Eight Limbs. Their `TODO(divyum)` comments
+      say which experience belongs there.
+- [ ] Supply the eight deeper stage definitions and examples for Vision to
+      Leverage. The component currently uses only the short definitions from the brief.
+- [ ] Choose the two future frameworks and replace every `TODO(divyum)` field
+      in the two reserved drafts, including description, framing and attribution.
+- [ ] Replace the five labelled spines in `lib/library-seed.ts` with real books.
+      Replace or remove the private `content/library/example-book.mdx` scaffold;
+      write its description and reading notes if publishing it. Ratings are optional.
+- [ ] Add a previous, already-public organisation to the professional chapter
+      in `lib/journey.ts` only when ready. Further dates, work details and personally
+      supplied photographs are optional; nothing has been guessed.
+- [ ] Write real essays and notes. Each `content:new` scaffold marks its missing
+      description (and framework origin/framing or book author) with `TODO(divyum)`.
+      Replace those fields before changing `draft` to `false`.
+- [ ] Optionally supply public social/contact links and a real newsletter-provider
+      URL in `lib/site.ts`; blank values remain hidden. Update the canonical origin
+      when a custom domain is attached.

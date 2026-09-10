@@ -1,6 +1,10 @@
 import path from "node:path";
 import { z } from "zod";
-import { calendarDateSchema, readMdxCollection } from "./collections.ts";
+import {
+  calendarDateSchema,
+  readMdxCollection,
+  validatePublicationDate,
+} from "./collections.ts";
 
 /*
   Frameworks: thinking tools rendered as purpose-built visuals.
@@ -29,22 +33,25 @@ export {
   type FrameworkVisualKey,
 };
 
-export const frameworkSchema = z.object({
-  title: z.string().trim().min(1, "is required"),
-  subtitle: z.string().trim().min(1, "is required"),
-  slug: z.string().trim().min(1).optional(),
-  origin: z.string().trim().min(1, "is required"),
-  lineage: z.enum(frameworkLineages),
-  domains: z.array(z.string().trim().min(1)).min(1),
-  visual: z.enum(frameworkVisualKeys, {
-    error: () =>
-      `must be one of the implemented visuals: ${frameworkVisualKeys.join(", ")}`,
-  }),
-  related: z.array(z.string().trim().min(1)).default([]),
-  publishedAt: calendarDateSchema,
-  updatedAt: calendarDateSchema.optional(),
-  draft: z.boolean().default(true),
-});
+export const frameworkSchema = z
+  .object({
+    title: z.string().trim().min(1, "is required"),
+    description: z.string().trim().min(1, "is required"),
+    subtitle: z.string().trim().min(1, "is required"),
+    slug: z.string().trim().min(1).optional(),
+    origin: z.string().trim().min(1, "is required"),
+    lineage: z.enum(frameworkLineages),
+    domains: z.array(z.string().trim().min(1)).min(1),
+    visual: z.enum(frameworkVisualKeys, {
+      error: () =>
+        `must be one of the implemented visuals: ${frameworkVisualKeys.join(", ")}`,
+    }),
+    related: z.array(z.string().trim().min(1)).default([]),
+    publishedAt: calendarDateSchema,
+    updatedAt: calendarDateSchema.optional(),
+    draft: z.boolean().default(true),
+  })
+  .superRefine(validatePublicationDate);
 
 type FrameworkFrontmatter = z.output<typeof frameworkSchema>;
 

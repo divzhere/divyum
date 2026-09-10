@@ -3,6 +3,7 @@ import { z } from "zod";
 import {
   calendarDateSchema,
   readMdxCollection,
+  validatePublicationDate,
   type CollectionEntry,
 } from "./collections.ts";
 import { validateAllFrameworks } from "./frameworks.ts";
@@ -17,6 +18,7 @@ export const contentFrontmatterSchema = z
   .object({
     title: z.string().trim().min(1, "is required"),
     description: z.string().trim().min(1, "is required"),
+    subtitle: z.string().trim().min(1).optional(),
     publishedAt: calendarDateSchema,
     updatedAt: calendarDateSchema.optional(),
     slug: z.string().trim().min(1).optional(),
@@ -35,16 +37,7 @@ export const contentFrontmatterSchema = z
       })
       .optional(),
   })
-  .superRefine((entry, context) => {
-    const today = new Date().toISOString().slice(0, 10);
-    if (!entry.draft && entry.publishedAt > today) {
-      context.addIssue({
-        code: "custom",
-        path: ["publishedAt"],
-        message: "cannot be in the future for published content",
-      });
-    }
-  });
+  .superRefine(validatePublicationDate);
 
 type ContentFrontmatter = z.output<typeof contentFrontmatterSchema>;
 

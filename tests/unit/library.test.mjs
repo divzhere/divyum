@@ -17,6 +17,7 @@ const book = ({
 } = {}) => `---
 kind: "${kind}"
 title: "${title}"
+description: "A description of these reading notes."
 author: "A. Author"
 year: 2001
 ${slug ? `slug: "${slug}"` : ""}
@@ -62,6 +63,29 @@ async function withCwd(run) {
 }
 
 describe("library content model", () => {
+  it("rejects a published book without a description", async () => {
+    await write(
+      "missing-description.mdx",
+      book().replace(/^description:.*\n/m, ""),
+    );
+    await expect(withCwd(() => library.getAllLibraryEntries())).rejects.toThrow(
+      /missing-description.mdx: description/,
+    );
+  });
+
+  it("rejects a future publication date but keeps future drafts private", async () => {
+    const future = book().replace(
+      'publishedAt: "2026-09-01"',
+      'publishedAt: "9999-01-01"',
+    );
+    await write("future.mdx", future);
+    await expect(withCwd(() => library.getAllLibraryEntries())).rejects.toThrow(
+      /future.mdx: publishedAt.*future/,
+    );
+    await write("future.mdx", future.replace("draft: false", "draft: true"));
+    expect(await withCwd(() => library.getAllLibraryEntries())).toEqual([]);
+  });
+
   it("keeps a book without notes on the shelf but unlinked", async () => {
     await write("bare.mdx", book({ slug: "bare" }));
     await write("noted.mdx", book({ slug: "noted", body: "Real notes." }));
