@@ -53,30 +53,37 @@ pnpm test:visual
 The homepage motion region is masked and visual checks use reduced motion so the
 baseline records layout and typography rather than a random animation frame.
 
-Husky installs with `pnpm install`. Pre-commit runs lint-staged (ESLint fixes,
-Prettier and a real project-wide typecheck when code is staged) followed by the
-content check. Commit messages follow Conventional Commits. Pre-push runs unit
-tests and a production build. Git always allows a deliberate bypass:
+Husky installs with `pnpm install`. Pre-commit runs the fast checks: lint-staged
+(ESLint fixes and Prettier on staged files) followed by the content check. Commit
+messages follow Conventional Commits. Pre-push runs the important gates: lint,
+typecheck, unit tests and a production build. Git always allows a deliberate
+bypass:
 
 ```bash
 git commit --no-verify
 git push --no-verify
 ```
 
-Use that only when the skipped failure is understood; CI still runs independently.
-GitHub Actions runs `lint-and-types`, `unit`, `build`, `e2e`, `a11y`, `visual` and
-`lighthouse`. Browser traces, screenshots and Lighthouse reports are uploaded on
-failure. A weekly non-blocking workflow checks external links against production.
+Use that only when the skipped failure is understood. There is no hosted CI:
+this repository intentionally does not use GitHub Actions (solo project, no paid
+plan). The hooks above and the Vercel deployment are the gates. Run the slower
+layers (`pnpm test:e2e`, `pnpm test:a11y`, `pnpm test:visual`,
+`pnpm test:lighthouse`, `pnpm links:check`) locally before merging a feature
+branch — `pnpm quality` covers the fast set.
 
 ## Deployment
 
-The repository deploys through Vercel. The production branch is `master`, and
-pull requests receive Vercel previews. Production is available at
-[divyumbhumra.vercel.app](https://divyumbhumra.vercel.app).
+The repository deploys through the Vercel project `divyum-bhumra`. The
+production branch is `master`, and every pushed branch receives a Vercel preview
+deployment. Production is available at
+[divyum-bhumra.vercel.app](https://divyum-bhumra.vercel.app) until a custom
+domain is attached. The similarly named `divyumbhumra.vercel.app` belongs to a
+different Vercel project and does not deploy from this repository.
 
 Use the Next.js framework preset, the repository root, and `pnpm build`. Keep
-`.vercel/` and environment secrets out of Git. Set `NEXT_PUBLIC_SITE_URL` in
-Vercel to the intended canonical origin before changing the public domain.
+`.vercel/` and environment secrets out of Git. `NEXT_PUBLIC_SITE_URL` is set in
+Vercel production to the canonical origin; update it when the custom domain
+arrives.
 
 ## Link and JavaScript checks
 
@@ -119,30 +126,29 @@ then regenerate it:
 pnpm bundle:report --write-baseline tests/baselines/bundle.json
 ```
 
-## Protect `master` on GitHub
+## Solo workflow
 
-Divyum must configure this; the agent does not change repository protection.
-Local checks alone cannot prevent a direct push. Wait for the quality-suite
-workflow to run on a pull request before selecting its checks below; GitHub only
-lists checks that have run at least once.
+This is a solo-developed site. There is no paid GitHub plan, no GitHub Actions
+and no branch protection; discipline replaces configuration. Treat `master` as
+production and never develop on it directly.
 
-1. Open [repository settings](https://github.com/divzhere/divyum/settings/branches)
-   → **Branches** → **Add classic branch protection rule**. If a rule already
-   targets `master`, edit it instead of creating a duplicate.
-2. Set **Branch name pattern** to `master`.
-3. Enable **Require a pull request before merging**. Keep **Require approvals**
-   off for a solo-maintained repository, or require one if another reviewer is
-   available.
-4. Enable **Require status checks to pass before merging** and **Require branches
-   to be up to date before merging**. Select the actual PR checks:
-   `lint-and-types`, `unit`, `build`, `e2e`, `a11y`, `visual`, `lighthouse`, and
-   `Vercel`.
-   If a slow check moves to nightly-only execution, do not require it on PRs.
-5. Enable **Do not allow bypassing the above settings**. Leave **Allow force
-   pushes**, **Allow deletions**, and PR bypass exceptions disabled.
-6. Click **Create** (or **Save changes** for an existing rule).
+```
+feature branch
+  → local quality gates (hooks: lint, typecheck, unit tests, build)
+  → push to GitHub
+  → Vercel preview deployment
+  → verify the preview builds and works (open it, click through the change)
+  → merge into master
+  → Vercel production deployment
+```
 
-See [GitHub's branch-protection instructions](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/managing-a-branch-protection-rule).
+Do not merge a branch when local gates fail, the Vercel build fails, or the
+preview is visually or functionally broken. Run the slower local layers (e2e,
+a11y, visual, Lighthouse) before merging anything that touches routes, layout or
+motion.
+
+If the project later gains contributors, reconsider GitHub branch protection,
+required status checks and hosted CI.
 
 ## Publish an essay or note
 
