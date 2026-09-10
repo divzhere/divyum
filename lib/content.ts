@@ -6,6 +6,7 @@ import {
   type CollectionEntry,
 } from "./collections.ts";
 import { validateAllFrameworks } from "./frameworks.ts";
+import { validateAllLibrary } from "./library.ts";
 
 export type ContentKind = "essays" | "notes" | "projects";
 export type ProjectStatus = "Building" | "Active" | "Experiment" | "Archived";
@@ -58,6 +59,7 @@ export async function validateAllContent() {
       getAllContent(kind),
     ),
     validateAllFrameworks(),
+    validateAllLibrary(),
   ]);
 }
 
