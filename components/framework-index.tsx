@@ -81,7 +81,7 @@ export function FrameworkIndex({ entries }: FrameworkIndexProps) {
             {members.map((entry) => {
               const Glyph = frameworkGlyphs[entry.visual];
               return (
-                <li key={entry.slug}>
+                <li className="editorial-reveal" key={entry.slug}>
                   <Link
                     className="framework-row"
                     href={`/frameworks/${entry.slug}`}

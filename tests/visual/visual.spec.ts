@@ -26,8 +26,7 @@ for (const route of publicRoutes) {
           animations: "disabled",
           caret: "hide",
           fullPage: true,
-          mask: route.path === "/" ? [page.locator(".artifact-frame")] : [],
-          maskColor: "#777777",
+          // Reduced motion renders the complete, static point-and-rule composition.
         },
       );
     });

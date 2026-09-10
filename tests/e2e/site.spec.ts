@@ -44,6 +44,11 @@ for (const route of publicRoutes) {
       JSON.stringify(overflow.offenders, null, 2),
     ).toBeLessThanOrEqual(1);
     expect(errors).toEqual([]);
+    expect(
+      await page
+        .locator(".primary-nav")
+        .evaluate((nav) => nav.scrollWidth - nav.clientWidth),
+    ).toBeLessThanOrEqual(1);
   });
 
   test(`${route.path} exposes working keyboard navigation`, async ({

@@ -11,6 +11,31 @@ export const publicRoutes = [
   },
   { path: "/journey", heading: "Journey", snapshot: "journey" },
   { path: "/about", heading: "About", snapshot: "about" },
+  {
+    path: "/frameworks/signal-vs-noise",
+    heading: "Signal vs Noise",
+    snapshot: "framework-signal",
+  },
+  {
+    path: "/frameworks/knowledge-tree",
+    heading: "The Knowledge Tree",
+    snapshot: "framework-tree",
+  },
+  {
+    path: "/frameworks/tat-tvam-asi",
+    heading: "Tat Tvam Asi",
+    snapshot: "framework-advaita",
+  },
+  {
+    path: "/frameworks/vision-to-leverage",
+    heading: "Vision to Leverage",
+    snapshot: "framework-leverage",
+  },
+  {
+    path: "/frameworks/eight-limbs",
+    heading: "The Eight Limbs of Yoga",
+    snapshot: "framework-yoga",
+  },
 ] as const;
 
 export const hiddenRoutes = [
@@ -18,4 +43,7 @@ export const hiddenRoutes = [
   "/projects/example-project",
   "/essays/example-essay",
   "/notes/example-note",
+  "/motion/paper-depth",
+  "/motion/point-line",
+  "/motion/instrument",
 ] as const;

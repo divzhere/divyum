@@ -28,7 +28,7 @@ the suite does not pretend that absent modules are covered.
 | Unit/integration | `pnpm test:unit`                         | Content and Journey regressions; 80% statement coverage across `lib/`                                                |
 | Build/bundle     | `pnpm build && pnpm bundle:check`        | Production-build failures and more than 40 KiB gzip growth per route                                                 |
 | E2E              | `pnpm test:e2e`                          | Routes, 404/noindex, drafts, feeds, keyboard use, themes, overflow, console errors, reduced motion and no-JS reading |
-| Accessibility    | `pnpm test:a11y`                         | Serious or critical axe violations in light and dark themes                                                          |
+| Accessibility    | `pnpm test:a11y`                         | Any axe violations in both themes at 375, 768, 1280 and 1440px                                                       |
 | Visual           | `pnpm test:visual`                       | Screenshot differences at 375, 768 and 1440 px in both themes                                                        |
 | Lighthouse       | `pnpm test:lighthouse`                   | Any current route below 95 in performance, best practices or SEO, or below 100 in accessibility                      |
 | Internal links   | `pnpm links:check http://127.0.0.1:3102` | Broken same-origin links and fragments                                                                               |
@@ -50,8 +50,24 @@ pnpm test:visual:update
 pnpm test:visual
 ```
 
-The homepage motion region is masked and visual checks use reduced motion so the
-baseline records layout and typography rather than a random animation frame.
+Visual checks use reduced motion and capture the complete composition, including
+the homepage point and rule. Every public framework detail page is included.
+
+## Motion
+
+The approved Point becoming line direction connects the homepage heading to the
+Currently axis. The full hero is server-rendered; its small rule animation starts
+only after the visitor's motion preference is known.
+
+Keep entrances on the shared 200ms rhythm: `lib/motion.ts` supplies Framer Motion
+defaults, while `--motion-duration` and `--motion-ease` in `app/globals.css` control
+CSS reveals and hover underlines. `app/template.tsx` fades page navigation;
+`editorial-reveal` handles framework rows, journey chapters and article titles.
+Animate transform and opacity only. Reduced motion uses the finished composition
+with animations disabled. Prototype routes have been removed; their comparison
+remains available in PR #41's history.
+
+## Local hooks
 
 Husky installs with `pnpm install`. Pre-commit runs the fast checks: lint-staged
 (ESLint fixes and Prettier on staged files) followed by the content check. Commit

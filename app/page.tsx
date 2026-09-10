@@ -12,7 +12,10 @@ export default async function HomePage() {
     <div className="page-shell home-page">
       <HeroExperience />
 
-      <section className="editorial-section" aria-labelledby="currently-title">
+      <section
+        className="editorial-section currently-section"
+        aria-labelledby="currently-title"
+      >
         <h2 id="currently-title">Currently</h2>
         <Currently />
       </section>
@@ -20,10 +23,12 @@ export default async function HomePage() {
       <section className="editorial-section" aria-labelledby="journey-title">
         <h2 id="journey-title">Journey</h2>
         <div className="section-copy">
-          <p className="section-lede">One life, viewed through different threads.</p>
+          <p className="section-lede">
+            One life, viewed through different threads.
+          </p>
           <p>
-            Follow the story through travel, technology, community service or the
-            inner life.
+            Follow the story through travel, technology, community service or
+            the inner life.
           </p>
           <Link className="text-link section-link" href="/journey">
             Choose a path
@@ -40,10 +45,12 @@ export default async function HomePage() {
         <section className="editorial-section" aria-labelledby="projects-title">
           <h2 id="projects-title">Projects</h2>
           <div className="section-copy">
-            <p className="section-lede">A record of software and experiments.</p>
+            <p className="section-lede">
+              A record of software and experiments.
+            </p>
             <p>
-              Projects I&apos;m ready to share will appear here, alongside what they
-              taught me.
+              Projects I&apos;m ready to share will appear here, alongside what
+              they taught me.
             </p>
             <Link className="text-link section-link" href="/projects">
               View projects
@@ -60,8 +67,8 @@ export default async function HomePage() {
             the tools.
           </p>
           <p>
-            Today I work in software, study ideas across disciplines and learn in
-            public through writing, travel and direct experience.
+            Today I work in software, study ideas across disciplines and learn
+            in public through writing, travel and direct experience.
           </p>
           <Link className="text-link section-link" href="/about">
             More about me
