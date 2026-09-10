@@ -8,7 +8,6 @@ import {
   motion,
   useReducedMotion,
   useScroll,
-  type Variants,
 } from "framer-motion";
 import {
   filterJourneyChapters,
@@ -20,31 +19,6 @@ import {
   type JourneyOrder,
   type JourneyTheme,
 } from "@/lib/journey";
-
-const easeOut = [0.22, 1, 0.36, 1] as const;
-
-const timelineVariants: Variants = {
-  hidden: {},
-  visible: {
-    transition: {
-      delayChildren: 0.08,
-      staggerChildren: 0.1,
-    },
-  },
-  exit: {
-    opacity: 0,
-    transition: { duration: 0.18 },
-  },
-};
-
-const chapterVariants: Variants = {
-  hidden: { opacity: 0, y: 18 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.62, ease: easeOut },
-  },
-};
 
 function routeName(themes: JourneyTheme[]) {
   if (themes.length === 0) return "The whole journey";
@@ -142,40 +116,28 @@ export function JourneyExplorer() {
             </p>
 
             <div className="journey-filter-grid">
-              <motion.button
+              <button
                 className={`journey-filter-option journey-filter-all${
                   chosenThemes.length === 0 ? " is-selected" : ""
                 }`}
                 type="button"
                 aria-pressed={chosenThemes.length === 0}
                 onClick={() => setChosenThemes([])}
-                whileHover={reduceMotion ? undefined : { z: 10, rotateX: -1.2 }}
-                whileTap={reduceMotion ? undefined : { scale: 0.99 }}
-                transition={{ type: "tween", duration: 0.16, ease: "easeOut" }}
               >
                 <span>
                   <strong>Whole story</strong>
                   <small>From Punjab to the chapter still unfolding.</small>
                 </span>
                 <span className="journey-choice-mark" aria-hidden="true" />
-              </motion.button>
+              </button>
 
               {journeyThemes.map((theme) => {
                 const selected = chosenThemes.includes(theme.id);
 
                 return (
-                  <motion.label
+                  <label
                     className={`journey-filter-option${selected ? " is-selected" : ""}`}
                     key={theme.id}
-                    whileHover={
-                      reduceMotion ? undefined : { z: 10, rotateX: -1.2 }
-                    }
-                    whileTap={reduceMotion ? undefined : { scale: 0.99 }}
-                    transition={{
-                      type: "tween",
-                      duration: 0.16,
-                      ease: "easeOut",
-                    }}
                   >
                     <input
                       className="journey-filter-input"
@@ -190,22 +152,16 @@ export function JourneyExplorer() {
                       <small>{theme.description}</small>
                     </span>
                     <span className="journey-choice-mark" aria-hidden="true" />
-                  </motion.label>
+                  </label>
                 );
               })}
             </div>
           </fieldset>
 
           <div className="journey-filter-actions">
-            <motion.button
-              className="journey-submit"
-              type="submit"
-              whileHover={reduceMotion ? undefined : { y: -2 }}
-              whileTap={reduceMotion ? undefined : { y: 0, scale: 0.99 }}
-              transition={{ type: "tween", duration: 0.16, ease: "easeOut" }}
-            >
+            <button className="journey-submit" type="submit">
               Show this journey
-            </motion.button>
+            </button>
             <p aria-live="polite">
               Ready to show: <span>{routeName(chosenThemes)}</span>
             </p>
@@ -269,32 +225,22 @@ export function JourneyExplorer() {
               className="journey-timeline"
               ref={timelineRef}
               key={routeKey}
-              variants={timelineVariants}
-              initial={reduceMotion ? false : "hidden"}
-              animate="visible"
-              exit={reduceMotion ? undefined : "exit"}
+              initial={false}
+              animate={{ opacity: 1 }}
+              exit={reduceMotion ? undefined : { opacity: 0 }}
             >
               {visibleChapters.map((chapter) => (
-                <motion.li
-                  className="journey-chapter"
+                <li
+                  className="journey-chapter editorial-reveal"
                   id={chapter.id}
                   key={chapter.id}
                   aria-labelledby={`${chapter.id}-title`}
-                  variants={chapterVariants}
                 >
                   <div className="journey-marker" aria-hidden="true">
-                    <motion.span
-                      className="journey-chapter-number"
-                      variants={chapterVariants}
-                    >
+                    <span className="journey-chapter-number">
                       {String(chapter.sequence).padStart(2, "0")}
-                    </motion.span>
-                    <motion.span
-                      className="journey-thread-segment"
-                      initial={reduceMotion ? false : { scaleY: 0 }}
-                      animate={{ scaleY: 1 }}
-                      transition={{ duration: 0.7, delay: 0.18, ease: easeOut }}
-                    />
+                    </span>
+                    <span className="journey-thread-segment" />
                   </div>
 
                   <article className="journey-chapter-copy">
@@ -369,7 +315,7 @@ export function JourneyExplorer() {
                       </ul>
                     )}
                   </article>
-                </motion.li>
+                </li>
               ))}
             </motion.ol>
           </AnimatePresence>
