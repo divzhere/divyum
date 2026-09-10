@@ -1,2 +1,4 @@
+pnpm lint
+pnpm typecheck
 pnpm test:unit
 pnpm build
