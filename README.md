@@ -178,6 +178,45 @@ a non-draft cannot have a future publication date.
 
 Projects use the same model in `content/projects`, with optional `year`, `status` and `website` fields. Supported statuses are `Building`, `Active`, `Experiment` and `Archived`.
 
+## Publish a framework
+
+Add an `.mdx` file to `content/frameworks`:
+
+```mdx
+---
+title: "The Framework Name"
+subtitle: "A one-sentence framing"
+origin: "Who it comes from"
+lineage: "western" # western | eastern | personal
+domains:
+  - attention
+visual: "EisenhowerMatrix" # must name an implemented visual component
+related:
+  - "another-framework-slug"
+publishedAt: "2026-09-15"
+draft: false
+---
+
+## What it says
+
+## How I use it
+
+## Where it comes from
+```
+
+The `visual` key must be one of the implemented components in
+`components/frameworks/`; an unknown key fails the build and names the
+implemented visuals. `related` slugs must exist. To add a new visual:
+
+1. Build the component in `components/frameworks/<name>.tsx`. Server-render a
+   complete SVG/CSS composition; make every interactive element a real button
+   with a visible focus state; use one hue from the `--fw-*` scale in
+   `app/globals.css`.
+2. Register it in `components/frameworks/index.tsx` and add its key to
+   `frameworkVisualKeys` in `lib/frameworks-meta.ts` (a unit test keeps the
+   two in lockstep). Add a small glyph in `components/frameworks/glyphs.tsx`.
+3. Rebuild and refresh visual baselines if the index page changed.
+
 ## Update the site
 
 - Edit the current snapshot in `lib/currently.ts`.
