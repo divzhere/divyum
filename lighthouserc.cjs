@@ -25,7 +25,8 @@ module.exports = {
       },
     },
     assert: {
-      aggregationMethod: "median-run",
+      // Use each metric's median; median-run accepts the best category score.
+      aggregationMethod: "median",
       assertions: {
         "categories:performance": ["error", { minScore: 0.95 }],
         "categories:accessibility": ["error", { minScore: 1 }],

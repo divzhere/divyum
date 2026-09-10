@@ -116,7 +116,7 @@ name/axis composition and actual diagrams, not generic cream-and-serif styling.
 | 5 / 19, 33                   | Progressive horizon route transitions                               | Native 450ms horizon verified; supported/unsupported/reduced-motion, rapid navigation and browser Back pass                                   |
 | 6 / 35–39, 47–48             | Polish, responsive/no-JS/slow-network/keyboard/touch, SEO, quality  | Normal build: 106 unit/integration and 473 browser checks pass; desktop Lighthouse 100 in all categories on 13 routes; final mobile run below |
 | Review / 02, 42–45, 49–52    | `awwwards-v3-results.md`, all 15 requested report items             | Dedicated visual critique complete; content remains honestly below the aspirational content score, with P2 author work listed                 |
-| Launch / handoff             | Approval, merge, exact Vercel SHA, public smoke, release tag/record | Screenshot approved; decision requested for the remaining strict mobile LCP gap; keep production on V2 until resolved                         |
+| Launch / handoff             | Approval, merge, exact Vercel SHA, public smoke, release tag/record | Screenshot approved; local LCP and deployed mobile score/LCP gaps documented; keep production on V2 until the launch decision is resolved     |
 
 Final technical gates: lint, types, unit/integration, build, Chromium/WebKit,
 axe, Lighthouse >=95 with accessibility 100, zero runtime errors/overflow,

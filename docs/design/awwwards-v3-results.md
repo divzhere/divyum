@@ -152,9 +152,48 @@ than silently changing that target. The final decision and deployment evidence
 belong in the native GitHub release record after production verification.
 These are local lab measurements, not guarantees of every connection.
 
+### Deployed mobile follow-up and gate correction — 11 September
+
+The protected Vercel preview on `c882deaa` was also measured with default mobile
+throttling, three runs per route. This is additional deployment evidence, not a
+replacement for the local comparison above:
+
+| Route          | Performance scores | Median performance | Median LCP | CLS |
+| -------------- | ------------------ | -----------------: | ---------: | --: |
+| Home           | 92 / 87 / 98       |                 92 |    1,606ms |   0 |
+| Journey        | 91 / 91 / 100      |                 91 |    2,150ms |   0 |
+| Knowledge Tree | 100 / 99 / 99      |                 99 |    1,491ms |   0 |
+
+Accessibility and best practices scored 100 in all nine runs. SEO scored 66
+because Vercel deliberately sends `x-robots-tag: noindex` on this protected
+preview. The temporary share URL redirects to the actual page. Do not treat
+these preview SEO results as production results or remove preview protection.
+Production metadata must still be verified after a real production deployment.
+
+**The launch hold now includes the 95 performance score target on Home and
+Journey, as well as the remaining LCP gap.** No production deployment or exception
+approval has occurred. Raw reports are retained locally under
+`.gstack/v3/lighthouse-vercel-mobile/`; they are not public artifacts.
+
+This run exposed a verification issue: in the installed Lighthouse CI version,
+`median-run` category assertions accept the best category score across runs.
+The release configuration now uses `median` so each metric is checked at its
+actual median. Five regression tests exercise the installed assertion engine
+with controlled reports; all five first failed against the old configuration
+and then passed after the correction. Score thresholds were not lowered.
+Re-evaluating the existing local reports still fails the three LCP targets;
+re-evaluating the preview reports also correctly fails the two score targets.
+
+A separate diagnostic blocked speculative RSC prefetch requests on Home. The
+unused Journey download disappeared, but median LCP remained 2,516ms, so that
+hypothesis was rejected and navigation prefetching was left unchanged. Neither
+this diagnostic nor the gate correction changes the approved visual design.
+
 ## 12. Accessibility and technical evidence
 
-- Lint and 106 unit/integration tests pass; statement coverage 96.77%.
+- Fresh quality run after the gate correction: lint, types, content validation,
+  111 unit/integration tests, production build and bundle check pass; statement
+  coverage 96.77%. The 13 saved final desktop reports also pass the corrected gate.
 - Production compilation and type checking pass with native transitions.
 - Reading specimens caught and fixed keyboard-inaccessible table/code overflow.
 - 403 core E2E checks passed at 375/768/1440 in Chromium and WebKit (287 scoped
