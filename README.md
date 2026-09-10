@@ -217,6 +217,23 @@ implemented visuals. `related` slugs must exist. To add a new visual:
    two in lockstep). Add a small glyph in `components/frameworks/glyphs.tsx`.
 3. Rebuild and refresh visual baselines if the index page changed.
 
+## Add a book to the library
+
+The shelf on `/library` merges two sources:
+
+- `lib/library-seed.ts` — one file of placeholder spines. Replace its entries
+  with real books (title, author, year, status, themes, coverColor) to fill
+  the shelf in five minutes. Seed entries never link anywhere.
+- `content/library/<slug>.mdx` — a book with reading notes. Same fields in
+  frontmatter (`kind: "book"`, `status`: `reading` | `read` | `rereading` |
+  `shelved`, `coverColor` as a six-digit hex, `themes`); the MDX body holds
+  the notes. A book with a non-empty body gets `/library/<slug>`; an empty
+  body keeps it as an unlinked spine. Drafts stay entirely hidden.
+
+The `kind` field also accepts `paper`, `person` and `idea` for later phases;
+only `book` renders today. No cover images — spines are typographic by
+design.
+
 ## Update the site
 
 - Edit the current snapshot in `lib/currently.ts`.

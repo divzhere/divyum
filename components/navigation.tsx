@@ -6,6 +6,7 @@ const navigation = [
   { href: "/essays", label: "Essays" },
   { href: "/notes", label: "Notes" },
   { href: "/frameworks", label: "Frameworks" },
+  { href: "/library", label: "Library" },
   { href: "/journey", label: "Journey" },
   ...(siteConfig.projectsVisible
     ? [{ href: "/projects", label: "Projects" }]

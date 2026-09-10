@@ -2476,3 +2476,95 @@ html[data-theme="dark"] {
     padding-left: calc(var(--limb-depth) * 0.55rem);
   }
 }
+
+/* ------------------------------------------------------------------ */
+/* Library — a shelf of typographic spines                             */
+/* ------------------------------------------------------------------ */
+
+.library {
+  display: grid;
+  gap: 1.6rem;
+}
+
+.library-shelf {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 0.55rem;
+  margin: 0;
+  padding: 0 0 0.9rem;
+  list-style: none;
+  border-bottom: 3px solid var(--rule);
+}
+
+.library-slot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.library-spine {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 15rem;
+  padding: 1rem 0.55rem;
+  border: 1px solid color-mix(in srgb, var(--spine) 55%, var(--rule));
+  border-radius: 2px;
+  background: linear-gradient(
+    color-mix(in srgb, var(--spine) 14%, var(--paper)),
+    color-mix(in srgb, var(--spine) 22%, var(--paper))
+  );
+  color: var(--ink);
+  text-decoration: none;
+  writing-mode: vertical-rl;
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease;
+}
+
+a.library-spine:hover,
+a.library-spine:focus-visible {
+  transform: translateY(-0.4rem);
+  border-color: var(--spine);
+}
+
+.library-slot[data-placeholder] .library-spine {
+  border-style: dashed;
+  opacity: 0.62;
+}
+
+.library-spine-title {
+  font-family: var(--font-literata), Georgia, serif;
+  font-size: 0.98rem;
+  letter-spacing: 0.01em;
+}
+
+.library-spine-author {
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+.library-slot-meta {
+  color: var(--muted);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.library-note {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+  font-style: italic;
+}
+
+@media (max-width: 640px) {
+  .library-spine {
+    min-height: 11.5rem;
+    padding: 0.75rem 0.4rem;
+  }
+}

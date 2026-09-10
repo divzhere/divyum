@@ -1,14 +1,16 @@
 import type { MetadataRoute } from "next";
 import { getAllContent } from "@/lib/content";
 import { getAllFrameworks } from "@/lib/frameworks";
+import { getAllLibraryEntries, hasReadingNotes } from "@/lib/library";
 import { absoluteUrl, siteConfig } from "@/lib/site";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [essays, notes, projects, frameworks] = await Promise.all([
+  const [essays, notes, projects, frameworks, library] = await Promise.all([
     getAllContent("essays"),
     getAllContent("notes"),
     getAllContent("projects"),
     getAllFrameworks(),
+    getAllLibraryEntries(),
   ]);
 
   const staticPages: MetadataRoute.Sitemap = [
@@ -19,6 +21,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       url: absoluteUrl("/frameworks"),
       changeFrequency: "monthly",
       priority: 0.8,
+    },
+    {
+      url: absoluteUrl("/library"),
+      changeFrequency: "monthly",
+      priority: 0.7,
     },
     { url: absoluteUrl("/journey"), changeFrequency: "monthly", priority: 0.8 },
     ...(siteConfig.projectsVisible
@@ -53,5 +60,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }));
 
-  return [...staticPages, ...contentPages, ...frameworkPages];
+  const bookPages: MetadataRoute.Sitemap = library
+    .filter((entry) => hasReadingNotes(entry))
+    .map((entry) => ({
+      url: absoluteUrl(`/library/${entry.slug}`),
+      lastModified: new Date(entry.updatedAt ?? entry.publishedAt),
+      changeFrequency: "monthly" as const,
+      priority: 0.6,
+    }));
+
+  return [...staticPages, ...contentPages, ...frameworkPages, ...bookPages];
 }

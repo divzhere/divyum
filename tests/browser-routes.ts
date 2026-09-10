@@ -3,6 +3,7 @@ export const publicRoutes = [
   { path: "/essays", heading: "Essays", snapshot: "essays" },
   { path: "/notes", heading: "Notes", snapshot: "notes" },
   { path: "/frameworks", heading: "Frameworks", snapshot: "frameworks" },
+  { path: "/library", heading: "Library", snapshot: "library" },
   {
     path: "/frameworks/eisenhower-matrix",
     heading: "The Eisenhower Matrix",

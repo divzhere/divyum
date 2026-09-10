@@ -9,7 +9,7 @@ let content;
 beforeEach(async () => {
   fixtureRoot = await mkdtemp(path.join(tmpdir(), "divyum-content-test-"));
   await Promise.all(
-    ["essays", "notes", "projects", "frameworks"].map((kind) =>
+    ["essays", "notes", "projects", "frameworks", "library"].map((kind) =>
       mkdir(path.join(fixtureRoot, "content", kind), { recursive: true }),
     ),
   );
