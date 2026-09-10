@@ -228,7 +228,12 @@ a {
   left: 50%;
   width: 1px;
   height: 80%;
-  background: linear-gradient(transparent, var(--rule) 18%, var(--rule) 82%, transparent);
+  background: linear-gradient(
+    transparent,
+    var(--rule) 18%,
+    var(--rule) 82%,
+    transparent
+  );
   transform: translateX(-50%) translateZ(-45px);
 }
 
@@ -737,6 +742,11 @@ a {
   font-family: var(--font-literata), Georgia, serif;
   font-size: 0.82rem;
   line-height: 1.55;
+}
+
+.journey-filter-option:hover small,
+.journey-filter-option.is-selected small {
+  color: color-mix(in srgb, var(--muted) 80%, var(--ink));
 }
 
 .journey-filter-input {

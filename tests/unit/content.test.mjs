@@ -26,7 +26,12 @@ afterEach(async () => {
   if (fixtureRoot) await rm(fixtureRoot, { recursive: true, force: true });
 });
 
-async function entry(filename, fields = {}, body = "A small test entry.", kind = "essays") {
+async function entry(
+  filename,
+  fields = {},
+  body = "A small test entry.",
+  kind = "essays",
+) {
   const frontmatter = {
     title: "Fixture title",
     description: "Fixture description.",
@@ -46,12 +51,17 @@ async function entry(filename, fields = {}, body = "A small test entry.", kind =
 
 describe("published content", () => {
   it("returns normalized metadata and readable body from a markdown file", async () => {
-    await entry("first-note.md", {
-      title: "  A useful note  ",
-      description: "  A short description.  ",
-      tags: ["Technology", "Attention"],
-      featured: true,
-    }, "The public body.", "notes");
+    await entry(
+      "first-note.md",
+      {
+        title: "  A useful note  ",
+        description: "  A short description.  ",
+        tags: ["Technology", "Attention"],
+        featured: true,
+      },
+      "The public body.",
+      "notes",
+    );
 
     const result = await content.getContentBySlug("notes", "first-note");
 
@@ -73,10 +83,14 @@ describe("published content", () => {
     await entry("z-old.mdx", { publishedAt: "2023-01-01" });
     await entry("a-middle.md", { publishedAt: "2024-01-01" });
     await entry("m-new.mdx", { publishedAt: "2024-06-01" });
-    await writeFile(path.join(fixtureRoot, "content/essays/ignore.txt"), "not frontmatter");
+    await writeFile(
+      path.join(fixtureRoot, "content/essays/ignore.txt"),
+      "not frontmatter",
+    );
 
-    expect((await content.getAllContent("essays")).map(({ slug }) => slug))
-      .toEqual(["m-new", "a-middle", "z-old"]);
+    expect(
+      (await content.getAllContent("essays")).map(({ slug }) => slug),
+    ).toEqual(["m-new", "a-middle", "z-old"]);
   });
 
   it("does not publish drafts or entries without an explicit draft decision", async () => {
@@ -84,8 +98,9 @@ describe("published content", () => {
     await entry("draft.mdx", { draft: true });
     await entry("undecided.mdx", { draft: undefined });
 
-    expect((await content.getAllContent("essays")).map(({ slug }) => slug))
-      .toEqual(["public"]);
+    expect(
+      (await content.getAllContent("essays")).map(({ slug }) => slug),
+    ).toEqual(["public"]);
     expect(await content.getContentBySlug("essays", "draft")).toBeNull();
     expect(await content.getContentBySlug("essays", "undecided")).toBeNull();
   });
@@ -93,8 +108,9 @@ describe("published content", () => {
   it("resolves an explicit slug without exposing the source filename as another URL", async () => {
     await entry("source-name.mdx", { slug: "public-name" });
 
-    expect(await content.getContentBySlug("essays", "public-name"))
-      .toMatchObject({ slug: "public-name" });
+    expect(
+      await content.getContentBySlug("essays", "public-name"),
+    ).toMatchObject({ slug: "public-name" });
     expect(await content.getContentBySlug("essays", "source-name")).toBeNull();
     expect(await content.getContentBySlug("essays", "missing")).toBeNull();
   });
@@ -103,19 +119,42 @@ describe("published content", () => {
     await entry("shared.mdx", { title: "Essay version" });
     await entry("shared.mdx", { title: "Note version" }, "A note.", "notes");
 
-    expect(await content.getContentBySlug("essays", "shared"))
-      .toMatchObject({ title: "Essay version", kind: "essays" });
-    expect(await content.getContentBySlug("notes", "shared"))
-      .toMatchObject({ title: "Note version", kind: "notes" });
+    expect(await content.getContentBySlug("essays", "shared")).toMatchObject({
+      title: "Essay version",
+      kind: "essays",
+    });
+    expect(await content.getContentBySlug("notes", "shared")).toMatchObject({
+      title: "Note version",
+      kind: "notes",
+    });
+  });
+
+  it("validates every current collection in one content-check pass", async () => {
+    await entry("essay.mdx");
+    await entry("note.mdx", {}, "A note.", "notes");
+    await entry(
+      "project.mdx",
+      { status: "Building" },
+      "A project.",
+      "projects",
+    );
+
+    await expect(content.validateAllContent()).resolves.toBeUndefined();
   });
 
   it.each([
     ["empty", "", 1],
-    ["one-minute", `${"word ".repeat(220)}<Aside label="not reading text" />`, 1],
+    [
+      "one-minute",
+      `${"word ".repeat(220)}<Aside label="not reading text" />`,
+      1,
+    ],
     ["two-minutes", "word ".repeat(221), 2],
   ])("computes a bounded reading time for %s", async (slug, body, minutes) => {
     await entry(`${slug}.mdx`, {}, body);
-    expect((await content.getContentBySlug("essays", slug)).readingTime).toBe(minutes);
+    expect((await content.getContentBySlug("essays", slug)).readingTime).toBe(
+      minutes,
+    );
   });
 });
 
@@ -133,11 +172,14 @@ describe("content neighbours", () => {
     ["newest", "middle", null],
     ["missing", null, null],
     ["hidden", null, null],
-  ])("finds public chronological neighbours for %s", async (slug, previous, next) => {
-    const result = await content.getContentNeighbours("essays", slug);
-    expect(result.previous?.slug ?? null).toBe(previous);
-    expect(result.next?.slug ?? null).toBe(next);
-  });
+  ])(
+    "finds public chronological neighbours for %s",
+    async (slug, previous, next) => {
+      const result = await content.getContentNeighbours("essays", slug);
+      expect(result.previous?.slug ?? null).toBe(previous);
+      expect(result.next?.slug ?? null).toBe(next);
+    },
+  );
 });
 
 describe("frontmatter integrity", () => {
@@ -149,7 +191,9 @@ describe("frontmatter integrity", () => {
     await entry("invalid.mdx", { [field]: value });
 
     await expect(content.getAllContent("essays")).rejects.toThrow(field);
-    await expect(content.getAllContent("essays")).rejects.toThrow("invalid.mdx");
+    await expect(content.getAllContent("essays")).rejects.toThrow(
+      "invalid.mdx",
+    );
   });
 
   // These V2 contracts must remain failing until schema validation is implemented.
@@ -157,19 +201,25 @@ describe("frontmatter integrity", () => {
     await entry("first.mdx", { slug: "duplicate" });
     await entry("second.mdx", { slug: "duplicate" });
 
-    await expect(content.getAllContent("essays")).rejects.toThrow(/slug|duplicate/i);
+    await expect(content.getAllContent("essays")).rejects.toThrow(
+      /slug|duplicate/i,
+    );
   });
 
   it("rejects a non-draft with a future publication date", async () => {
     await entry("future.mdx", { publishedAt: "9999-01-01" });
 
-    await expect(content.getAllContent("essays")).rejects.toThrow(/publishedAt|future/i);
+    await expect(content.getAllContent("essays")).rejects.toThrow(
+      /publishedAt|future/i,
+    );
   });
 
   it("rejects a calendar date that would otherwise silently roll into March", async () => {
     await entry("invalid-date.mdx", { publishedAt: "2024-02-30" });
 
-    await expect(content.getAllContent("essays")).rejects.toThrow(/publishedAt|date/i);
+    await expect(content.getAllContent("essays")).rejects.toThrow(
+      /publishedAt|date/i,
+    );
   });
 
   it("allows a future-dated draft without publishing it", async () => {
