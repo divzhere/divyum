@@ -277,15 +277,28 @@ duplicates. Medium stopped issuing integration tokens on 1 January 2025 and
 Substack has no documented write API, so those platforms use the generated
 files.
 
+## Add a journey chapter
+
+Journey copy and structure live in `lib/journey.ts`. Add a `JourneyChapter`
+there with a permanent, URL-safe `id`, a unique `sequence`, one or more
+`themes`, and a `primaryTheme` used by the thematic view. The `id` becomes the
+shareable fragment (`/journey#chapter-id`), so do not change it after publishing.
+
+Use `type: "professional"` with `professional.role`, `organisation`, `years`
+and `built` for a work chapter. Only add facts that are already public; use
+`null` and a `TODO(divyum)` comment when an organisation or detail is not ready
+to publish. Never add the current employer. The optional `media` field accepts
+one personally supplied image with `src`, descriptive `alt`, `width`, `height`
+and an optional `caption`; no chapter ships with a placeholder image.
+
+The filter and animation behavior stays in
+`components/journey-explorer.tsx`. Supported thread IDs are defined once in
+`journeyThemes`; the URL uses `?thread=travel,technology` and the alternate
+ordering uses `?order=thematic`.
+
 ## Update the site
 
 - Edit the current snapshot in `lib/currently.ts`.
 - Edit journey chapters and their filters in `lib/journey.ts`.
 - Add real social profiles, email and a newsletter URL in `lib/site.ts`; empty values stay hidden.
 - Set `NEXT_PUBLIC_SITE_URL` to the production origin. The fallback is `https://divyumbhumra.com`.
-- A future `/library` section can use the same page shell and content loader without changing existing URLs.
-
-Framework, book scaffolding and syndication are not available yet. Their ordered
-feature PRs will add the exact authoring commands and examples here when the data
-models exist. Until then, do not create ad-hoc framework or library files that
-bypass validation.

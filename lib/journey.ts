@@ -23,14 +23,35 @@ export const journeyThemes = [
 
 export type JourneyTheme = (typeof journeyThemes)[number]["id"];
 
+export type JourneyOrder = "chronological" | "thematic";
+
+export type JourneyMedia = {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+  caption?: string;
+};
+
+export type JourneyProfessionalDetails = {
+  role: string;
+  organisation: string | null;
+  years: string;
+  built: string;
+};
+
 export type JourneyChapter = {
   id: string;
   sequence: number;
+  type?: "life" | "professional";
   phase: string;
   place: string;
   title: string;
   summary: string;
   themes: readonly JourneyTheme[];
+  primaryTheme: JourneyTheme | null;
+  professional?: JourneyProfessionalDetails;
+  media?: JourneyMedia;
   anchor?: boolean;
 };
 
@@ -44,17 +65,19 @@ export const journeyChapters: readonly JourneyChapter[] = [
     summary:
       "My story begins in Punjab. It is the first place in this journey and the starting point for everything that followed.",
     themes: ["travel", "inner-life"],
+    primaryTheme: "travel",
     anchor: true,
   },
   {
     id: "pu",
     sequence: 2,
     phase: "Education",
-    place: "PU",
+    place: "Panjab University",
     title: "The university years",
     summary:
-      "I studied at PU. This chapter will eventually hold the people, ideas and turning points that shaped those years.",
+      "I studied at Panjab University. This chapter will eventually hold the people, ideas and turning points that shaped those years.",
     themes: [],
+    primaryTheme: null,
   },
   {
     id: "rotary",
@@ -65,16 +88,26 @@ export const journeyChapters: readonly JourneyChapter[] = [
     summary:
       "I became president of Rotary Chandigarh Himalayan, taking on a chapter centred on leadership, responsibility and community service.",
     themes: ["community"],
+    primaryTheme: "community",
   },
   {
     id: "technology",
     sequence: 4,
     phase: "Work",
     place: "Technology",
+    type: "professional",
     title: "Finding my way into technology",
     summary:
       "I moved into technology and began building software. This chapter will grow into a detailed record of the roles, systems, products and technical lessons that shaped me.",
     themes: ["technology"],
+    primaryTheme: "technology",
+    professional: {
+      role: "Software engineer",
+      // TODO(divyum): add a previous, already-public organisation when ready.
+      organisation: null,
+      years: "7+ years",
+      built: "Software products and systems.",
+    },
   },
   {
     id: "remote-life",
@@ -85,6 +118,7 @@ export const journeyChapters: readonly JourneyChapter[] = [
     summary:
       "Remote work gave me the freedom to work from different places. Over time, that became a digital-nomad way of life.",
     themes: ["technology", "travel"],
+    primaryTheme: "technology",
   },
   {
     id: "travel",
@@ -95,6 +129,7 @@ export const journeyChapters: readonly JourneyChapter[] = [
     summary:
       "I began travelling more often, learning through unfamiliar places, conversations and the experience of living outside a fixed routine.",
     themes: ["travel"],
+    primaryTheme: "travel",
   },
   {
     id: "yoga",
@@ -105,6 +140,7 @@ export const journeyChapters: readonly JourneyChapter[] = [
     summary:
       "Somewhere along the way I found yoga, grew a beard and started paying closer attention to consciousness and the inner life.",
     themes: ["inner-life"],
+    primaryTheme: "inner-life",
   },
   {
     id: "now",
@@ -115,6 +151,58 @@ export const journeyChapters: readonly JourneyChapter[] = [
     summary:
       "Software, remote work, travel, service, writing and the study of consciousness now share the same path. This page will keep changing as the journey does.",
     themes: ["travel", "technology", "community", "inner-life"],
+    primaryTheme: "inner-life",
     anchor: true,
   },
 ];
+
+const journeyThemeIds = journeyThemes.map(({ id }) => id);
+
+export function parseJourneyThreads(
+  value: string | string[] | undefined,
+): JourneyTheme[] {
+  const requested = new Set(
+    (Array.isArray(value) ? value : [value ?? ""])
+      .flatMap((part) => part.split(","))
+      .map((part) => part.trim()),
+  );
+
+  return journeyThemeIds.filter((theme) => requested.has(theme));
+}
+
+export function parseJourneyOrder(
+  value: string | string[] | undefined,
+): JourneyOrder {
+  const selected = Array.isArray(value) ? value[0] : value;
+  return selected === "thematic" ? "thematic" : "chronological";
+}
+
+export function filterJourneyChapters(
+  themes: readonly JourneyTheme[],
+): JourneyChapter[] {
+  if (themes.length === 0) return [...journeyChapters];
+
+  return journeyChapters.filter(
+    (chapter) =>
+      chapter.anchor || chapter.themes.some((theme) => themes.includes(theme)),
+  );
+}
+
+export function sortJourneyChapters(
+  chapters: readonly JourneyChapter[],
+  order: JourneyOrder,
+): JourneyChapter[] {
+  if (order === "chronological") {
+    return [...chapters].sort((a, b) => a.sequence - b.sequence);
+  }
+
+  return [...chapters].sort((a, b) => {
+    const aTheme = a.primaryTheme
+      ? journeyThemeIds.indexOf(a.primaryTheme)
+      : journeyThemeIds.length;
+    const bTheme = b.primaryTheme
+      ? journeyThemeIds.indexOf(b.primaryTheme)
+      : journeyThemeIds.length;
+    return aTheme - bTheme || a.sequence - b.sequence;
+  });
+}
