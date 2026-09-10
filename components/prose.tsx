@@ -4,8 +4,12 @@ import Link from "next/link";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import remarkGfm from "remark-gfm";
 
-function MdxLink({ href = "", children, ...props }: ComponentPropsWithoutRef<"a">) {
-  if (href.startsWith("/")) {
+function MdxLink({
+  href = "",
+  children,
+  ...props
+}: ComponentPropsWithoutRef<"a">) {
+  if (href.startsWith("/") || href.startsWith("#")) {
     return (
       <Link href={href} {...props}>
         {children}

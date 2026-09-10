@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import matter from "gray-matter";
 import {
   assertSupportedMdx,
   renderHashnodeMarkdown,
@@ -87,6 +88,15 @@ describe("platform routing suggestion", () => {
 });
 
 describe("renderers", () => {
+  it("preserves backslashes and quotes in the exported Hashnode title", () => {
+    const title = String.raw`Reading "C:\notes"`;
+    const output = renderHashnodeMarkdown(
+      { ...fixtureEntry, title },
+      canonical,
+    );
+    expect(matter(output).data.title).toBe(title);
+  });
+
   it("strips authoring comments from every output", async () => {
     const hashnode = renderHashnodeMarkdown(fixtureEntry, canonical);
     const medium = renderMediumMarkdown(fixtureEntry, canonical);

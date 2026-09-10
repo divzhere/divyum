@@ -89,7 +89,7 @@ export function renderHashnodeMarkdown(entry: ContentEntry, canonical: string) {
   const body = absolutize(stripMdxComments(entry.body).trim(), origin);
 
   return `---
-title: "${entry.title.replace(/"/g, '\\"')}"
+title: ${JSON.stringify(entry.title)}
 canonicalUrl: ${canonical}
 tags: ${entry.tags.map((tag) => tag.toLowerCase().replace(/[^a-z0-9]+/g, "-")).join(", ")}
 ---

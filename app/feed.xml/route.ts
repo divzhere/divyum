@@ -14,7 +14,7 @@ export async function GET() {
 
   const frameworkItems = frameworks.map((framework) => ({
     title: framework.title,
-    description: framework.subtitle,
+    description: framework.description,
     publishedAt: framework.publishedAt,
     kind: "frameworks",
     slug: framework.slug,

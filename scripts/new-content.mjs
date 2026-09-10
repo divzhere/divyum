@@ -36,11 +36,11 @@ if (!slug) {
   process.exit(1);
 }
 
-const escapedTitle = title.replace(/"/g, '\\"');
+const escapedTitle = JSON.stringify(title);
 
 const templates = {
   essay: `---
-title: "${escapedTitle}"
+title: ${escapedTitle}
 description: "TODO(divyum): a clear one-sentence description."
 publishedAt: "${today}"
 tags: []
@@ -51,7 +51,7 @@ draft: true
 The writing begins here.
 `,
   note: `---
-title: "${escapedTitle}"
+title: ${escapedTitle}
 description: "TODO(divyum): a clear one-sentence description."
 publishedAt: "${today}"
 tags: []
@@ -62,7 +62,8 @@ draft: true
 The observation begins here.
 `,
   framework: `---
-title: "${escapedTitle}"
+title: ${escapedTitle}
+description: "TODO(divyum): a clear one-sentence description."
 subtitle: "TODO(divyum): a one-sentence framing"
 origin: "TODO(divyum): who it comes from"
 lineage: "western"
@@ -82,7 +83,8 @@ draft: true
 `,
   book: `---
 kind: "book"
-title: "${escapedTitle}"
+title: ${escapedTitle}
+description: "TODO(divyum): a clear one-sentence description of these notes."
 author: "TODO(divyum): the author"
 status: "read"
 themes:

@@ -16,6 +16,7 @@ const validEntry = ({
   publishedAt = "2026-09-01",
 } = {}) => `---
 title: "${title}"
+description: "A description for search and feeds."
 subtitle: "A one-line framing"
 ${slug ? `slug: "${slug}"` : ""}
 origin: "Someone"
@@ -66,6 +67,26 @@ async function load() {
 }
 
 describe("framework content model", () => {
+  it("rejects a published framework without a description", async () => {
+    await write(
+      "missing-description.mdx",
+      validEntry().replace(/^description:.*\n/m, ""),
+    );
+    await expect(load()).rejects.toThrow(
+      /missing-description.mdx: description/,
+    );
+  });
+
+  it("rejects a future publication date but keeps future drafts private", async () => {
+    await write("future.mdx", validEntry({ publishedAt: "9999-01-01" }));
+    await expect(load()).rejects.toThrow(/future.mdx: publishedAt.*future/);
+    await write(
+      "future.mdx",
+      validEntry({ publishedAt: "9999-01-01", draft: true }),
+    );
+    expect(await load()).toEqual([]);
+  });
+
   it("parses a valid entry, derives the slug from the filename and excludes drafts", async () => {
     await write("first-tool.mdx", validEntry());
     await write("hidden.mdx", validEntry({ draft: true }));

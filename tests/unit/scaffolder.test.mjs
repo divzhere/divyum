@@ -29,6 +29,33 @@ async function scaffold(...args) {
 }
 
 describe("content:new scaffolder", () => {
+  it.each(["essay", "note", "framework", "book"])(
+    "preserves quotes and backslashes in a %s title",
+    async (type) => {
+      const title = String.raw`The "C:\notes" experiment`;
+      await scaffold(type, title);
+      const directory = {
+        essay: "essays",
+        note: "notes",
+        framework: "frameworks",
+        book: "library",
+      }[type];
+      const { data } = matter(
+        await readFile(
+          path.join(
+            fixtureRoot,
+            "content",
+            directory,
+            "the-c-notes-experiment.mdx",
+          ),
+          "utf8",
+        ),
+      );
+      expect(data.title).toBe(title);
+      expect(data.description).toEqual(expect.any(String));
+    },
+  );
+
   it("creates a draft essay whose frontmatter passes the content schema", async () => {
     await scaffold("essay", "Attention & the Machine!");
 

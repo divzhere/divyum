@@ -34,7 +34,7 @@ export async function generateMetadata({
 
   return createMetadata({
     title: `${book.title} — reading notes`,
-    description: `Reading notes on ${book.title} by ${book.author}.`,
+    description: book.description,
     path: `/library/${book.slug}`,
     type: "article",
     publishedTime: book.publishedAt,
@@ -69,6 +69,7 @@ export default async function BookPage({ params }: BookPageProps) {
               url: siteConfig.url,
             },
             datePublished: book.publishedAt,
+            description: book.description,
           },
           inLanguage: "en",
         }}

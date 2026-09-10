@@ -188,6 +188,42 @@ test("journey chapter links are shareable and the professional chapter is explic
   await expect(details.getByText("7+ years")).toBeVisible();
 });
 
+test("a filtered journey deep link keeps its heading in view after hydration", async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.goto("/journey?thread=technology&order=thematic#technology");
+  await expect(page.locator(".journey-chapter")).toHaveCount(4);
+  await page.evaluate(() => document.fonts.ready);
+  await expect
+    .poll(async () => {
+      const heading = await page.locator("#technology-title").boundingBox();
+      return heading?.y ?? -1;
+    })
+    .toBeGreaterThanOrEqual(0);
+  await expect(page.locator("#technology-title")).toBeInViewport();
+});
+
+test("journey progress reaches the end of a URL-filtered thread", async ({
+  page,
+}) => {
+  await page.goto("/journey?thread=technology");
+  await expect(page.locator(".journey-chapter")).toHaveCount(4);
+  await page.evaluate(() => document.fonts.ready);
+  await page.evaluate(() =>
+    window.scrollTo(0, document.documentElement.scrollHeight),
+  );
+  await expect
+    .poll(() =>
+      page
+        .locator(".journey-reading-progress span")
+        .evaluate(
+          (node) => new DOMMatrixReadOnly(getComputedStyle(node).transform).a,
+        ),
+    )
+    .toBeGreaterThan(0.99);
+});
+
 test("journey URL filters remain readable without JavaScript", async ({
   browser,
   browserName,
