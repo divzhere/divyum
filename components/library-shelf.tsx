@@ -74,8 +74,13 @@ export function LibraryShelf({ entries }: { entries: ShelfEntry[] }) {
         {sorted.map((entry) => {
           const spine = (
             <>
+              <span className="library-spine-theme">
+                {entry.themes.join(" / ")}
+              </span>
               <span className="library-spine-title">{entry.title}</span>
-              <span className="library-spine-author">{entry.author}</span>
+              <span className="library-spine-author">
+                {entry.placeholder ? "Not added yet" : entry.author}
+              </span>
             </>
           );
 

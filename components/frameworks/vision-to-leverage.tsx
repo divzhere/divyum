@@ -79,59 +79,61 @@ export function VisionToLeverage() {
 
   return (
     <div className="fw-visual fw-v2l">
-      <svg
-        className="fw-v2l-svg"
-        viewBox="0 0 500 470"
-        role="img"
-        aria-label="Eight stages placed along a spiral that widens with each turn, from Sankalp at the centre to Building Leverage at the outer edge."
-      >
-        <path className="fw-v2l-spiral" d={spiralPath} />
-        {stagePoints.map((point, index) => (
-          <g key={point.id}>
-            <circle
-              className={`fw-v2l-node${selected === index ? " is-active" : ""}`}
-              cx={point.x}
-              cy={point.y}
-              r={selected === index ? 11 : 8}
-            />
-            <text
-              className="fw-v2l-num"
-              x={point.x}
-              y={point.y + 3.4}
-              textAnchor="middle"
-            >
-              {point.id}
-            </text>
-          </g>
-        ))}
-      </svg>
+      <div className="fw-v2l-canvas">
+        <svg
+          className="fw-v2l-svg"
+          viewBox="0 0 500 470"
+          role="img"
+          aria-label="Eight stages placed along a spiral that widens with each turn, from Sankalp at the centre to Building Leverage at the outer edge."
+        >
+          <path className="fw-v2l-spiral" d={spiralPath} />
+          {stagePoints.map((point, index) => (
+            <g key={point.id}>
+              <circle
+                className={`fw-v2l-node${selected === index ? " is-active" : ""}`}
+                cx={point.x}
+                cy={point.y}
+                r={selected === index ? 14 : 12}
+              />
+              <text
+                className="fw-v2l-num"
+                x={point.x}
+                y={point.y + 4.5}
+                textAnchor="middle"
+              >
+                {point.id}
+              </text>
+            </g>
+          ))}
+        </svg>
 
-      <div
-        className="fw-v2l-hotspots"
-        role="group"
-        aria-label="Eight stages. Use the arrow keys to move between them."
-        onKeyDown={onKeyDown}
-      >
-        {stagePoints.map((point, index) => (
-          <button
-            className="fw-hotspot fw-hotspot-stage"
-            key={point.id}
-            ref={(node) => {
-              buttonRefs.current[index] = node;
-            }}
-            type="button"
-            tabIndex={selected === index ? 0 : -1}
-            aria-pressed={selected === index}
-            aria-label={`Stage ${point.id}: ${point.name}, ${point.gloss}`}
-            onClick={() => setSelected(index)}
-            style={{
-              left: `${(point.x / 500) * 100}%`,
-              top: `${(point.y / 470) * 100}%`,
-            }}
-          >
-            <span aria-hidden="true" />
-          </button>
-        ))}
+        <div
+          className="fw-v2l-hotspots"
+          role="group"
+          aria-label="Eight stages. Use the arrow keys to move between them."
+          onKeyDown={onKeyDown}
+        >
+          {stagePoints.map((point, index) => (
+            <button
+              className="fw-hotspot fw-hotspot-stage"
+              key={point.id}
+              ref={(node) => {
+                buttonRefs.current[index] = node;
+              }}
+              type="button"
+              tabIndex={selected === index ? 0 : -1}
+              aria-pressed={selected === index}
+              aria-label={`Stage ${point.id}: ${point.name}, ${point.gloss}`}
+              onClick={() => setSelected(index)}
+              style={{
+                left: `${(point.x / 500) * 100}%`,
+                top: `${(point.y / 470) * 100}%`,
+              }}
+            >
+              <span aria-hidden="true" />
+            </button>
+          ))}
+        </div>
       </div>
 
       <div className="fw-v2l-detail" role="status">

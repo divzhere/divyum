@@ -84,82 +84,84 @@ export function KnowledgeTree() {
 
   return (
     <div className="fw-visual fw-tree">
-      <svg
-        className="fw-tree-svg"
-        viewBox="0 0 400 320"
-        role="img"
-        aria-label="A tree with a trunk, three big branches and seven leaves, drawn faint until each part is built. Leaves clicked before their branch exists fall off."
-      >
-        <line className="fw-tree-ground" x1={80} y1={288} x2={320} y2={288} />
-        <path
-          className={`fw-tree-trunk${trunkBuilt ? " is-built" : ""}`}
-          d="M200 288 C 198 272, 202 254, 200 240"
-        />
-        {branches.map((branch) => (
-          <path
-            className={`fw-tree-branch${
-              builtBranches.includes(branch.id) ? " is-built" : ""
-            }`}
-            key={branch.id}
-            d={branch.d}
-          />
-        ))}
-        {leaves.map((leaf) => (
-          <circle
-            className={`fw-tree-leaf${
-              attachedLeaves.includes(leaf.id) ? " is-built" : ""
-            }${fallingLeaf === leaf.id ? " is-falling" : ""}`}
-            key={leaf.id}
-            cx={leaf.x}
-            cy={leaf.y}
-            r={7}
-          />
-        ))}
-      </svg>
-
-      <div className="fw-tree-hotspots" aria-hidden={false}>
-        <button
-          className="fw-hotspot fw-hotspot-trunk"
-          type="button"
-          aria-pressed={trunkBuilt}
-          aria-label="Build the trunk: the fundamental principles"
-          onClick={clickTrunk}
-          style={{ left: "50%", top: "82%" }}
+      <div className="fw-tree-canvas">
+        <svg
+          className="fw-tree-svg"
+          viewBox="0 0 400 320"
+          role="img"
+          aria-label="A tree with a trunk, three big branches and seven leaves, drawn faint until each part is built. Leaves clicked before their branch exists fall off."
         >
-          <span aria-hidden="true" />
-        </button>
-        {branches.map((branch, index) => (
+          <line className="fw-tree-ground" x1={80} y1={288} x2={320} y2={288} />
+          <path
+            className={`fw-tree-trunk${trunkBuilt ? " is-built" : ""}`}
+            d="M200 288 C 198 272, 202 254, 200 240"
+          />
+          {branches.map((branch) => (
+            <path
+              className={`fw-tree-branch${
+                builtBranches.includes(branch.id) ? " is-built" : ""
+              }`}
+              key={branch.id}
+              d={branch.d}
+            />
+          ))}
+          {leaves.map((leaf) => (
+            <circle
+              className={`fw-tree-leaf${
+                attachedLeaves.includes(leaf.id) ? " is-built" : ""
+              }${fallingLeaf === leaf.id ? " is-falling" : ""}`}
+              key={leaf.id}
+              cx={leaf.x}
+              cy={leaf.y}
+              r={7}
+            />
+          ))}
+        </svg>
+
+        <div className="fw-tree-hotspots" aria-hidden={false}>
           <button
-            className="fw-hotspot"
-            key={branch.id}
+            className="fw-hotspot fw-hotspot-trunk"
             type="button"
-            aria-pressed={builtBranches.includes(branch.id)}
-            aria-label={`Build a big branch: a ${branch.label}`}
-            onClick={() => clickBranch(branch.id)}
-            style={{
-              left: `${[27, 53, 74][index]}%`,
-              top: `${[48, 40, 51][index]}%`,
-            }}
+            aria-pressed={trunkBuilt}
+            aria-label="Build the trunk: the fundamental principles"
+            onClick={clickTrunk}
+            style={{ left: "50%", top: "82%" }}
           >
             <span aria-hidden="true" />
           </button>
-        ))}
-        {leaves.map((leaf) => (
-          <button
-            className="fw-hotspot fw-hotspot-leaf"
-            key={leaf.id}
-            type="button"
-            aria-pressed={attachedLeaves.includes(leaf.id)}
-            aria-label="Attach a leaf: a detail"
-            onClick={() => clickLeaf(leaf.id, leaf.branch)}
-            style={{
-              left: `${(leaf.x / 400) * 100}%`,
-              top: `${(leaf.y / 320) * 100}%`,
-            }}
-          >
-            <span aria-hidden="true" />
-          </button>
-        ))}
+          {branches.map((branch, index) => (
+            <button
+              className="fw-hotspot"
+              key={branch.id}
+              type="button"
+              aria-pressed={builtBranches.includes(branch.id)}
+              aria-label={`Build a big branch: a ${branch.label}`}
+              onClick={() => clickBranch(branch.id)}
+              style={{
+                left: `${[37.5, 51.5, 62.5][index]}%`,
+                top: `${[58, 53, 61][index]}%`,
+              }}
+            >
+              <span aria-hidden="true" />
+            </button>
+          ))}
+          {leaves.map((leaf) => (
+            <button
+              className="fw-hotspot fw-hotspot-leaf"
+              key={leaf.id}
+              type="button"
+              aria-pressed={attachedLeaves.includes(leaf.id)}
+              aria-label="Attach a leaf: a detail"
+              onClick={() => clickLeaf(leaf.id, leaf.branch)}
+              style={{
+                left: `${(leaf.x / 400) * 100}%`,
+                top: `${(leaf.y / 320) * 100}%`,
+              }}
+            >
+              <span aria-hidden="true" />
+            </button>
+          ))}
+        </div>
       </div>
 
       <div className="fw-tree-footer">

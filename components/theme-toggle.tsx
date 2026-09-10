@@ -1,6 +1,5 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
 import { useSyncExternalStore } from "react";
 
 type Theme = "light" | "dark";
@@ -18,7 +17,6 @@ function getTheme(): Theme {
 
 export function ThemeToggle() {
   const theme = useSyncExternalStore(subscribe, getTheme, () => "light");
-  const reduceMotion = useReducedMotion();
 
   function toggleTheme() {
     const nextTheme: Theme = theme === "dark" ? "light" : "dark";
@@ -39,15 +37,7 @@ export function ThemeToggle() {
       aria-label={`Use ${nextTheme} theme`}
     >
       <span className="theme-track" aria-hidden="true">
-        <motion.span
-          className="theme-knob"
-          animate={{ x: theme === "dark" ? 12 : 0 }}
-          transition={
-            reduceMotion
-              ? { duration: 0 }
-              : { duration: 0.18, ease: [0.22, 1, 0.36, 1] }
-          }
-        />
+        <span className="theme-knob" />
       </span>
       <span aria-hidden="true">{nextThemeLabel}</span>
     </button>

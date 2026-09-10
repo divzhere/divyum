@@ -57,13 +57,14 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   colorScheme: "light dark",
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f3f1ea" },
-    { media: "(prefers-color-scheme: dark)", color: "#1d1f1c" },
+    { media: "(prefers-color-scheme: light)", color: "#f5f2eb" },
+    { media: "(prefers-color-scheme: dark)", color: "#211f1b" },
   ],
 };
 
 const themeScript = `
   (() => {
+    document.documentElement.dataset.signatureMotion = 'ready';
     try {
       const saved = localStorage.getItem('divyum-theme');
       const theme = saved === 'light' || saved === 'dark'

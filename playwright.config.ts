@@ -3,9 +3,12 @@ import { defineConfig, devices } from "@playwright/test";
 const baseURL = process.env.PLAYWRIGHT_BASE_URL ?? "http://127.0.0.1:3103";
 const viewports = [
   ["375", 375, 812],
+  ["390", 390, 844],
   ["768", 768, 1024],
+  ["1024", 1024, 900],
   ["1280", 1280, 900],
   ["1440", 1440, 1000],
+  ["1728", 1728, 1117],
 ] as const;
 
 export default defineConfig({
