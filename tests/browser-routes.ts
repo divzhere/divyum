@@ -10,6 +10,11 @@ export const publicRoutes = [
     snapshot: "framework-eisenhower",
   },
   { path: "/journey", heading: "Journey", snapshot: "journey" },
+  {
+    path: "/experience",
+    heading: "Professional overview",
+    snapshot: "experience",
+  },
   { path: "/about", heading: "About", snapshot: "about" },
   {
     path: "/frameworks/signal-vs-noise",

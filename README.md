@@ -349,17 +349,63 @@ there with a permanent, URL-safe `id`, a unique `sequence`, one or more
 `themes`, and a `primaryTheme` used by the thematic view. The `id` becomes the
 shareable fragment (`/journey#chapter-id`), so do not change it after publishing.
 
-Use `type: "professional"` with `professional.role`, `organisation`, `years`
-and `built` for a work chapter. Only add facts that are already public; use
-`null` and a `TODO(divyum)` comment when an organisation or detail is not ready
-to publish. Never add the current employer. The optional `media` field accepts
-one personally supplied image with `src`, descriptive `alt`, `width`, `height`
-and an optional `caption`; no chapter ships with a placeholder image.
+Professional chapters use `type: "professional"`, `phase` for the era, a short
+`title`, one- or two-sentence `summary`, and a small `descriptor`. Keep the six transitions
+concise; do not add résumé tables, technology lists, employer/client names,
+product names or private source context. This module is included in public HTML
+and client JavaScript. The Technology filter shows the six professional chapters;
+life threads retain their origin/current anchors, and mixed selections form a union.
+
+The optional `media` field accepts one personally supplied, approved image per
+chapter with `src`, descriptive `alt`, intrinsic `width`, `height` and optional
+`caption`. No photos are currently approved or published in Journey; missing media
+renders no placeholder. Aim for 3–5 images across the entire professional story,
+not per chapter. Before adding an asset to `public/`, inspect it for logos, badges,
+names, contacts, confidential screens/documents and location metadata; strip private
+metadata and compress a web-sized copy. Do not infer dates or locations. Get approval
+when uncertain. The renderer uses Next Image with responsive `sizes`, lazy loading,
+high-DPI variants and intrinsic dimensions to reserve the aspect ratio.
 
 The filter and animation behavior stays in
 `components/journey-explorer.tsx`. Supported thread IDs are defined once in
 `journeyThemes`; the URL uses `?thread=travel,technology` and the alternate
 ordering uses `?order=thematic`.
+
+The discreet **Professional overview** link opens `/experience`. Its public copy
+lives in `app/experience/page.tsx`: current responsibilities first, then short
+earlier eras. Keep it around 400–600 words and distinguish the senior-to-lead
+progression rather than applying today's title to an entire employment period.
+Do not attach original résumés or profile exports. Keep private source mappings,
+metrics awaiting approval, and identifier-audit inputs out of Git and deploy uploads.
+
+### Add an approved personal photograph
+
+1. Select your own photograph and approve its public use. Check screens, badges,
+   faces, documents and reflections for private information or identities.
+2. Keep the original outside this repository. Export a web-sized WebP/AVIF copy,
+   generally 1200–1600 pixels wide and preferably under 250 KB. Strip EXIF/GPS
+   metadata and verify the exported result, not just the original.
+3. Put only that approved copy in `public/images/journey/` with a neutral filename.
+4. Add `media` to the relevant chapter in `lib/journey.ts`, using its real pixel
+   dimensions, descriptive alt text and an optional factual caption. For example:
+
+   ```ts
+   media: {
+     src: "/images/journey/workspace.webp",
+     alt: "A notebook and closed laptop beside a window",
+     width: 1440,
+     height: 960,
+   },
+   ```
+
+   This is a shape example, not an approved or existing asset. Do not add it until
+   the matching photograph is present. Do not infer an employer, date or location.
+
+5. Preview both themes on phone and desktop, check image weight and layout shift,
+   then run the quality and Journey browser checks before publishing.
+
+No upload service is needed. Leaving `media` absent keeps the text-only chapter
+complete and renders no empty image card.
 
 ## Update the site
 
@@ -383,9 +429,8 @@ These are intentional authoring placeholders, not invented personal claims.
 - [ ] Replace the five labelled spines in `lib/library-seed.ts` with real books.
       Replace or remove the private `content/library/example-book.mdx` scaffold;
       write its description and reading notes if publishing it. Ratings are optional.
-- [ ] Add a previous, already-public organisation to the professional chapter
-      in `lib/journey.ts` only when ready. Further dates, work details and personally
-      supplied photographs are optional; nothing has been guessed.
+- [ ] Optionally select and privacy-review a few personal Journey photographs.
+      Keep professional employer/client identities and detailed source material private.
 - [ ] Write real essays and notes. Each `content:new` scaffold marks its missing
       description (and framework origin/framing or book author) with `TODO(divyum)`.
       Replace those fields before changing `draft` to `false`.

@@ -29,6 +29,20 @@ describe("journey URL state", () => {
 });
 
 describe("journey chapters", () => {
+  it("distills the technology thread to six professional transitions in era order", () => {
+    const chapters = filterJourneyChapters(["technology"]);
+    expect(chapters.map(({ title }) => title)).toEqual([
+      "Interfaces",
+      "Building",
+      "Scale",
+      "Ownership",
+      "Beyond Engineering",
+      "Building My Own",
+    ]);
+    expect(chapters.every(({ type }) => type === "professional")).toBe(true);
+    expect(sortJourneyChapters(chapters, "thematic")).toEqual(chapters);
+  });
+
   it("filters selected threads as a union while retaining anchor chapters", () => {
     const filtered = filterJourneyChapters(["technology", "community"]);
 
@@ -36,17 +50,19 @@ describe("journey chapters", () => {
       "punjab",
       "rotary",
       "technology",
-      "remote-life",
+      "building",
+      "scale",
+      "ownership",
+      "beyond-engineering",
+      "building-my-own",
       "now",
     ]);
   });
 
   it("sorts chronologically by sequence and thematically by primary thread", () => {
-    const shuffled = [
-      journeyChapters[7],
-      journeyChapters[3],
-      journeyChapters[0],
-    ];
+    const shuffled = ["now", "technology", "punjab"].map((id) =>
+      journeyChapters.find((chapter) => chapter.id === id),
+    );
 
     expect(
       sortJourneyChapters(shuffled, "chronological").map(({ id }) => id),
@@ -59,6 +75,11 @@ describe("journey chapters", () => {
     expect(thematic.map(({ primaryTheme }) => primaryTheme)).toEqual([
       "travel",
       "travel",
+      "travel",
+      "technology",
+      "technology",
+      "technology",
+      "technology",
       "technology",
       "technology",
       "community",
@@ -68,18 +89,7 @@ describe("journey chapters", () => {
     ]);
   });
 
-  it("keeps professional facts explicit and ships no media before Divyum supplies it", () => {
-    const professional = journeyChapters.filter(
-      ({ type }) => type === "professional",
-    );
-
-    expect(professional).toHaveLength(1);
-    expect(professional[0].professional).toEqual({
-      role: "Software engineer",
-      organisation: null,
-      years: "7+ years",
-      built: "Software products and systems.",
-    });
+  it("ships no media before Divyum approves it", () => {
     expect(journeyChapters.every(({ media }) => media === undefined)).toBe(
       true,
     );

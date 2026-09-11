@@ -73,11 +73,14 @@ describe("journey selection", () => {
       within(result).getByRole("heading", { name: title("technology") }),
     ).toBeTruthy();
     expect(
-      within(result).getByRole("heading", { name: title("punjab") }),
-    ).toBeTruthy();
+      within(result).queryByRole("heading", { name: title("punjab") }),
+    ).toBeNull();
     expect(
-      within(result).getByRole("heading", { name: title("now") }),
-    ).toBeTruthy();
+      within(result).queryByRole("heading", { name: title("now") }),
+    ).toBeNull();
+    expect(within(result).getAllByRole("heading", { level: 3 })).toHaveLength(
+      6,
+    );
   });
 
   it("combines selected threads as a union rather than requiring every theme on each chapter", async () => {
@@ -154,7 +157,7 @@ describe("journey selection", () => {
     expect(window.location.search).toBe("?thread=technology&order=thematic");
   });
 
-  it("restores URL state on load and renders the professional layer", async () => {
+  it("restores URL state and presents six ideas without resume tables or competing metadata", async () => {
     window.history.replaceState(
       {},
       "",
@@ -170,11 +173,83 @@ describe("journey selection", () => {
           .getAttribute("aria-pressed"),
       ).toBe("true");
     });
-    const details = screen.getByRole("group", {
-      name: "Professional chapter details",
+    const result = screen.getByRole("region", { name: "Technology" });
+    expect(within(result).getAllByRole("heading", { level: 3 })).toHaveLength(
+      6,
+    );
+    const current = within(result).getByRole("listitem", {
+      name: "Beyond Engineering",
     });
-    expect(within(details).getByText("Software engineer")).toBeTruthy();
-    expect(within(details).getByText("Not named here")).toBeTruthy();
-    expect(within(details).getByText("7+ years")).toBeTruthy();
+    expect(within(current).getByText("2023–Now")).toBeTruthy();
+    expect(
+      within(current).getByText(
+        "I grew from senior engineering into a lead frontend and UX role. Today I connect customer needs, engineering and reliable delivery for U.S. healthcare.",
+      ),
+    ).toBeTruthy();
+    expect(
+      within(current).getByText("Lead Engineer · Health Technology"),
+    ).toBeTruthy();
+    expect(
+      result.querySelectorAll("dl, details, .journey-chapter ul"),
+    ).toHaveLength(0);
+    expect(result.querySelectorAll(".journey-chapter-meta span")).toHaveLength(
+      6,
+    );
+    expect(within(result).queryByText("Not named here")).toBeNull();
   });
+
+  it.each([0, 1, 3])(
+    "supports %i optional photos without placeholders or changing chapter order",
+    (count) => {
+      const chapters = journeyChapters.filter(
+        ({ type }) => type === "professional",
+      );
+      // Test-only image fixtures: no media is added to the public content module.
+      const originals = chapters.map(({ media }) => media);
+      try {
+        chapters.slice(0, count).forEach((chapter, index) => {
+          chapter.media = {
+            src: `/journey-test-${index}.webp`,
+            alt: `Test editorial photograph ${index + 1}`,
+            width: 1200,
+            height: 800,
+            ...(index === 0 ? { caption: "An approved visual footnote." } : {}),
+          };
+        });
+        window.history.replaceState({}, "", "/journey?thread=technology");
+        const { result } = setup();
+        expect(
+          within(result)
+            .getAllByRole("heading", { level: 3 })
+            .map((heading) => heading.textContent),
+        ).toEqual([
+          "Interfaces",
+          "Building",
+          "Scale",
+          "Ownership",
+          "Beyond Engineering",
+          "Building My Own",
+        ]);
+        const images = within(result).queryAllByRole("img");
+        expect(images).toHaveLength(count);
+        expect(result.querySelectorAll("figure")).toHaveLength(count);
+        for (const image of images) {
+          expect(image.getAttribute("loading")).toBe("lazy");
+          expect(image.getAttribute("width")).toBe("1200");
+          expect(image.getAttribute("height")).toBe("800");
+          expect(image.getAttribute("sizes")).toContain("608px");
+          expect(image.getAttribute("srcset")).toContain("w");
+          expect(image.getAttribute("src")).toContain("/_next/image?");
+        }
+        expect(result.querySelectorAll("figcaption")).toHaveLength(
+          count > 0 ? 1 : 0,
+        );
+      } finally {
+        chapters.forEach((chapter, index) => {
+          if (originals[index]) chapter.media = originals[index];
+          else delete chapter.media;
+        });
+      }
+    },
+  );
 });
