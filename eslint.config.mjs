@@ -12,6 +12,7 @@ export default defineConfig([
     "coverage/**",
     "playwright-report/**",
     "test-results/**",
+    ".gstack/**",
     "next-env.d.ts",
   ]),
 ]);

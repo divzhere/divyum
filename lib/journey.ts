@@ -33,24 +33,17 @@ export type JourneyMedia = {
   caption?: string;
 };
 
-export type JourneyProfessionalDetails = {
-  role: string;
-  organisation: string | null;
-  years: string;
-  built: string;
-};
-
 export type JourneyChapter = {
   id: string;
   sequence: number;
   type?: "life" | "professional";
   phase: string;
-  place: string;
+  place?: string;
   title: string;
   summary: string;
   themes: readonly JourneyTheme[];
   primaryTheme: JourneyTheme | null;
-  professional?: JourneyProfessionalDetails;
+  descriptor?: string;
   media?: JourneyMedia;
   anchor?: boolean;
 };
@@ -93,36 +86,89 @@ export const journeyChapters: readonly JourneyChapter[] = [
   {
     id: "technology",
     sequence: 4,
-    phase: "Work",
-    place: "Technology",
+    phase: "2019–20",
     type: "professional",
-    title: "Finding my way into technology",
+    title: "Interfaces",
     summary:
-      "I moved into technology and began building software. This chapter will grow into a detailed record of the roles, systems, products and technical lessons that shaped me.",
+      "I started by learning how design becomes software: reusable interfaces, consistent details and the tests that help them hold together.",
+    descriptor: "UI Engineering",
     themes: ["technology"],
     primaryTheme: "technology",
-    professional: {
-      role: "Software engineer",
-      // TODO(divyum): add a previous, already-public organisation when ready.
-      organisation: null,
-      years: "7+ years",
-      built: "Software products and systems.",
-    },
+  },
+  {
+    id: "building",
+    sequence: 5,
+    phase: "2020–21",
+    type: "professional",
+    title: "Building",
+    summary:
+      "From individual screens to complete workflows. Building consumer web and business software taught me to think about the connections between them.",
+    descriptor: "Frontend · SaaS · Web",
+    themes: ["technology"],
+    primaryTheme: "technology",
+  },
+  {
+    id: "scale",
+    sequence: 6,
+    phase: "2021–22",
+    type: "professional",
+    title: "Scale",
+    summary:
+      "Building online-learning experiences for people across Southeast Asia brought product thinking and user experience closer to my engineering work.",
+    descriptor: "Product Engineering",
+    themes: ["technology"],
+    primaryTheme: "technology",
+  },
+  {
+    id: "ownership",
+    sequence: 7,
+    phase: "2022–23",
+    type: "professional",
+    title: "Ownership",
+    summary:
+      "Developer tools and B2B software expanded my work into frontend architecture, product decisions and helping a team deliver together.",
+    descriptor: "Developer Tools · B2B SaaS",
+    themes: ["technology"],
+    primaryTheme: "technology",
+  },
+  {
+    id: "beyond-engineering",
+    sequence: 8,
+    phase: "2023–Now",
+    type: "professional",
+    title: "Beyond Engineering",
+    summary:
+      "I grew from senior engineering into a lead frontend and UX role. Today I connect customer needs, engineering and reliable delivery for U.S. healthcare.",
+    descriptor: "Lead Engineer · Health Technology",
+    themes: ["technology"],
+    primaryTheme: "technology",
+  },
+  {
+    id: "building-my-own",
+    sequence: 9,
+    phase: "Now →",
+    type: "professional",
+    title: "Building My Own",
+    summary:
+      "Taking what I learned from products, people and systems into things I build myself.",
+    descriptor: "Founder · Technologist",
+    themes: ["technology"],
+    primaryTheme: "technology",
   },
   {
     id: "remote-life",
-    sequence: 5,
+    sequence: 10,
     phase: "Remote life",
     place: "Many places",
     title: "Work without one fixed place",
     summary:
       "Remote work gave me the freedom to work from different places. Over time, that became a digital-nomad way of life.",
-    themes: ["technology", "travel"],
-    primaryTheme: "technology",
+    themes: ["travel"],
+    primaryTheme: "travel",
   },
   {
     id: "travel",
-    sequence: 6,
+    sequence: 11,
     phase: "Exploration",
     place: "On the road",
     title: "Travel became part of how I learn",
@@ -133,7 +179,7 @@ export const journeyChapters: readonly JourneyChapter[] = [
   },
   {
     id: "yoga",
-    sequence: 7,
+    sequence: 12,
     phase: "Inner life",
     place: "Within",
     title: "Yoga, a beard and a different rhythm",
@@ -144,13 +190,13 @@ export const journeyChapters: readonly JourneyChapter[] = [
   },
   {
     id: "now",
-    sequence: 8,
+    sequence: 13,
     phase: "Now",
     place: "Still unfolding",
     title: "The threads keep crossing",
     summary:
       "Software, remote work, travel, service, writing and the study of consciousness now share the same path. This page will keep changing as the journey does.",
-    themes: ["travel", "technology", "community", "inner-life"],
+    themes: ["travel", "community", "inner-life"],
     primaryTheme: "inner-life",
     anchor: true,
   },
@@ -182,9 +228,11 @@ export function filterJourneyChapters(
 ): JourneyChapter[] {
   if (themes.length === 0) return [...journeyChapters];
 
+  const includeLifeAnchors = themes.some((theme) => theme !== "technology");
   return journeyChapters.filter(
     (chapter) =>
-      chapter.anchor || chapter.themes.some((theme) => themes.includes(theme)),
+      (includeLifeAnchors && chapter.anchor) ||
+      chapter.themes.some((theme) => themes.includes(theme)),
   );
 }
 

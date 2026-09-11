@@ -4,7 +4,7 @@ import { publicRoutes } from "../browser-routes";
 
 test.skip(({ browserName }) => browserName !== "chromium");
 
-for (const route of publicRoutes) {
+for (const route of [...publicRoutes, { path: "/journey?thread=technology" }]) {
   for (const theme of ["light", "dark"] as const) {
     test(`${route.path} has no accessibility violations in ${theme} theme`, async ({
       page,

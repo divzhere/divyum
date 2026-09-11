@@ -554,6 +554,41 @@ html[data-theme="dark"] .theme-knob {
   letter-spacing: -0.02em;
 }
 
+.page-intro-lede .journey-overview-link {
+  margin-top: 1rem;
+  font-family: var(--font-public-sans), Arial, sans-serif;
+  font-size: 0.875rem;
+}
+
+.journey-overview-link a,
+.experience-return {
+  display: inline-block;
+  padding-block: 0.65rem;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.3em;
+}
+
+.experience-page .page-intro h1 {
+  font-size: clamp(2.8rem, 6vw, 6rem);
+}
+
+.experience-section + .experience-section {
+  margin-top: clamp(3rem, 6vw, 6rem);
+}
+
+.experience-section h3 {
+  margin: 2rem 0 0.65rem;
+  font-family: var(--font-public-sans), Arial, sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.experience-return {
+  font-family: var(--font-public-sans), Arial, sans-serif;
+  font-size: 0.875rem;
+}
+
 .journey-explorer {
   border-top: 1px solid var(--rule);
 }
@@ -799,8 +834,7 @@ html[data-theme="dark"] .theme-knob {
   padding-bottom: 2rem;
 }
 
-.journey-results-header h2,
-.journey-results-header p {
+.journey-results-header h2 {
   margin: 0;
 }
 
@@ -810,14 +844,6 @@ html[data-theme="dark"] .theme-knob {
   font-weight: 500;
   line-height: 1.25;
   letter-spacing: -0.035em;
-}
-
-.journey-results-header p {
-  max-width: 35rem;
-  margin-top: 0.65rem;
-  color: var(--muted);
-  font-size: 0.86rem;
-  line-height: 1.65;
 }
 
 .journey-results-header > span {
@@ -979,35 +1005,10 @@ html[data-theme="dark"] .theme-knob {
   line-height: 1.7;
 }
 
-.journey-professional {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0;
-  max-width: 38rem;
-  margin: 1.4rem 0 0;
-  border-top: 1px solid var(--rule);
-  border-left: 1px solid var(--rule);
-}
-
-.journey-professional div {
-  min-width: 0;
-  border-right: 1px solid var(--rule);
-  border-bottom: 1px solid var(--rule);
-  padding: 0.8rem;
-}
-
-.journey-professional dt {
-  color: var(--muted);
-  font-size: 0.75rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.journey-professional dd {
-  margin: 0.25rem 0 0;
-  color: var(--ink);
-  font-family: var(--font-literata), Georgia, serif;
-  font-size: 1rem;
+.journey-chapter-copy > .journey-chapter-descriptor {
+  margin-top: 1rem;
+  font-family: var(--font-public-sans), Arial, sans-serif;
+  font-size: 0.76rem;
   line-height: 1.5;
 }
 
@@ -1699,10 +1700,6 @@ html[data-theme="dark"] .theme-knob {
 
   .journey-chapter-copy h3 {
     font-size: 1.4rem;
-  }
-
-  .journey-professional {
-    grid-template-columns: minmax(0, 1fr);
   }
 
   .project-list a {

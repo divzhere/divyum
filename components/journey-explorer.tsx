@@ -191,10 +191,6 @@ export function JourneyExplorer() {
           <header className="journey-results-header">
             <div>
               <h2 id="journey-stories-title">{routeName(activeThemes)}</h2>
-              <p>
-                A first map of the story. Dates, photographs and deeper
-                professional chapters can be added as it grows.
-              </p>
             </div>
             <span aria-live="polite">
               {visibleChapters.length} of {journeyChapters.length}
@@ -232,7 +228,7 @@ export function JourneyExplorer() {
           {/* Keep the scroll target mounted when filters change. New
                 chapters retain their shared CSS entrance animation. */}
           <ol className="journey-timeline" ref={timelineRef}>
-            {visibleChapters.map((chapter) => (
+            {visibleChapters.map((chapter, index) => (
               <li
                 className="journey-chapter editorial-reveal"
                 id={chapter.id}
@@ -241,7 +237,7 @@ export function JourneyExplorer() {
               >
                 <div className="journey-marker" aria-hidden="true">
                   <span className="journey-chapter-number">
-                    {String(chapter.sequence).padStart(2, "0")}
+                    {String(index + 1).padStart(2, "0")}
                   </span>
                   <span className="journey-thread-segment" />
                 </div>
@@ -249,13 +245,15 @@ export function JourneyExplorer() {
                 <article className="journey-chapter-copy">
                   <div className="journey-chapter-meta">
                     <span>{chapter.phase}</span>
-                    <span>
-                      {order === "thematic" && chapter.primaryTheme
-                        ? journeyThemes.find(
-                            ({ id }) => id === chapter.primaryTheme,
-                          )?.label
-                        : chapter.place}
-                    </span>
+                    {chapter.type !== "professional" && (
+                      <span>
+                        {order === "thematic" && chapter.primaryTheme
+                          ? journeyThemes.find(
+                              ({ id }) => id === chapter.primaryTheme,
+                            )?.label
+                          : chapter.place}
+                      </span>
+                    )}
                   </div>
                   <h3 id={`${chapter.id}-title`}>
                     <a href={`#${chapter.id}`} title="Link to this chapter">
@@ -263,30 +261,10 @@ export function JourneyExplorer() {
                     </a>
                   </h3>
                   <p>{chapter.summary}</p>
-                  {chapter.type === "professional" && chapter.professional && (
-                    <div role="group" aria-label="Professional chapter details">
-                      <dl className="journey-professional">
-                        <div>
-                          <dt>Role</dt>
-                          <dd>{chapter.professional.role}</dd>
-                        </div>
-                        <div>
-                          <dt>Organisation</dt>
-                          <dd>
-                            {chapter.professional.organisation ??
-                              "Not named here"}
-                          </dd>
-                        </div>
-                        <div>
-                          <dt>Experience</dt>
-                          <dd>{chapter.professional.years}</dd>
-                        </div>
-                        <div>
-                          <dt>Built</dt>
-                          <dd>{chapter.professional.built}</dd>
-                        </div>
-                      </dl>
-                    </div>
+                  {chapter.descriptor && (
+                    <p className="journey-chapter-descriptor">
+                      {chapter.descriptor}
+                    </p>
                   )}
                   {chapter.media && (
                     <figure className="journey-chapter-media">
@@ -295,24 +273,27 @@ export function JourneyExplorer() {
                         alt={chapter.media.alt}
                         width={chapter.media.width}
                         height={chapter.media.height}
+                        sizes="(max-width: 700px) calc(100vw - 96px), (max-width: 1140px) calc(61vw - 84px), 608px"
+                        loading="lazy"
                       />
                       {chapter.media.caption && (
                         <figcaption>{chapter.media.caption}</figcaption>
                       )}
                     </figure>
                   )}
-                  {chapter.themes.length > 0 && (
-                    <ul aria-label="Story threads">
-                      {chapter.themes.map((theme) => (
-                        <li key={theme}>
-                          {
-                            journeyThemes.find((item) => item.id === theme)
-                              ?.label
-                          }
-                        </li>
-                      ))}
-                    </ul>
-                  )}
+                  {chapter.type !== "professional" &&
+                    chapter.themes.length > 0 && (
+                      <ul aria-label="Story threads">
+                        {chapter.themes.map((theme) => (
+                          <li key={theme}>
+                            {
+                              journeyThemes.find((item) => item.id === theme)
+                                ?.label
+                            }
+                          </li>
+                        ))}
+                      </ul>
+                    )}
                 </article>
               </li>
             ))}

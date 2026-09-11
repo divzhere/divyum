@@ -9,6 +9,7 @@ test.skip(
 
 const routes = [
   ...publicRoutes,
+  { path: "/journey?thread=technology", snapshot: "journey-technology" },
   ...(process.env.V3_DESIGN_LAB
     ? ["essay", "note", "book"].map((kind) => ({
         path: `/design/v3/reading/${kind}`,
