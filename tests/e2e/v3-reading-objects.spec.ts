@@ -19,12 +19,12 @@ test("a phone reader can build the tree and select spiral stages by touch", asyn
     .tap();
   await expect(page.getByRole("status")).toContainText("Trunk built");
   await page
-    .getByRole("button", { name: "Build a big branch: a core truth" })
+    .getByRole("button", { name: /^Build branch A:/ })
     .first()
     .tap();
   await expect(page.getByRole("status")).toContainText("Branch built");
   await page
-    .getByRole("button", { name: "Attach a leaf: a detail" })
+    .getByRole("button", { name: /^Attach leaf A1:/ })
     .first()
     .tap();
   await expect(page.getByRole("status")).toContainText("Leaf attached");
@@ -41,7 +41,8 @@ test("homepage diagrams include visible lines, not just isolated points", async 
   const diagrams = page
     .getByRole("region", { name: "Frameworks", exact: true })
     .locator("svg");
-  await expect(diagrams).toHaveCount(3);
+  // The living Knowledge Tree plus three plate glyphs.
+  await expect(diagrams).toHaveCount(4);
   for (const diagram of await diagrams.all()) {
     const stroke = await diagram
       .locator("path, line, circle[fill='none']")

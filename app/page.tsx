@@ -2,12 +2,30 @@ import Link from "next/link";
 import { Currently } from "@/components/currently";
 import { EssayList } from "@/components/essay-list";
 import { HeroExperience } from "@/components/hero-experience";
+import { KnowledgeTree } from "@/components/frameworks/knowledge-tree";
 import { frameworkGlyphs } from "@/components/frameworks/glyphs";
 import { getAllContent } from "@/lib/content";
-import { getAllFrameworks } from "@/lib/frameworks";
-import { getShelf } from "@/lib/library";
+import { getAllFrameworks, lineageLabels } from "@/lib/frameworks";
+import { getShelf, waitingCaption } from "@/lib/library";
 import { journeyChapters } from "@/lib/journey";
 import styles from "./home.module.css";
+
+/*
+  The home page reads as a table of contents for a life: six chapters, each
+  opening with the point on its hairline and a roman numeral. The Knowledge
+  Tree is the living instrument (the real component, not a picture); three
+  plates beneath it show one framework per lineage.
+*/
+
+const numerals = ["I", "II", "III", "IV", "V", "VI"] as const;
+
+function Numeral({ index }: { index: number }) {
+  return (
+    <span className={styles.numeral} aria-hidden="true">
+      {numerals[index]}
+    </span>
+  );
+}
 
 export default async function HomePage() {
   const [essays, frameworks, shelf] = await Promise.all([
@@ -15,12 +33,17 @@ export default async function HomePage() {
     getAllFrameworks(),
     getShelf(),
   ]);
-  const featured = ["signal-vs-noise", "knowledge-tree", "eight-limbs"].flatMap(
-    (slug) => frameworks.filter((item) => item.slug === slug),
-  );
+  const instrument = frameworks.find((item) => item.slug === "knowledge-tree");
+  const featured = [
+    "signal-vs-noise",
+    "eight-limbs",
+    "vision-to-leverage",
+  ].flatMap((slug) => frameworks.filter((item) => item.slug === slug));
   const moments = journeyChapters.filter((chapter) =>
     ["punjab", "remote-life", "yoga"].includes(chapter.id),
   );
+  const preview = shelf.slice(0, 5);
+  const waiting = preview.filter((book) => book.placeholder).length;
 
   return (
     <div className={`page-shell home-page ${styles.home}`}>
@@ -29,7 +52,10 @@ export default async function HomePage() {
         className={`${styles.section} ${styles.currently}`}
         aria-labelledby="currently-title"
       >
-        <h2 id="currently-title">Currently</h2>
+        <div className={styles.sectionHead}>
+          <Numeral index={0} />
+          <h2 id="currently-title">Currently</h2>
+        </div>
         <Currently />
       </section>
       <section
@@ -37,6 +63,7 @@ export default async function HomePage() {
         aria-labelledby="writing-title"
       >
         <div className={styles.sectionHead}>
+          <Numeral index={1} />
           <h2 id="writing-title">Writing</h2>
           <div className={styles.links}>
             <Link className="text-link" href="/essays">
@@ -56,14 +83,37 @@ export default async function HomePage() {
         aria-labelledby="frameworks-title"
       >
         <div className={styles.sectionHead}>
+          <Numeral index={2} />
           <h2 id="frameworks-title">Frameworks</h2>
           <p>Ways of seeing, made tangible.</p>
           <Link className="text-link" href="/frameworks">
             Explore the thinking tools <span aria-hidden="true">↗</span>
           </Link>
         </div>
+        {instrument && (
+          <div className={styles.instrument}>
+            <div className={styles.instrumentCopy}>
+              <h3>{instrument.title}</h3>
+              <p className={styles.instrumentMeta}>
+                {lineageLabels[instrument.lineage]} · {instrument.origin}
+              </p>
+              <p className={styles.instrumentCaption}>
+                {instrument.description}
+              </p>
+              <Link
+                className="text-link"
+                href={`/frameworks/${instrument.slug}`}
+              >
+                Read the framework <span aria-hidden="true">↗</span>
+              </Link>
+            </div>
+            <div className={styles.instrumentCanvas}>
+              <KnowledgeTree />
+            </div>
+          </div>
+        )}
         <div className={styles.plates}>
-          {featured.map((framework, index) => {
+          {featured.map((framework) => {
             const Glyph = frameworkGlyphs[framework.visual];
             return (
               <Link
@@ -71,8 +121,14 @@ export default async function HomePage() {
                 className={styles.plate}
                 key={framework.slug}
               >
+                <span className={styles.zones} aria-hidden="true">
+                  <span data-zone="tl" />
+                  <span data-zone="tr" />
+                  <span data-zone="bl" />
+                  <span data-zone="br" />
+                </span>
                 <div className={styles.plateMeta}>
-                  <span>0{index + 1}</span>
+                  <span>{lineageLabels[framework.lineage]}</span>
                   <span>{framework.origin}</span>
                 </div>
                 <div className={styles.diagram}>
@@ -93,6 +149,7 @@ export default async function HomePage() {
         aria-labelledby="journey-title"
       >
         <div className={styles.sectionHead}>
+          <Numeral index={3} />
           <h2 id="journey-title">Journey</h2>
           <p>One life, viewed through different threads.</p>
           <Link className="text-link" href="/journey">
@@ -118,6 +175,7 @@ export default async function HomePage() {
         aria-labelledby="library-title"
       >
         <div className={styles.sectionHead}>
+          <Numeral index={4} />
           <h2 id="library-title">Library</h2>
           <p>Books, and the ideas they leave behind.</p>
           <Link className="text-link" href="/library">
@@ -125,26 +183,31 @@ export default async function HomePage() {
           </Link>
         </div>
         <div className={styles.shelfPreview}>
-          <ul className={styles.spines} aria-label="Library preview">
-            {shelf.slice(0, 5).map((book) => (
-              <li key={book.slug} className={styles.spine}>
-                <span className={styles.spineTheme}>
-                  {book.themes.join(" / ")}
-                </span>
-                {book.hasNotes ? (
-                  <Link href={`/library/${book.slug}`}>{book.title}</Link>
+          <ul className={styles.shelfLine} aria-label="Library preview">
+            {preview.map((book) => (
+              <li
+                key={book.slug}
+                className={styles.shelfPoint}
+                data-placeholder={book.placeholder || undefined}
+              >
+                {book.placeholder ? (
+                  <span className="visually-hidden">
+                    {`${book.label} · ${book.themes.join(" / ")} · forthcoming`}
+                  </span>
+                ) : book.hasNotes ? (
+                  <Link className="text-link" href={`/library/${book.slug}`}>
+                    {book.title}
+                  </Link>
                 ) : (
                   <span>{book.title}</span>
                 )}
-                <span className={styles.spineStatus}>
-                  {book.placeholder ? "Placeholder" : book.author}
-                </span>
               </li>
             ))}
           </ul>
-          {shelf.some((book) => book.placeholder) && (
+          {waiting > 0 && (
             <p className={styles.shelfNote}>
-              Placeholders for now. Real books and reading notes will follow.
+              {waitingCaption(waiting)} Real books and reading notes will
+              follow.
             </p>
           )}
         </div>
@@ -153,8 +216,11 @@ export default async function HomePage() {
         className={`${styles.section} ${styles.about}`}
         aria-labelledby="about-title"
       >
-        <h2 id="about-title">About</h2>
-        <div>
+        <div className={styles.sectionHead}>
+          <Numeral index={5} />
+          <h2 id="about-title">About</h2>
+        </div>
+        <div className={styles.aboutCopy}>
           <p>
             Today I work in software, study ideas across disciplines and learn
             in public through writing, travel and direct experience.

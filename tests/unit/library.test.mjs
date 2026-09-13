@@ -140,6 +140,27 @@ describe("library content model", () => {
     expect(entries.map((entry) => entry.slug)).toEqual(["real"]);
   });
 
+  it("numbers placeholder spines by seed order, whatever the shelf order", async () => {
+    const seeds = (await import("../../lib/library-seed.ts")).placeholderShelf;
+    // A real book takes the first seed's slug, so that seed leaves the shelf
+    // and the others keep their original numbers.
+    await write("taken.mdx", book({ slug: seeds[0].slug }));
+
+    const shelf = await withCwd(() => library.getShelf());
+    const placeholders = shelf.filter((entry) => entry.placeholder);
+
+    expect(placeholders.map((entry) => entry.label)).toEqual(
+      seeds.slice(1).map((_, index) => library.spineLabel(index + 2)),
+    );
+    expect(library.spineLabel(1)).toBe("Shelf 001");
+    expect(shelf.find((entry) => entry.slug === seeds[0].slug)?.label).toBe(
+      "A fixture book",
+    );
+    expect(library.waitingCaption(5)).toBe("Five spines in waiting.");
+    expect(library.waitingCaption(1)).toBe("One spine in waiting.");
+    expect(library.waitingCaption(12)).toBe("12 spines in waiting.");
+  });
+
   it("excludes drafts from the shelf", async () => {
     await write("hidden.mdx", book({ slug: "hidden", draft: true }));
 

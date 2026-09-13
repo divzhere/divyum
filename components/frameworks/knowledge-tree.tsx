@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 /*
   Musk's semantic tree. The whole tree is drawn faint. Building it in order —
@@ -11,6 +11,12 @@ import { useState } from "react";
   trunk ──▶ branch a ──▶ leaves a1 a2 a3
        └──▶ branch b ──▶ leaves b1 b2
        └──▶ branch c ──▶ leaves c1 c2
+
+  The ground line is the motif's horizon with the tree's origin point at its
+  start. Under prefers-reduced-motion: no-preference it draws itself once the
+  canvas scrolls into view (data-draw="drawn"); server HTML, no-JS readers and
+  reduced motion render it complete. If application chunks never arrive after
+  the inline script marked the document ready, CSS draws it anyway after 4s.
 */
 
 const branches = [
@@ -34,9 +40,30 @@ export function KnowledgeTree() {
   const [builtBranches, setBuiltBranches] = useState<string[]>([]);
   const [attachedLeaves, setAttachedLeaves] = useState<string[]>([]);
   const [fallingLeaf, setFallingLeaf] = useState<string | null>(null);
+  const [drawn, setDrawn] = useState(false);
+  const canvasRef = useRef<HTMLDivElement>(null);
   const [status, setStatus] = useState(
     "Try attaching a leaf first — or start with the trunk.",
   );
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas || typeof IntersectionObserver === "undefined") {
+      setDrawn(true);
+      return;
+    }
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          setDrawn(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.35 },
+    );
+    observer.observe(canvas);
+    return () => observer.disconnect();
+  }, []);
 
   function clickTrunk() {
     if (trunkBuilt) return;
@@ -83,15 +110,22 @@ export function KnowledgeTree() {
   const complete = trunkBuilt && attachedLeaves.length === leaves.length;
 
   return (
-    <div className="fw-visual fw-tree">
-      <div className="fw-tree-canvas">
+    <div className="fw-visual fw-tree" data-draw={drawn ? "drawn" : undefined}>
+      <div className="fw-tree-canvas" ref={canvasRef}>
         <svg
           className="fw-tree-svg"
           viewBox="0 0 400 320"
           role="img"
           aria-label="A tree with a trunk, three big branches and seven leaves, drawn faint until each part is built. Leaves clicked before their branch exists fall off."
         >
-          <line className="fw-tree-ground" x1={80} y1={288} x2={320} y2={288} />
+          <line
+            className="fw-tree-ground"
+            x1={80}
+            y1={288}
+            x2={320}
+            y2={288}
+            pathLength={1}
+          />
           <path
             className={`fw-tree-trunk${trunkBuilt ? " is-built" : ""}`}
             d="M200 288 C 198 272, 202 254, 200 240"
@@ -117,6 +151,7 @@ export function KnowledgeTree() {
             />
           ))}
         </svg>
+        <span className="fw-tree-origin" aria-hidden="true" />
 
         <div className="fw-tree-hotspots" aria-hidden={false}>
           <button
@@ -135,7 +170,7 @@ export function KnowledgeTree() {
               key={branch.id}
               type="button"
               aria-pressed={builtBranches.includes(branch.id)}
-              aria-label={`Build a big branch: a ${branch.label}`}
+              aria-label={`Build branch ${branch.id.toUpperCase()}: a ${branch.label}`}
               onClick={() => clickBranch(branch.id)}
               style={{
                 left: `${[37.5, 51.5, 62.5][index]}%`,
@@ -151,7 +186,7 @@ export function KnowledgeTree() {
               key={leaf.id}
               type="button"
               aria-pressed={attachedLeaves.includes(leaf.id)}
-              aria-label="Attach a leaf: a detail"
+              aria-label={`Attach leaf ${leaf.id.toUpperCase()}: a detail on branch ${leaf.branch.toUpperCase()}`}
               onClick={() => clickLeaf(leaf.id, leaf.branch)}
               style={{
                 left: `${(leaf.x / 400) * 100}%`,

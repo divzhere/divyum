@@ -270,3 +270,106 @@ design release, not a claim that the archive is ready for an awards submission.
 No severe visual defect remains in the reviewed layouts. The most valuable next
 improvement is real writing and reading notes, not more animation or another
 frontend redesign.
+
+## V4 addendum — Instrument
+
+Date: 2026-09-14. Branch: `awwwards-level-site-prompt`, on top of `master`
+`7e37c3e` (V3, live). Brief: [awwwards-v4-prompt.md](awwwards-v4-prompt.md).
+Plan and review record: [awwwards-v4-plan.md](awwwards-v4-plan.md). Same
+honesty rule as above: these are local measurements and a self-review, not an
+award result.
+
+### What changed
+
+One motif, more states. Nothing new was introduced: no font, colour, dependency,
+gradient, photograph, cursor, preloader or loading route.
+
+- **Hero.** One custom property (`--horizon-start`, a container-query unit on
+  `.home-hero`) now indents the second name line, places the point, and hangs
+  the location block from the same origin. The rule runs 2.7px (1440) to 4.3px
+  (375) beneath the caps of BHUMRA instead of a rem below the name. A margin
+  spine ("Divyum Bhumra — Est. Punjab", Public Sans meta caps, reads bottom-up,
+  ≥1100px, `aria-hidden`) sits at the hero's right edge. A live IST clock in
+  `--type-meta` renders "IST · UTC +5:30" on the server and for no-JS readers
+  and "14:09 IST" after hydration, in a fixed-width slot so nothing moves. The
+  first link now reads "Explore the frameworks" and lands on real material.
+  Arrival choreography unchanged: every hero animation still ends at or before
+  1,150ms and runs once (asserted).
+- **Living instrument.** The real Knowledge Tree component sits in the
+  Frameworks section with its own caption drawn from the framework's
+  frontmatter. Its ground line is now an oxide stroke from a 9px origin point;
+  under `prefers-reduced-motion: no-preference` it draws itself (700ms, once)
+  when the canvas scrolls into view, and if application chunks never arrive
+  after the inline script marked the document ready, CSS draws it anyway at 4s.
+  Server HTML, no-JS readers and reduced motion always get the complete line.
+  Hotspots have distinct names ("Build branch A: a core truth", "Attach leaf A1:
+  a detail on branch A"); the trunk shows a resting disc. The three plates
+  beneath are one per lineage: Signal vs Noise, Eight Limbs, Vision to Leverage.
+- **Motif propagation.** Six home chapters each open with a 9px point on the
+  hairline and a roman numeral (Devanagari was ruled out: no new font). The
+  5px marker sits before the current nav item and the underline is no longer a
+  second current indicator. The theme toggle is a 9px point on a 21px rule;
+  hover or focus contracts the rule into the point. Prose bullets keep the
+  native disc for list semantics but paint it transparent and draw a 5px
+  point. Journey moments use the 5px marker and grow to 9px on hover or focus.
+  The Currently rule starts from an origin point. The 404 is a lost point with
+  a dashed trace and no view-transition participant. Point scale is two sizes
+  only, 9px origins and 5px markers.
+- **Micro-interactions.** Framework plates ignite from the corner nearest the
+  cursor: four hover zones own two edges each, the zone under the cursor
+  starts at 0ms and the rest follow at 60ms, nothing retracts while hovered,
+  focus-visible ignites from the top-left, and reduced motion is instant.
+- **Editions in waiting.** Essays and Notes render exactly one colophon row
+  ("Essay 001 ——— Forthcoming") above the existing sentence. The home library
+  preview is five points on the shelf line with the caption "Five spines in
+  waiting." The library page numbers its placeholder spines Shelf 001–005 by
+  seed order (unit-tested so sorting never renumbers them) and marks them
+  Forthcoming.
+
+Not done, by rule: click-to-copy email (`siteConfig.social.email` is empty and
+a fake address is forbidden), social links, newsletter, testimonials.
+
+### Gate evidence
+
+| Gate                                           | Result                                                                                                                                                                                                                                                                                                                                                                                                       |
+| ---------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Lint, types, content, unit                     | pass; 112 unit/integration tests, statement coverage 96.84%                                                                                                                                                                                                                                                                                                                                                  |
+| Build and bundle                               | pass; home initial JS 174.30 → 176.34 KiB gzip (+2.04, the tree joining the home route); every other route +0.20 to +0.38; journey +0.29; hard limit +40                                                                                                                                                                                                                                                     |
+| Browser matrix (14 projects)                   | 1,067 passed, 1,479 scoped skips, **2 failed**: `v3-foundation` "reading measure and type" at 1024px in Chromium and WebKit, because `--type-prose` resolves to 18.43px there. Same clamp, same test and same project exist on `master`; it fails identically before this branch. Left for the owner: raising the clamp floor to 1.1875rem changes the reading size on every article between 1000 and 1055px |
+| Axe, both themes, seven widths                 | 182 checks inside the matrix, zero violations                                                                                                                                                                                                                                                                                                                                                                |
+| Visual                                         | all 156 public baselines regenerated with `--update-snapshots=all` (the default `changed` mode had silently kept stale baselines whose diff was under the 1% tolerance), then 156 pass; the hero clock is frozen at 14:09 IST in every capture; home, essays, library, 404, framework-tree and eight-limbs inspected by eye at 375/390/768/1440 in both themes                                               |
+| New tests                                      | `v4-hero`, `v4-instrument`, `v4-motif`, `v4-plates` (24 checks) plus the toggle eclipse in `v3-theme` and spine numbering in the unit suite; blocked-chunk, no-JS, reduced-motion and full keyboard sequences included                                                                                                                                                                                       |
+| Lighthouse desktop, 13 routes × 3 runs, median | 100 / 100 / 100 / 100 on every route; LCP 427–573ms; CLS 0                                                                                                                                                                                                                                                                                                                                                   |
+| Links                                          | 19 internal URLs and 40 links, zero failures; the six external citations pass; the 14 "failures" are canonical self-links to the custom domain, which is not live, the same as any local build without `NEXT_PUBLIC_SITE_URL`                                                                                                                                                                                |
+
+### Mobile guard
+
+Local mobile numbers on this machine are noisy (single runs of the same build
+ranged 78–99), so a sequential before/after was inconclusive. The decisive
+check was an interleaved A/B: `master` built in a separate worktree on one
+port, this branch on another, runs alternating A, B, A, B under the same load.
+
+| Route   | Runs per side | master median score / LCP | V4 median score / LCP |
+| ------- | ------------: | ------------------------- | --------------------- |
+| Home    |             5 | 92 / 3,132ms              | 97 / 2,503ms          |
+| Journey |             3 | 97 / 2,539ms              | 99 / 2,113ms          |
+
+The branch does not regress either route, so the `next/dynamic` fallback in
+the plan (D2.6) was not needed. The home LCP element moved from the Currently
+heading to the hero name itself. The ~1.6s Vercel figure can only be confirmed
+on the preview deployment; that check, and the production metadata check,
+belong to the release record.
+
+### Self-score, 40/30/20/10
+
+| Category   |  V3 |  V4 | Why                                                                                                                                                                                |
+| ---------- | --: | --: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Design     | 8.6 | 8.9 | The origin now binds the name, rule, location and time; the motif appears in every state the brief listed. Risk: the home page carries more elements than before.                  |
+| Usability  | 9.2 | 9.2 | Unchanged floors: 44px targets, visible focus, no-JS reading, one current indicator. The leaf hotspots at 375px still overlap as 44px targets (pre-existing, recorded, not fixed). |
+| Creativity | 8.2 | 8.6 | A real instrument drawing itself on the home page, corner ignition and the toggle eclipse are all the same point and line.                                                         |
+| Content    | 7.5 | 7.5 | No writing exists. The empty states are more honest now, but an honest absence is still an absence.                                                                                |
+
+Weighted: 8.79 / 10 (V3: 8.59). The standing admission holds: the biggest gap
+is real writing and real books, and no redesign can close it. Both review
+voices in the plan said the next hour should go to one essay, not more chrome;
+this branch ships the brief the owner set and leaves that call to the owner.

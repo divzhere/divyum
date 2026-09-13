@@ -16,12 +16,12 @@ test("home introduces all six destinations through distinct, truthful sections",
     name: "Frameworks",
     exact: true,
   });
-  await expect(frameworks.locator('a[href^="/frameworks/"]')).toHaveCount(3);
+  await expect(frameworks.locator('a[href^="/frameworks/"]')).toHaveCount(4);
   const journey = page.getByRole("region", { name: "Journey", exact: true });
   await expect(journey.locator('a[href^="/journey#"]')).toHaveCount(3);
   await expect(
     page.getByRole("region", { name: "Library", exact: true }),
-  ).toContainText("Placeholders");
+  ).toContainText("in waiting");
   const footer = page.getByRole("navigation", { name: "Footer navigation" });
   for (const name of [
     "Essays",
