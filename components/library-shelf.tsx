@@ -8,7 +8,8 @@ import type { ShelfEntry } from "@/lib/library";
   A shelf, not a card grid. Books render as typographic spines — title and
   author set vertically, tinted by coverColor — sortable by year, status or
   theme. No cover art. Spines without reading notes are inert; spines with
-  notes link to their page. Placeholders are labelled as such.
+  notes link to their page. Placeholder spines are numbered editions in
+  waiting ("Shelf 001 … Forthcoming"), dashed, and never linked.
 */
 
 const sortModes = [
@@ -77,9 +78,9 @@ export function LibraryShelf({ entries }: { entries: ShelfEntry[] }) {
               <span className="library-spine-theme">
                 {entry.themes.join(" / ")}
               </span>
-              <span className="library-spine-title">{entry.title}</span>
+              <span className="library-spine-title">{entry.label}</span>
               <span className="library-spine-author">
-                {entry.placeholder ? "Not added yet" : entry.author}
+                {entry.placeholder ? "" : entry.author}
               </span>
             </>
           );
@@ -108,7 +109,7 @@ export function LibraryShelf({ entries }: { entries: ShelfEntry[] }) {
               )}
               <span className="library-slot-meta">
                 {entry.placeholder
-                  ? "placeholder"
+                  ? "Forthcoming"
                   : [statusLabels[entry.status], entry.year]
                       .filter(Boolean)
                       .join(" · ")}
@@ -120,8 +121,8 @@ export function LibraryShelf({ entries }: { entries: ShelfEntry[] }) {
 
       {hasPlaceholders && (
         <p className="library-note">
-          The spines marked as placeholders are exactly that — the real
-          bookshelf is being carried over one book at a time.
+          Spines marked forthcoming are exactly that: the real bookshelf is
+          being carried over one book at a time.
         </p>
       )}
     </div>

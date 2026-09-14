@@ -17,11 +17,11 @@ test("the shelf renders spines, resorts, and placeholders stay unlinked", async 
   const spines = page.locator(".library-spine");
   await expect(spines).toHaveCount(5);
 
-  // Placeholders are labelled, visibly marked, and never link anywhere.
+  // Spines in waiting are numbered, marked forthcoming, and never link anywhere.
   await expect(page.locator(".library-slot[data-placeholder]")).toHaveCount(5);
   await expect(page.locator("a.library-spine")).toHaveCount(0);
   await expect(
-    page.getByText("placeholder", { exact: false }).first(),
+    page.getByText("forthcoming", { exact: false }).first(),
   ).toBeVisible();
 
   // Sorting flips order without losing spines.

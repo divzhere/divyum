@@ -22,6 +22,8 @@ for (const route of routes) {
     test(`${route.path} matches its ${theme} visual baseline`, async ({
       page,
     }, testInfo) => {
+      // The hero clock reads 14:09 IST in every baseline.
+      await page.clock.setFixedTime(new Date("2026-09-11T08:39:00Z"));
       await page.emulateMedia({ reducedMotion: "reduce", colorScheme: theme });
       await page.addInitScript((selectedTheme) => {
         localStorage.setItem("divyum-theme", selectedTheme);

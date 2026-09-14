@@ -198,8 +198,24 @@ a {
   color: var(--ink);
 }
 
-.nav-link[aria-current="page"]::after {
-  transform: scaleX(1);
+/* The 5px marker sits before the current page only; it scales in over 160ms
+   when a link becomes current. Hover and focus keep the underline. */
+.nav-link::before {
+  position: absolute;
+  top: 50%;
+  left: -0.75rem;
+  width: 5px;
+  height: 5px;
+  margin-top: -2.5px;
+  border-radius: 50%;
+  background: var(--accent);
+  content: "";
+  transform: scale(0);
+  transition: transform var(--motion-micro) var(--ease-out-expo);
+}
+
+.nav-link[aria-current="page"]::before {
+  transform: scale(1);
 }
 
 .theme-toggle {
@@ -216,21 +232,42 @@ a {
   font-size: 0.78rem;
 }
 
+/* A 9px point travelling a 21px rule. On hover or focus the rule contracts
+   into the point (the eclipse); the knob's translation is never touched. */
 .theme-track {
-  display: flex;
-  width: 26px;
-  height: 14px;
-  align-items: center;
-  border: 1px solid var(--muted);
-  border-radius: 999px;
-  padding: 2px;
+  position: relative;
+  display: block;
+  width: 21px;
+  height: 9px;
+}
+
+.theme-track::before {
+  position: absolute;
+  top: 4px;
+  right: 0;
+  left: 0;
+  height: 1px;
+  background: var(--muted);
+  content: "";
+  transform-origin: left center;
+  transition: transform 180ms var(--ease-out-expo);
+}
+
+html[data-theme="dark"] .theme-track::before {
+  transform-origin: right center;
+}
+
+.theme-toggle:hover .theme-track::before,
+.theme-toggle:focus-visible .theme-track::before {
+  transform: scaleX(0);
 }
 
 .theme-knob {
+  position: relative;
   display: block;
-  width: 8px;
-  height: 8px;
-  border-radius: 999px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
   background: var(--accent);
   transform: translateX(0);
   transition: transform 180ms var(--motion-ease);
@@ -240,6 +277,14 @@ html[data-theme="dark"] .theme-knob {
   transform: translateX(12px);
 }
 
+/*
+  The signature. --horizon-start is the one origin: the second name line is
+  indented by it, the point sits on it, and location and time hang from it.
+  Container units keep the value identical inside every grid column. The rule
+  runs beneath the caps of the second line (a K of 0.16em pulls it up onto the
+  baseline); the letters rise inside their own clipped line box, so they never
+  cross the stationary line.
+*/
 .home-hero {
   position: relative;
   display: grid;
@@ -247,6 +292,9 @@ html[data-theme="dark"] .theme-knob {
   column-gap: var(--grid-gap);
   padding-top: clamp(4rem, 7vw, 7rem);
   padding-bottom: var(--section-space);
+  container-type: inline-size;
+  --horizon-start: 13cqi;
+  --hero-size: var(--type-display);
 }
 .hero-name,
 .page-intro h1,
@@ -259,8 +307,8 @@ html[data-theme="dark"] .theme-knob {
   text-wrap: balance;
 }
 .hero-name {
-  grid-column: 1 / 11;
-  font-size: var(--type-display);
+  grid-column: 1 / -1;
+  font-size: var(--hero-size, var(--type-display));
   line-height: 0.92;
   letter-spacing: -0.065em;
   text-transform: uppercase;
@@ -271,7 +319,7 @@ html[data-theme="dark"] .theme-knob {
   padding-block: 0.08em 0.12em;
 }
 .hero-name-line + .hero-name-line {
-  margin-left: 13%;
+  margin-left: var(--horizon-start, 13%);
 }
 .hero-name-line > span {
   display: block;
@@ -281,6 +329,9 @@ html[data-theme="dark"] .theme-knob {
   grid-column: 1 / -1;
   height: 9px;
   margin-top: 1rem;
+}
+.home-hero .hero-rule {
+  margin-top: calc(var(--hero-size) * -0.16);
 }
 .hero-point {
   position: absolute;
@@ -300,11 +351,56 @@ html[data-theme="dark"] .theme-knob {
   background: var(--rule);
   transform-origin: left center;
 }
-.hero-location {
+.home-hero .hero-point {
+  left: var(--horizon-start);
+}
+.home-hero .hero-horizon {
+  left: calc(var(--horizon-start) + 4px);
+}
+.hero-presence {
   grid-column: 1 / 5;
-  margin: 2rem 0 0;
+  margin: 2rem 0 0 var(--horizon-start);
+}
+.hero-location {
+  margin: 0;
   color: var(--muted);
   font-size: var(--type-meta);
+}
+.hero-time {
+  margin: 0.4rem 0 0;
+  color: var(--muted);
+  font-size: var(--type-meta);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.hero-time-slot {
+  display: inline-block;
+  min-inline-size: 15ch;
+  font-variant-numeric: tabular-nums;
+}
+/* The margin spine: reads bottom-up like a book spine, bottom-anchored to the
+   hero's last row at the right edge. Decorative; the name is the h1. */
+.hero-spine {
+  position: absolute;
+  right: 0;
+  bottom: var(--section-space);
+  display: none;
+  margin: 0;
+  color: var(--muted);
+  font-size: var(--type-meta);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+}
+@media (min-width: 1100px) {
+  .hero-spine {
+    display: block;
+  }
+  .hero-support {
+    padding-inline-end: 2rem;
+  }
 }
 .hero-support {
   grid-column: 8 / -1;
@@ -353,22 +449,32 @@ html[data-theme="dark"] .theme-knob {
     animation: name-rise var(--motion-page) 550ms var(--ease-out-expo) both;
   }
   html[data-signature-motion="ready"] .hero-support,
-  html[data-signature-motion="ready"] .hero-location {
+  html[data-signature-motion="ready"] .hero-presence,
+  html[data-signature-motion="ready"] .hero-spine {
     animation: signature-arrive 300ms 850ms ease-out both;
   }
 }
 @media (min-width: 701px) and (max-width: 1000px) {
-  .hero-name {
-    grid-column: 1 / -1;
-  }
   .hero-support {
     grid-column: 6 / -1;
   }
 }
 
 .currently-list {
+  position: relative;
   margin: 0;
   border-left: 1px solid var(--rule);
+}
+
+.currently-list::before {
+  position: absolute;
+  top: -4px;
+  left: -5px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--accent);
+  content: "";
 }
 
 .currently-row {
@@ -408,11 +514,56 @@ html[data-theme="dark"] .theme-knob {
   margin-top: 0.7rem;
 }
 
-.empty-state .empty-state-title {
+/* An edition in waiting, set like a colophon: point, label, leader, "Forthcoming". */
+.edition-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
   color: var(--ink);
+}
+
+.empty-state .edition-row {
+  margin-bottom: 1.25rem;
+}
+
+.edition-point {
+  flex: none;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.edition-label {
+  flex: none;
+  color: var(--muted);
+  font-size: var(--type-meta);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.edition-leader {
+  flex: 1 1 2rem;
+  min-width: 2rem;
+  height: 1px;
+  background: var(--rule);
+}
+
+.edition-status {
+  flex: none;
   font-family: var(--font-literata), Georgia, serif;
-  font-size: 1.4rem;
-  line-height: 1.45;
+  font-size: 1.15rem;
+  white-space: nowrap;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 .inner-page {
@@ -1212,7 +1363,23 @@ html[data-theme="dark"] .theme-knob {
 }
 
 .prose li {
+  position: relative;
   padding-left: 0.35rem;
+}
+
+.prose ul > li::marker {
+  color: transparent;
+}
+
+.prose ul > li::before {
+  position: absolute;
+  top: 0.72em;
+  left: -1.1rem;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+  content: "";
 }
 
 .prose li + li {
@@ -1364,6 +1531,20 @@ html[data-theme="dark"] .theme-knob {
   font-size: 0.8rem;
 }
 
+.not-found-mark {
+  position: relative;
+  height: 9px;
+  margin: 0 0 2rem;
+}
+
+.not-found-trace {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 6rem;
+  border-top: 1px dashed var(--muted);
+}
+
 .not-found h1 {
   font-size: clamp(2.4rem, 5vw, 4rem);
   line-height: 1.15;
@@ -1508,23 +1689,24 @@ html[data-theme="dark"] .theme-knob {
   .home-hero {
     padding-top: 3.5rem;
   }
+  .home-hero {
+    --horizon-start: 0px;
+    --hero-size: clamp(4rem, 17vw, 6rem);
+  }
   .hero-name,
-  .hero-location,
+  .hero-presence,
   .hero-support {
     grid-column: 1;
   }
-  .hero-name {
-    font-size: clamp(4rem, 17vw, 6rem);
-  }
-  .hero-name-line + .hero-name-line {
-    margin-left: 0;
-  }
-  .hero-location {
+  .hero-presence {
     margin-top: 1rem;
   }
 
   .currently-list {
     border-left: 0;
+  }
+  .currently-list::before {
+    display: none;
   }
 
   .hero-lede {
@@ -2294,9 +2476,61 @@ html[data-theme="dark"] .theme-knob {
   display: block;
 }
 
+/* The ground is the motif's horizon: an oxide stroke from the origin point.
+   pathLength="1" lets one dash draw it. Hidden states exist only under
+   no-preference and behind the html attribute the inline script sets, so
+   server HTML, no-JS readers and reduced motion always get the complete line.
+   The "late" twin is the exit if application chunks never arrive: it draws
+   the line anyway after 4s. Two names, so the switch restarts at 0ms. */
 .fw-tree-ground {
-  stroke: var(--rule);
+  stroke: var(--accent);
   stroke-width: 1;
+}
+
+.fw-tree-origin {
+  position: absolute;
+  top: 90%;
+  left: 20%;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--accent);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+@keyframes fw-ground-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes fw-ground-draw-late {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html[data-signature-motion="ready"]
+    .fw-tree:not([data-draw="drawn"])
+    .fw-tree-ground {
+    stroke-dasharray: 1;
+    animation: fw-ground-draw-late var(--motion-reveal) var(--ease-out-expo) 4s
+      both;
+  }
+  html[data-signature-motion="ready"]
+    .fw-tree[data-draw="drawn"]
+    .fw-tree-ground {
+    stroke-dasharray: 1;
+    animation: fw-ground-draw var(--motion-reveal) var(--ease-out-expo) both;
+  }
 }
 
 .fw-tree-trunk,
@@ -2378,7 +2612,8 @@ html[data-theme="dark"] .theme-knob {
     box-shadow 0.2s ease;
 }
 
-.fw-hotspot:hover span {
+.fw-hotspot:hover span,
+.fw-hotspot-trunk span {
   background: color-mix(in srgb, var(--ink) 10%, transparent);
 }
 

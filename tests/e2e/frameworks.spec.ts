@@ -79,7 +79,7 @@ test("a leaf falls without its trunk and holds after the structure is built", as
   await page.goto("/frameworks/knowledge-tree");
 
   await page
-    .getByRole("button", { name: "Attach a leaf: a detail" })
+    .getByRole("button", { name: /^Attach leaf A1:/ })
     .first()
     .focus();
   await page.keyboard.press("Enter");
@@ -94,12 +94,12 @@ test("a leaf falls without its trunk and holds after the structure is built", as
   await expect(page.getByRole("status")).toContainText("Trunk built");
 
   await page
-    .getByRole("button", { name: "Build a big branch: a core truth" })
+    .getByRole("button", { name: /^Build branch A:/ })
     .first()
     .focus();
   await page.keyboard.press("Enter");
   await page
-    .getByRole("button", { name: "Attach a leaf: a detail" })
+    .getByRole("button", { name: /^Attach leaf A1:/ })
     .first()
     .focus();
   await page.keyboard.press("Space");

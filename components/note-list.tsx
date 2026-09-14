@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { EditionRow } from "@/components/edition-row";
 import type { ContentEntry } from "@/lib/content";
 import { formatDate } from "@/lib/utils";
 
@@ -10,7 +11,7 @@ export function NoteList({ notes }: NoteListProps) {
   if (notes.length === 0) {
     return (
       <div className="empty-state">
-        <p className="empty-state-title">No public notes yet.</p>
+        <EditionRow label="Note 001" />
         <p>
           Short observations, book notes and questions will collect here as they
           take shape.

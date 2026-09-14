@@ -70,7 +70,33 @@ export type ShelfEntry = {
   coverColor: string;
   hasNotes: boolean;
   placeholder: boolean;
+  /** Text printed on the spine: the title, or "Shelf 00N" for a placeholder. */
+  label: string;
 };
+
+/** Placeholders are numbered by their position in the seed file, never by sort order. */
+export function spineLabel(position: number) {
+  return `Shelf ${String(position).padStart(3, "0")}`;
+}
+
+const countWords = [
+  "",
+  "One",
+  "Two",
+  "Three",
+  "Four",
+  "Five",
+  "Six",
+  "Seven",
+  "Eight",
+  "Nine",
+];
+
+/** "Five spines in waiting." — the count of placeholders, never a count of books. */
+export function waitingCaption(count: number) {
+  const word = countWords[count] ?? String(count);
+  return `${word} ${count === 1 ? "spine" : "spines"} in waiting.`;
+}
 
 const libraryDirectory = path.join(process.cwd(), "content", "library");
 
@@ -106,14 +132,20 @@ export async function getShelf(): Promise<ShelfEntry[]> {
     coverColor: entry.coverColor,
     hasNotes: hasReadingNotes(entry),
     placeholder: false,
+    label: entry.title,
   }));
 
   const taken = new Set(shelf.map((entry) => entry.slug));
-  for (const seed of placeholderShelf) {
+  placeholderShelf.forEach((seed, index) => {
     if (!taken.has(seed.slug)) {
-      shelf.push({ ...seed, hasNotes: false, placeholder: true });
+      shelf.push({
+        ...seed,
+        hasNotes: false,
+        placeholder: true,
+        label: spineLabel(index + 1),
+      });
     }
-  }
+  });
 
   return shelf;
 }
