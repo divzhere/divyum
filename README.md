@@ -346,9 +346,10 @@ alone, and no real article has been published as a test.
 ## Add a journey chapter
 
 Journey copy and structure live in `lib/journey.ts`. Add a `JourneyChapter`
-there with a permanent, URL-safe `id`, a unique `sequence`, one or more
-`themes`, and a `primaryTheme` used by the thematic view. The `id` becomes the
-shareable fragment (`/journey#chapter-id`), so do not change it after publishing.
+there with a permanent, URL-safe `id`, a unique `sequence`, zero or more
+`themes`, and either a `primaryTheme` used by the thematic view or `null` for an
+unthemed chapter. The `id` becomes the shareable fragment
+(`/journey#chapter-id`), so do not change it after publishing.
 
 Professional chapters use `type: "professional"`, `phase` for the era, a short
 `title`, one- or two-sentence `summary`, and a small `descriptor`. Keep the six transitions

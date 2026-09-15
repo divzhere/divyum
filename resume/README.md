@@ -1,8 +1,8 @@
 # Resume
 
 This directory contains the standalone, ATS-friendly LaTeX resume for Divyum
-Bhumra. The website serves a copy from `public/resume/` so visitors can preview
-or download it from the Resume page.
+Bhumra. The website publishes its viewer at `/resume` and serves the PDF from
+`/resume/divyum-bhumra-resume.pdf` so visitors can preview or download it.
 
 ## Build
 
@@ -30,8 +30,9 @@ source so the resume can be viewed or downloaded without a local TeX
 installation.
 
 The Resume page also contains a semantic HTML version in
-[`app/resume/page.tsx`](../app/resume/page.tsx). Keep that text synchronized
-with the LaTeX source so assistive-technology users receive the same content.
+[`app/resume/page.tsx`](../app/resume/page.tsx). When the resume changes, keep
+its roles, dates, skills and outcomes aligned with the LaTeX source so
+assistive-technology users receive an equivalent text alternative.
 
 The website intentionally presents a two-page resume. If the PDF page count
 changes, update the preview image list and its tests in the same change.
