@@ -32,6 +32,7 @@ export function Footer() {
               "Library",
               "Journey",
               "About",
+              "Resume",
             ].map((label) => (
               <li key={label}>
                 <Link className="text-link" href={`/${label.toLowerCase()}`}>

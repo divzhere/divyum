@@ -15,6 +15,7 @@ const navigation = [
     ? [{ href: "/projects", label: "Projects" }]
     : []),
   { href: "/about", label: "About" },
+  { href: "/resume", label: "Resume" },
 ];
 
 export function Navigation() {

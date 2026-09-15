@@ -1,0 +1,111 @@
+\documentclass[10pt,a4paper]{article}
+
+\usepackage[margin=0.62in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{enumitem}
+\usepackage{tabularx}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+\usepackage{microtype}
+\usepackage{parskip}
+
+\definecolor{ink}{HTML}{172033}
+\definecolor{accent}{HTML}{165D7A}
+\definecolor{muted}{HTML}{4A5568}
+
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+\setlist[itemize]{leftmargin=1.15em,itemsep=2.2pt,topsep=2.5pt,parsep=0pt,partopsep=0pt}
+\titleformat{\section}{\large\bfseries\color{accent}}{}{0pt}{}[\vspace{-3pt}\color{accent}\titlerule]
+\titlespacing*{\section}{0pt}{9pt}{5pt}
+\urlstyle{same}
+
+\newcommand{\role}[4]{%
+  \begin{tabularx}{\textwidth}{@{}Xr@{}}
+    \textbf{\color{ink}#1} $\mid$ \textbf{#2} & \textbf{#3} \\
+    \textit{#4} &
+  \end{tabularx}\vspace{-4pt}
+}
+
+\begin{document}
+
+{\fontsize{25}{28}\selectfont\bfseries\color{ink} DIVYUM BHUMRA}\\[2pt]
+{\large\bfseries\color{accent} Lead Engineer \textbar{} Product Engineering \textbar{} Frontend Architecture}\\[4pt]
+Remote, India \enspace\textbullet\enspace
+\href{mailto:divz7777@gmail.com}{divz7777@gmail.com} \enspace\textbullet\enspace
+\href{https://divyumbhumra.com}{divyumbhumra.com}
+
+\section{LEADERSHIP PROFILE}
+Product-minded engineering leader with 7+ years of experience turning ambiguous requirements into reliable, customer-facing software. Leads Denim Health initiatives from discovery and PRDs through architecture, sprint execution, UAT, production rollout, and post-release support. Combines deep React and TypeScript expertise with client partnership, cross-functional leadership, and a record of improving performance, quality, and delivery confidence. Experienced building and guiding distributed teams across product, design, backend, QA, and customer-facing functions.
+
+\section{CORE LEADERSHIP \& TECHNICAL EXPERTISE}
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash\bfseries\color{ink}}p{0.2\textwidth}X@{}}
+Product leadership & Discovery, PRDs, user flows, roadmaps, prioritization, feature scoping, customer feedback, release planning \\
+Engineering leadership & Frontend architecture, technical strategy, mentoring, code reviews, estimation, quality, performance, accessibility \\
+Delivery & Agile/Scrum, Jira, backlog refinement, dependencies, milestones, QA, UAT, defect triage, production releases \\
+Frontend & React, TypeScript, JavaScript (ES6+), Next.js, Vite, Redux, Chakra UI, Storybook, HTML, CSS/Sass \\
+Quality \& platforms & Playwright, Jest, Enzyme, Auth0, Nx, Webpack, CI/CD, Azure App Service, Web APIs, Web Vitals, PWAs
+\end{tabularx}
+
+\section{PROFESSIONAL EXPERIENCE}
+\role{Senior Software Engineer / Lead Engineer}{Denim Health}{2023--Present}{Remote, India}
+\begin{itemize}
+  \item Progressed into a lead frontend and UX role in 2025; now own product initiatives end-to-end---from client discovery, requirements, PRDs, user flows, and technical planning through development, QA, UAT, production rollout, and post-release support.
+  \item Partner directly with client stakeholders to understand operational workflows, turn feedback into prioritized product decisions, resolve issues, and align upcoming releases.
+  \item Lead frontend architecture and delivery with React, TypeScript, Vite, Chakra UI, Auth0, and Playwright; contribute hands-on to implementation, debugging, refactoring, and UX decisions.
+  \item Build complex healthcare workflows spanning providers, practices, search, filters, maps, schedules, closures, and operational data.
+  \item Reduced frontend API traffic in key workflows from 40+ requests to approximately 10--12, improving performance and simplifying client-side orchestration.
+  \item Established Playwright end-to-end coverage for critical user journeys, increasing release confidence and reducing manual regression effort.
+  \item Drive sprint execution in Jira across backlog refinement, prioritization, estimation, dependencies, milestones, defect triage, and release readiness.
+  \item Coordinate UAT validation, production rollouts, release notes, and cross-functional communication across engineering, product, UX, customer-facing teams, and client stakeholders.
+\end{itemize}
+
+\role{Software Development Engineer 3}{CAW Studios}{Oct 2022--Jun 2023}{Hyderabad, India}
+\begin{itemize}
+  \item Led frontend development for Calibrate, a multilingual coding-assessment platform with proctoring, candidate verification, cheating detection, live hiring events, and an autocomplete-enabled coding environment.
+  \item Shaped product strategy, feature prioritization, and frontend architecture while managing sprints and the Jira board; helped the platform support live hiring events and attract 10,000+ users.
+  \item Led a cross-functional team of 3--4 frontend engineers, 2 QA engineers, and 1 designer; mentored engineers, reviewed code, and coordinated production deployments.
+  \item Established the frontend foundation for Celito, a B2B biotech SaaS product, using React, TypeScript, Fluent UI, Webpack, Storybook, and an MVC architecture.
+\end{itemize}
+
+\role{Software Engineer}{Topica Edtech Group}{Nov 2021--Oct 2022}{Gurugram, India}
+\begin{itemize}
+  \item Owned and delivered React and Next.js features for Edumall, a short-skills learning platform serving Thailand, Indonesia, and Vietnam.
+  \item Contributed to a product-wide design refresh that strengthened the learner experience for a platform receiving 200,000+ site visits.
+\end{itemize}
+
+\role{Frontend Engineer}{Independent / Remote}{Feb 2020--Sep 2021}{India}
+\begin{itemize}
+  \item Built Zollege, a college-search platform, from the ground up with Next.js; the product grew to more than 2.5 million site visits.
+  \item Delivered new workflows and translated Figma designs into production React interfaces for a hotel-management SaaS product.
+  \item Built a React application for IceCap Group's loan-underwriting workflow and configured delivery through Azure Pipelines and Azure App Service.
+\end{itemize}
+
+\role{UI Developer Intern}{XenonStack}{Jul 2019--Jan 2020}{Chandigarh, India}
+\begin{itemize}
+  \item Revamped XenonStack's careers portal with React, Redux, and Sass, contributing to a 5x increase in job applications.
+  \item Developed and documented reusable design-system packages; added unit coverage with Jest and Enzyme and automation coverage with Taiko.
+\end{itemize}
+
+\section{LEADERSHIP BEYOND ENGINEERING}
+\role{President}{Rotaract Club Chandigarh Himalayan}{Jun 2018--Jun 2019}{Chandigarh, India}
+\begin{itemize}
+  \item Led an 800+ member service organization, overseeing programs, people policies, team structure, budgets, marketing, and external representation; raised INR 10 lakh for community initiatives.
+\end{itemize}
+
+\role{Team Leader}{Smart India Hackathon 2018, Government of India}{Jan 2018--May 2018}{National Finalist}
+\begin{itemize}
+  \item Led e-Rozgaar, an online file-tracking system for government offices, to the national finals from a field of 12,000+ teams.
+\end{itemize}
+
+\section{EDUCATION}
+\begin{tabularx}{\textwidth}{@{}Xr@{}}
+\textbf{PG Diploma in Product Management}, Pragmatic Leaders (Y Combinator-backed) & \textbf{2021--2022} \\
+\textbf{Bachelor of Engineering in Information Technology}, UIET, Panjab University & \textbf{2015--2019}
+\end{tabularx}
+
+\end{document}

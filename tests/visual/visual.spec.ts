@@ -9,6 +9,7 @@ test.skip(
 
 const routes = [
   ...publicRoutes,
+  { path: "/journey?thread=technology", snapshot: "journey-technology" },
   ...(process.env.V3_DESIGN_LAB
     ? ["essay", "note", "book"].map((kind) => ({
         path: `/design/v3/reading/${kind}`,
@@ -30,6 +31,28 @@ for (const route of routes) {
       }, theme);
       await page.goto(route.path);
       await page.evaluate(() => document.fonts.ready);
+      if (route.snapshot === "journey-technology") {
+        await expect(
+          page.getByRole("checkbox", { name: /^Technology/ }),
+        ).toBeChecked();
+        await expect(page.locator(".journey-chapter")).toHaveCount(6);
+      }
+      if (route.snapshot === "resume") {
+        const previews = page.locator('img[src*="divyum-bhumra-resume-page-"]');
+        await expect(previews).toHaveCount(2);
+        await expect
+          .poll(() =>
+            previews.evaluateAll((images) =>
+              images.every(
+                (image) =>
+                  image instanceof HTMLImageElement &&
+                  image.complete &&
+                  image.naturalWidth > 0,
+              ),
+            ),
+          )
+          .toBe(true);
+      }
       const width = testInfo.project.use.viewport?.width;
 
       await expect(page).toHaveScreenshot(

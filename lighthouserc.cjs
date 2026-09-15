@@ -16,7 +16,10 @@ module.exports = {
         "http://127.0.0.1:3104/library",
         "http://127.0.0.1:3104/notes",
         "http://127.0.0.1:3104/journey",
+        "http://127.0.0.1:3104/journey?thread=technology",
+        "http://127.0.0.1:3104/experience",
         "http://127.0.0.1:3104/about",
+        "http://127.0.0.1:3104/resume",
       ],
       numberOfRuns: 3,
       settings: {

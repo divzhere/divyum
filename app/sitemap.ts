@@ -28,6 +28,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.7,
     },
     { url: absoluteUrl("/journey"), changeFrequency: "monthly", priority: 0.8 },
+    {
+      url: absoluteUrl("/experience"),
+      changeFrequency: "yearly",
+      priority: 0.6,
+    },
     ...(siteConfig.projectsVisible
       ? [
           {
@@ -38,6 +43,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         ]
       : []),
     { url: absoluteUrl("/about"), changeFrequency: "yearly", priority: 0.6 },
+    { url: absoluteUrl("/resume"), changeFrequency: "yearly", priority: 0.7 },
   ];
 
   const publicContent = [
