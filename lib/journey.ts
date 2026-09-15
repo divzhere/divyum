@@ -33,20 +33,31 @@ export type JourneyMedia = {
   caption?: string;
 };
 
-export type JourneyChapter = {
+type JourneyChapterBase = {
   id: string;
   sequence: number;
-  type?: "life" | "professional";
   phase: string;
-  place?: string;
   title: string;
   summary: string;
   themes: readonly JourneyTheme[];
   primaryTheme: JourneyTheme | null;
-  descriptor?: string;
   media?: JourneyMedia;
   anchor?: boolean;
 };
+
+type JourneyLifeChapter = JourneyChapterBase & {
+  type?: "life";
+  place: string;
+  descriptor?: never;
+};
+
+type JourneyProfessionalChapter = JourneyChapterBase & {
+  type: "professional";
+  descriptor: string;
+  place?: never;
+};
+
+export type JourneyChapter = JourneyLifeChapter | JourneyProfessionalChapter;
 
 export const journeyChapters: readonly JourneyChapter[] = [
   {

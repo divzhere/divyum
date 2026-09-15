@@ -16,6 +16,7 @@ export const publicRoutes = [
     snapshot: "experience",
   },
   { path: "/about", heading: "About", snapshot: "about" },
+  { path: "/resume", heading: "Resume", snapshot: "resume" },
   {
     path: "/frameworks/signal-vs-noise",
     heading: "Signal vs Noise",

@@ -43,6 +43,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         ]
       : []),
     { url: absoluteUrl("/about"), changeFrequency: "yearly", priority: 0.6 },
+    { url: absoluteUrl("/resume"), changeFrequency: "yearly", priority: 0.7 },
   ];
 
   const publicContent = [

@@ -30,6 +30,7 @@ test("home introduces all six destinations through distinct, truthful sections",
     "Library",
     "Journey",
     "About",
+    "Resume",
   ]) {
     await expect(footer.getByRole("link", { name, exact: true })).toBeVisible();
   }
@@ -55,6 +56,7 @@ test("every core page has a visible title and introduction without JavaScript", 
     "/library",
     "/journey",
     "/about",
+    "/resume",
   ]) {
     await page.goto(path);
     const heading = page.locator("main h1");

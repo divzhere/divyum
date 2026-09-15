@@ -1,0 +1,135 @@
+.resume {
+  border-top: 1px solid var(--rule);
+  padding-top: 2rem;
+}
+
+.heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.eyebrow {
+  margin: 0 0 0.45rem;
+  color: var(--muted);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.heading h2 {
+  margin: 0;
+  font-family: var(--font-literata), Georgia, serif;
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-weight: 450;
+  letter-spacing: -0.045em;
+  line-height: 1.1;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.action {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.875rem;
+}
+
+.action span {
+  color: var(--accent);
+}
+
+.preview {
+  display: grid;
+  gap: clamp(1rem, 2vw, 2rem);
+  width: 100%;
+  border: 1px solid var(--rule);
+  padding: clamp(0.5rem, 2vw, 2rem);
+  background: var(--soft);
+}
+
+.page {
+  display: block;
+  width: min(100%, 60rem);
+  height: auto;
+  margin-inline: auto;
+  border: 1px solid var(--rule);
+  background: white;
+}
+
+.fallback {
+  margin: 1rem 0 0;
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+
+.textVersion {
+  margin-top: 2rem;
+  border-block: 1px solid var(--rule);
+  padding-block: 0.75rem;
+}
+
+.textVersion summary {
+  display: flex;
+  min-height: 44px;
+  cursor: pointer;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--foreground);
+  font-weight: 600;
+}
+
+.textVersion summary span:last-child {
+  color: var(--accent);
+}
+
+.textContent {
+  max-width: 52rem;
+  padding: 2.5rem 0 1.5rem;
+}
+
+.textContent address {
+  color: var(--muted);
+  font-style: normal;
+}
+
+.expertise > div {
+  display: grid;
+  grid-template-columns: minmax(10rem, 0.3fr) 1fr;
+  gap: 1rem;
+  padding-block: 0.65rem;
+  border-top: 1px solid var(--rule);
+}
+
+.expertise dt {
+  font-weight: 600;
+}
+
+.expertise dd {
+  margin: 0;
+}
+
+.role > p {
+  margin-top: -0.65rem;
+  color: var(--muted);
+  font-size: 0.9em;
+}
+
+@media (max-width: 700px) {
+  .heading {
+    display: grid;
+    align-items: start;
+  }
+
+  .expertise > div {
+    grid-template-columns: 1fr;
+    gap: 0.25rem;
+  }
+}

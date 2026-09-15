@@ -32,7 +32,7 @@ test("the complete introduction is readable while application scripts are delaye
       page
         .getByRole("navigation", { name: "Primary navigation" })
         .getByRole("link"),
-    ).toHaveCount(6);
+    ).toHaveCount(7);
   } finally {
     releaseScripts();
   }

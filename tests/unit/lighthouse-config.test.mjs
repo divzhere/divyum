@@ -34,6 +34,12 @@ function categoryResult(category, scores) {
 }
 
 describe("Lighthouse release score gates", () => {
+  it("audits the public resume route", () => {
+    expect(lighthouseConfig.ci.collect.url).toContain(
+      "http://127.0.0.1:3104/resume",
+    );
+  });
+
   it.each(["performance", "best-practices", "seo"])(
     "rejects a below-target %s median even when one run passes",
     (category) => {
