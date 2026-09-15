@@ -14,16 +14,17 @@ Run `pnpm quality` before opening a pull request.
 
 ## Quality suite
 
-The suite covers essays, notes, frameworks, books, syndication, Journey and the
-approved motion system. Extend `tests/browser-routes.ts`, schemas, unit tests,
-visual baselines and Lighthouse URLs whenever adding a public route or data model.
+The suite covers essays, notes, frameworks, books, syndication, Journey,
+Experience, Resume and the approved motion system. Extend
+`tests/browser-routes.ts`, schemas, unit tests, visual baselines and Lighthouse
+URLs whenever adding a public route or data model.
 
 | Layer            | Command                                  | What it blocks                                                                                                       |
 | ---------------- | ---------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
 | Lint             | `pnpm lint`                              | ESLint errors across source and test code                                                                            |
 | Types            | `pnpm typecheck`                         | TypeScript errors in the real project graph                                                                          |
 | Content          | `pnpm content:check`                     | Invalid fields/dates, future public dates and duplicate slugs, including drafts                                      |
-| Unit/integration | `pnpm test:unit`                         | Content and Journey regressions; 80% statement coverage across `lib/`                                                |
+| Unit/integration | `pnpm test:unit`                         | Content, Journey, Experience and Resume regressions; 80% statement coverage across `lib/`                            |
 | Build/bundle     | `pnpm build && pnpm bundle:check`        | Production-build failures and more than 40 KiB gzip growth per route                                                 |
 | E2E              | `pnpm test:e2e`                          | Routes, 404/noindex, drafts, feeds, keyboard use, themes, overflow, console errors, reduced motion and no-JS reading |
 | Accessibility    | `pnpm test:a11y`                         | Any axe violations in both themes at 375, 768, 1280 and 1440px                                                       |
@@ -411,6 +412,8 @@ complete and renders no empty image card.
 
 - Edit the current snapshot in `lib/currently.ts`.
 - Edit journey chapters and their filters in `lib/journey.ts`.
+- Rebuild the published resume using the [resume build guide](resume/README.md),
+  and keep its accessible HTML text version synchronized with the PDF.
 - Add real social profiles, email and a newsletter URL in `lib/site.ts`; empty values stay hidden.
 - Set `NEXT_PUBLIC_SITE_URL` to the production origin. The fallback is `https://divyumbhumra.com`.
 

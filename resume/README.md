@@ -6,6 +6,9 @@ or download it from the Resume page.
 
 ## Build
 
+The build requires a TeX distribution with `pdflatex`, Poppler (`pdfinfo` and
+`pdftoppm`) and the WebP tool `cwebp`.
+
 From the repository root, run:
 
 ```bash
@@ -25,6 +28,10 @@ Run the command twice if cross-references or links are changed. The generated
 PDF, its public copy and the two page previews are committed alongside the
 source so the resume can be viewed or downloaded without a local TeX
 installation.
+
+The Resume page also contains a semantic HTML version in
+[`app/resume/page.tsx`](../app/resume/page.tsx). Keep that text synchronized
+with the LaTeX source so assistive-technology users receive the same content.
 
 The website intentionally presents a two-page resume. If the PDF page count
 changes, update the preview image list and its tests in the same change.
