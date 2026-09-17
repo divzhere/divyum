@@ -115,7 +115,8 @@ test("when application chunks never arrive the line still draws itself", async (
   await expect
     .poll(
       () => ground.evaluate((node) => getComputedStyle(node).strokeDashoffset),
-      { timeout: 6000 },
+      // CSS applies after commit, then a 4s delay and a 700ms ease-out tail.
+      { timeout: 8000 },
     )
     .toBe("0px");
 });

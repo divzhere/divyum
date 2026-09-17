@@ -1,9 +1,15 @@
 .home {
   padding-bottom: var(--section-space);
+  container-type: inline-size;
+  --horizon-start: 13cqi;
 }
-/* Every chapter opens where a point meets its hairline. */
+/* Every chapter opens where a point meets its hairline. As the chapter enters
+   the viewport its point arrives from the hero's origin column, so the hero
+   horizon and the chapter rules read as one line the reader draws down the
+   page. Scroll-driven, no JS; static at the origin without support. */
 .section {
   position: relative;
+  view-timeline-name: --chapter;
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
   gap: var(--grid-gap);
@@ -20,6 +26,23 @@
   border-radius: 50%;
   background: var(--accent);
   content: "";
+}
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    :global(html[data-signature-motion="ready"]) .section::before {
+      animation: originArrive linear both;
+      animation-timeline: --chapter;
+      animation-range: entry 0% entry 45%;
+    }
+  }
+}
+@keyframes originArrive {
+  from {
+    transform: translateX(var(--horizon-start));
+  }
+  to {
+    transform: translateX(0);
+  }
 }
 .numeral {
   display: block;
@@ -418,6 +441,9 @@
   }
 }
 @media (max-width: 700px) {
+  .home {
+    --horizon-start: 0px;
+  }
   .section {
     display: block;
   }

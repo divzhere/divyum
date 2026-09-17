@@ -15,8 +15,10 @@ import { useEffect, useRef, useState } from "react";
   The ground line is the motif's horizon with the tree's origin point at its
   start. Under prefers-reduced-motion: no-preference it draws itself once the
   canvas scrolls into view (data-draw="drawn"); server HTML, no-JS readers and
-  reduced motion render it complete. If application chunks never arrive after
-  the inline script marked the document ready, CSS draws it anyway after 4s.
+  reduced motion render it complete. Hydration sets data-draw="armed" (still
+  hidden, waiting for the canvas); if application chunks never arrive after
+  the inline script marked the document ready, no attribute is ever set and
+  CSS draws the line anyway after 4s.
 */
 
 const branches = [
@@ -40,7 +42,10 @@ export function KnowledgeTree() {
   const [builtBranches, setBuiltBranches] = useState<string[]>([]);
   const [attachedLeaves, setAttachedLeaves] = useState<string[]>([]);
   const [fallingLeaf, setFallingLeaf] = useState<string | null>(null);
-  const [drawn, setDrawn] = useState(false);
+  // "armed" once hydrated (hidden, waiting for the canvas to enter view),
+  // "drawn" after the first intersection. No attribute at all means the app
+  // never hydrated, which is the only case the CSS late-draw exit covers.
+  const [draw, setDraw] = useState<"armed" | "drawn" | null>(null);
   const canvasRef = useRef<HTMLDivElement>(null);
   const [status, setStatus] = useState(
     "Try attaching a leaf first — or start with the trunk.",
@@ -49,13 +54,14 @@ export function KnowledgeTree() {
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas || typeof IntersectionObserver === "undefined") {
-      setDrawn(true);
+      setDraw("drawn");
       return;
     }
+    setDraw("armed");
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries.some((entry) => entry.isIntersecting)) {
-          setDrawn(true);
+          setDraw("drawn");
           observer.disconnect();
         }
       },
@@ -110,7 +116,7 @@ export function KnowledgeTree() {
   const complete = trunkBuilt && attachedLeaves.length === leaves.length;
 
   return (
-    <div className="fw-visual fw-tree" data-draw={drawn ? "drawn" : undefined}>
+    <div className="fw-visual fw-tree" data-draw={draw ?? undefined}>
       <div className="fw-tree-canvas" ref={canvasRef}>
         <svg
           className="fw-tree-svg"

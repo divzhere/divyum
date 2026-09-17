@@ -143,6 +143,16 @@ a {
   transform: scaleX(1);
 }
 
+.text-link > span[aria-hidden="true"] {
+  display: inline-block;
+  transition: transform var(--motion-ui) var(--ease-out-expo);
+}
+
+.text-link:hover > span[aria-hidden="true"],
+.text-link:focus-visible > span[aria-hidden="true"] {
+  transform: translate(2px, -2px);
+}
+
 .site-header {
   position: relative;
 }
@@ -293,8 +303,11 @@ html[data-theme="dark"] .theme-knob {
   padding-top: clamp(4rem, 7vw, 7rem);
   padding-bottom: var(--section-space);
   container-type: inline-size;
+  perspective: 1400px;
   --horizon-start: 13cqi;
   --hero-size: var(--type-display);
+  --hx: 0;
+  --px: 0;
 }
 .hero-name,
 .page-intro h1,
@@ -317,6 +330,22 @@ html[data-theme="dark"] .theme-knob {
   display: block;
   overflow: clip;
   padding-block: 0.08em 0.12em;
+}
+/* The manuscript wakes: while a fine pointer is over the hero (data-awake,
+   --px written by HeroField) the two lines lean a degree toward it at two
+   depths (6px and 10px); when it leaves the transforms return to none, so at
+   rest the name is flat text with no 3D rendering context and crisp glyphs. */
+.home-hero .hero-name-line {
+  transform-origin: left center;
+  transition: transform 600ms var(--ease-out-expo);
+}
+.home-hero[data-awake] .hero-name-line {
+  transform: translateX(calc(var(--px) * 6px))
+    rotateY(calc(var(--px) * -1.2deg));
+}
+.home-hero[data-awake] .hero-name-line + .hero-name-line {
+  transform: translateX(calc(var(--px) * 10px))
+    rotateY(calc(var(--px) * -1.2deg));
 }
 .hero-name-line + .hero-name-line {
   margin-left: var(--horizon-start, 13%);
@@ -357,9 +386,45 @@ html[data-theme="dark"] .theme-knob {
 .home-hero .hero-horizon {
   left: calc(var(--horizon-start) + 4px);
 }
+/* The 5px marker rides the horizon under the pointer (--hx, 0..1). */
+.hero-marker {
+  position: absolute;
+  top: 2px;
+  left: calc(var(--horizon-start) + 4px - 2.5px);
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+  opacity: 0;
+  transform: translateX(
+    calc((100cqi - var(--horizon-start) - 4px) * var(--hx))
+  );
+  transition:
+    transform 600ms var(--ease-out-expo),
+    opacity var(--motion-micro) var(--ease-out-expo);
+}
+.home-hero[data-awake] .hero-marker {
+  opacity: 1;
+}
 .hero-presence {
   grid-column: 1 / 5;
   margin: 2rem 0 0 var(--horizon-start);
+  transition: transform 600ms var(--ease-out-expo);
+}
+.home-hero[data-awake] .hero-presence {
+  transform: translateX(calc(var(--px) * 3px));
+}
+/* नमस्ते: a traced path, sized like a line of meta type, drawn left to right
+   along its headline during the arrival's last beat. */
+.hero-namaste {
+  display: block;
+  width: auto;
+  height: 1.15rem;
+  margin: 0 0 0.75rem;
+  color: var(--accent);
+}
+.hero-time-here {
+  color: var(--muted);
 }
 .hero-location {
   margin: 0;
@@ -405,6 +470,10 @@ html[data-theme="dark"] .theme-knob {
 .hero-support {
   grid-column: 8 / -1;
   margin-top: 2rem;
+  transition: transform 600ms var(--ease-out-expo);
+}
+.home-hero[data-awake] .hero-support {
+  transform: translateX(calc(var(--px) * 2px));
 }
 .hero-lede {
   max-width: 34ch;
@@ -441,6 +510,14 @@ html[data-theme="dark"] .theme-knob {
     opacity: 1;
   }
 }
+@keyframes namaste-draw {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
 @media (prefers-reduced-motion: no-preference) {
   html[data-signature-motion="ready"] .home-hero .hero-horizon {
     animation: horizon-extend 500ms 250ms var(--ease-out-expo) both;
@@ -449,14 +526,32 @@ html[data-theme="dark"] .theme-knob {
     animation: name-rise var(--motion-page) 550ms var(--ease-out-expo) both;
   }
   html[data-signature-motion="ready"] .hero-support,
-  html[data-signature-motion="ready"] .hero-presence,
+  html[data-signature-motion="ready"] .hero-location,
+  html[data-signature-motion="ready"] .hero-time,
   html[data-signature-motion="ready"] .hero-spine {
     animation: signature-arrive 300ms 850ms ease-out both;
+  }
+  html[data-signature-motion="ready"] .hero-namaste {
+    animation: namaste-draw 300ms 850ms var(--ease-out-expo) both;
   }
 }
 @media (min-width: 701px) and (max-width: 1000px) {
   .hero-support {
     grid-column: 6 / -1;
+  }
+  /* Eight nav items on a tablet: tighter gaps and a floor between the
+     wordmark and the first item, so they never touch. */
+  .nav-inner {
+    gap: 1.5rem;
+  }
+  .nav-group {
+    gap: 1.25rem;
+  }
+  .primary-nav ul {
+    gap: 1rem;
+  }
+  .nav-link {
+    font-size: 0.8125rem;
   }
 }
 
@@ -1670,8 +1765,11 @@ html[data-theme="dark"] .theme-knob {
 
   .primary-nav ul {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 0 1rem;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0 0.75rem;
+  }
+  .nav-link {
+    font-size: 0.8125rem;
   }
 
   .theme-toggle {
@@ -2477,8 +2575,10 @@ html[data-theme="dark"] .theme-knob {
    pathLength="1" lets one dash draw it. Hidden states exist only under
    no-preference and behind the html attribute the inline script sets, so
    server HTML, no-JS readers and reduced motion always get the complete line.
-   The "late" twin is the exit if application chunks never arrive: it draws
-   the line anyway after 4s. Two names, so the switch restarts at 0ms. */
+   Hydration arms the line (hidden, no animation) until the canvas enters view.
+   The "late" twin is the exit if application chunks never arrive (no attribute
+   is ever set): it draws the line anyway after 4s. Two names, so the switch
+   restarts at 0ms. */
 .fw-tree-ground {
   stroke: var(--accent);
   stroke-width: 1;
@@ -2516,11 +2616,17 @@ html[data-theme="dark"] .theme-knob {
 
 @media (prefers-reduced-motion: no-preference) {
   html[data-signature-motion="ready"]
-    .fw-tree:not([data-draw="drawn"])
+    .fw-tree:not([data-draw])
     .fw-tree-ground {
     stroke-dasharray: 1;
     animation: fw-ground-draw-late var(--motion-reveal) var(--ease-out-expo) 4s
       both;
+  }
+  html[data-signature-motion="ready"]
+    .fw-tree[data-draw="armed"]
+    .fw-tree-ground {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
   }
   html[data-signature-motion="ready"]
     .fw-tree[data-draw="drawn"]
