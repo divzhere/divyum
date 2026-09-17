@@ -4,6 +4,8 @@ import Image from "next/image";
 import type { FormEvent } from "react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { motion, useScroll } from "framer-motion";
+import { LocalTime } from "@/components/local-time";
+import { siteConfig } from "@/lib/site";
 import {
   filterJourneyChapters,
   journeyChapters,
@@ -182,9 +184,17 @@ export function JourneyExplorer() {
         className="journey-results"
         aria-labelledby="journey-stories-title"
       >
+        {/* The identity block: everything here is already asserted elsewhere on
+            the site (name, location, origin, India's clock, the visible route). */}
         <aside className="journey-results-aside">
-          <span>Visible route</span>
-          <strong>{visibleChapters.length} chapters</strong>
+          <span className="journey-identity-name">{siteConfig.name}</span>
+          <span>{siteConfig.location}</span>
+          <span>Est. Punjab</span>
+          <LocalTime />
+          <span className="journey-identity-route">
+            <span>Visible route</span>
+            <strong>{visibleChapters.length} chapters</strong>
+          </span>
         </aside>
 
         <div className="journey-results-main">
@@ -221,83 +231,80 @@ export function JourneyExplorer() {
             </div>
           </div>
 
-          <div className="journey-reading-progress" aria-hidden="true">
-            <motion.span style={{ scaleX: scrollYProgress }} />
-          </div>
+          {/* One thread runs the whole timeline; it fills with reading
+              progress. Keep the scroll target mounted when filters change.
+              New chapters retain their shared CSS entrance animation. */}
+          <div className="journey-thread">
+            <div className="journey-reading-progress" aria-hidden="true">
+              <motion.span style={{ scaleY: scrollYProgress }} />
+            </div>
+            <ol className="journey-timeline" ref={timelineRef}>
+              {visibleChapters.map((chapter) => (
+                <li
+                  className="journey-chapter editorial-reveal"
+                  id={chapter.id}
+                  key={chapter.id}
+                  aria-labelledby={`${chapter.id}-title`}
+                >
+                  <div className="journey-marker" aria-hidden="true" />
 
-          {/* Keep the scroll target mounted when filters change. New
-                chapters retain their shared CSS entrance animation. */}
-          <ol className="journey-timeline" ref={timelineRef}>
-            {visibleChapters.map((chapter, index) => (
-              <li
-                className="journey-chapter editorial-reveal"
-                id={chapter.id}
-                key={chapter.id}
-                aria-labelledby={`${chapter.id}-title`}
-              >
-                <div className="journey-marker" aria-hidden="true">
-                  <span className="journey-chapter-number">
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
-                  <span className="journey-thread-segment" />
-                </div>
-
-                <article className="journey-chapter-copy">
-                  <div className="journey-chapter-meta">
-                    <span>{chapter.phase}</span>
-                    {chapter.type !== "professional" && (
-                      <span>
-                        {order === "thematic" && chapter.primaryTheme
-                          ? journeyThemes.find(
-                              ({ id }) => id === chapter.primaryTheme,
-                            )?.label
-                          : chapter.place}
-                      </span>
-                    )}
-                  </div>
-                  <h3 id={`${chapter.id}-title`}>
-                    <a href={`#${chapter.id}`} title="Link to this chapter">
-                      {chapter.title}
-                    </a>
-                  </h3>
-                  <p>{chapter.summary}</p>
-                  {chapter.descriptor && (
-                    <p className="journey-chapter-descriptor">
-                      {chapter.descriptor}
-                    </p>
-                  )}
-                  {chapter.media && (
-                    <figure className="journey-chapter-media">
-                      <Image
-                        src={chapter.media.src}
-                        alt={chapter.media.alt}
-                        width={chapter.media.width}
-                        height={chapter.media.height}
-                        sizes="(max-width: 700px) calc(100vw - 96px), (max-width: 1140px) calc(61vw - 84px), 608px"
-                        loading="lazy"
-                      />
-                      {chapter.media.caption && (
-                        <figcaption>{chapter.media.caption}</figcaption>
+                  <article className="journey-chapter-copy">
+                    <div className="journey-chapter-meta">
+                      <span>{chapter.phase}</span>
+                      {chapter.type !== "professional" && (
+                        <span>
+                          {order === "thematic" && chapter.primaryTheme
+                            ? journeyThemes.find(
+                                ({ id }) => id === chapter.primaryTheme,
+                              )?.label
+                            : chapter.place}
+                        </span>
                       )}
-                    </figure>
-                  )}
-                  {chapter.type !== "professional" &&
-                    chapter.themes.length > 0 && (
-                      <ul aria-label="Story threads">
-                        {chapter.themes.map((theme) => (
-                          <li key={theme}>
-                            {
-                              journeyThemes.find((item) => item.id === theme)
-                                ?.label
-                            }
-                          </li>
-                        ))}
-                      </ul>
+                    </div>
+                    <h3 id={`${chapter.id}-title`}>
+                      <a href={`#${chapter.id}`} title="Link to this chapter">
+                        {chapter.title}
+                      </a>
+                    </h3>
+                    <p>{chapter.summary}</p>
+                    {chapter.descriptor && (
+                      <p className="journey-chapter-descriptor">
+                        {chapter.descriptor}
+                      </p>
                     )}
-                </article>
-              </li>
-            ))}
-          </ol>
+                    {chapter.media && (
+                      <figure className="journey-chapter-media">
+                        <Image
+                          src={chapter.media.src}
+                          alt={chapter.media.alt}
+                          width={chapter.media.width}
+                          height={chapter.media.height}
+                          sizes="(max-width: 700px) calc(100vw - 96px), (max-width: 1140px) calc(61vw - 84px), 608px"
+                          loading="lazy"
+                        />
+                        {chapter.media.caption && (
+                          <figcaption>{chapter.media.caption}</figcaption>
+                        )}
+                      </figure>
+                    )}
+                    {chapter.type !== "professional" &&
+                      chapter.themes.length > 0 && (
+                        <ul aria-label="Story threads">
+                          {chapter.themes.map((theme) => (
+                            <li key={theme}>
+                              {
+                                journeyThemes.find((item) => item.id === theme)
+                                  ?.label
+                              }
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                  </article>
+                </li>
+              ))}
+            </ol>
+          </div>
         </div>
       </section>
     </div>

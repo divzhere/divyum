@@ -22,7 +22,7 @@ export default async function LibraryPage() {
           its own page only once it has earned real notes.
         </p>
       </PageIntro>
-      <div className="index-content">
+      <div className="index-content scroll-reveal">
         <LibraryShelf entries={shelf} />
       </div>
     </div>

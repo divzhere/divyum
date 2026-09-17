@@ -239,11 +239,10 @@ test("journey progress reaches the end of a URL-filtered thread", async ({
   );
   await expect
     .poll(() =>
-      page
-        .locator(".journey-reading-progress span")
-        .evaluate(
-          (node) => new DOMMatrixReadOnly(getComputedStyle(node).transform).a,
-        ),
+      page.locator(".journey-reading-progress span").evaluate(
+        // The thread fills vertically with reading progress.
+        (node) => new DOMMatrixReadOnly(getComputedStyle(node).transform).d,
+      ),
     )
     .toBeGreaterThan(0.99);
 });
