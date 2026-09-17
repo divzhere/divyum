@@ -2139,17 +2139,18 @@ html[data-theme="dark"] .theme-knob {
   }
 }
 
-/* Scroll-driven arrival: a block settles into place (14px, from 30% opacity)
-   over the first third of its entry into the viewport. Scroll timelines are
-   not document-timeline animations, so nothing waits on them; without
-   support, or under reduced motion, the block is simply there. */
+/* Scroll-driven arrival: a block settles into place (18px of travel, no
+   fade) over the first third of its entry into the viewport. Transform only:
+   a fade would blend muted text below the 4.5:1 contrast floor for as long
+   as the block waits below the fold, and Lighthouse audits the page as it
+   is painted at load. Scroll timelines are not document-timeline
+   animations, so nothing waits on them; without support, or under reduced
+   motion, the block is simply there. */
 @keyframes scroll-reveal {
   from {
-    opacity: 0.3;
-    transform: translateY(14px);
+    transform: translateY(18px);
   }
   to {
-    opacity: 1;
     transform: translateY(0);
   }
 }
