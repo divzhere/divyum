@@ -49,7 +49,7 @@ export default async function HomePage() {
     <div className={`page-shell home-page ${styles.home}`}>
       <HeroExperience />
       <section
-        className={`${styles.section} ${styles.currently}`}
+        className={`${styles.section} scroll-reveal ${styles.currently}`}
         aria-labelledby="currently-title"
       >
         <div className={styles.sectionHead}>
@@ -59,7 +59,7 @@ export default async function HomePage() {
         <Currently />
       </section>
       <section
-        className={`${styles.section} ${styles.writing}`}
+        className={`${styles.section} scroll-reveal ${styles.writing}`}
         aria-labelledby="writing-title"
       >
         <div className={styles.sectionHead}>
@@ -79,7 +79,7 @@ export default async function HomePage() {
         </div>
       </section>
       <section
-        className={`${styles.section} ${styles.frameworks}`}
+        className={`${styles.section} scroll-reveal ${styles.frameworks}`}
         aria-labelledby="frameworks-title"
       >
         <div className={styles.sectionHead}>
@@ -145,7 +145,7 @@ export default async function HomePage() {
         </div>
       </section>
       <section
-        className={`${styles.section} ${styles.journey}`}
+        className={`${styles.section} scroll-reveal ${styles.journey}`}
         aria-labelledby="journey-title"
       >
         <div className={styles.sectionHead}>
@@ -171,7 +171,7 @@ export default async function HomePage() {
         </ol>
       </section>
       <section
-        className={`${styles.section} ${styles.library}`}
+        className={`${styles.section} scroll-reveal ${styles.library}`}
         aria-labelledby="library-title"
       >
         <div className={styles.sectionHead}>
@@ -213,7 +213,7 @@ export default async function HomePage() {
         </div>
       </section>
       <section
-        className={`${styles.section} ${styles.about}`}
+        className={`${styles.section} scroll-reveal ${styles.about}`}
         aria-labelledby="about-title"
       >
         <div className={styles.sectionHead}>
