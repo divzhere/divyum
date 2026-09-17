@@ -1047,23 +1047,56 @@ html[data-theme="dark"] .theme-knob {
   padding-block: 4.5rem 1rem;
 }
 
+/* The identity block: a point on a vertical rule, meta caps beneath it,
+   sticky while the thread scrolls past. */
 .journey-results-aside {
   position: sticky;
   top: 2rem;
   align-self: start;
+  padding-left: 1.25rem;
+  border-left: 1px solid var(--rule);
   color: var(--muted);
-  font-size: 0.78rem;
+  font-size: var(--type-meta);
+  letter-spacing: 0.08em;
+  line-height: 1.9;
+  text-transform: uppercase;
 }
 
-.journey-results-aside span,
+.journey-results-aside::before {
+  position: absolute;
+  top: -4px;
+  left: -5px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--accent);
+  content: "";
+}
+
+.journey-results-aside > span,
 .journey-results-aside strong {
   display: block;
 }
 
-.journey-results-aside strong {
-  margin-top: 0.3rem;
+.journey-identity-name {
   color: var(--ink);
-  font-size: 0.78rem;
+  font-weight: 650;
+}
+
+.journey-results-aside .hero-time {
+  margin: 0;
+  font-size: var(--type-meta);
+  letter-spacing: 0.08em;
+}
+
+.journey-identity-route {
+  margin-top: 1.4rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--rule);
+}
+
+.journey-identity-route strong {
+  color: var(--ink);
   font-weight: 650;
 }
 
@@ -1129,11 +1162,21 @@ html[data-theme="dark"] .theme-knob {
   color: var(--ink);
 }
 
+/* One thread for the whole timeline. Chapters sit to its right with their
+   phase to its left; each chapter is a 5px marker on the thread that grows
+   into a 9px origin while it passes the middle of the viewport, and the
+   thread itself fills with reading progress. */
+.journey-thread {
+  position: relative;
+  --thread-x: 8.5rem;
+}
+
 .journey-reading-progress {
-  position: sticky;
-  z-index: 4;
-  top: 0;
-  height: 1px;
+  position: absolute;
+  top: 0.9rem;
+  bottom: 0.9rem;
+  left: calc(var(--thread-x) - 0.5px);
+  width: 1px;
   overflow: hidden;
   background: var(--rule);
 }
@@ -1143,7 +1186,7 @@ html[data-theme="dark"] .theme-knob {
   width: 100%;
   height: 100%;
   background: var(--accent);
-  transform-origin: left center;
+  transform-origin: center top;
 }
 
 .journey-timeline {
@@ -1155,20 +1198,20 @@ html[data-theme="dark"] .theme-knob {
 .journey-chapter {
   display: grid;
   min-width: 0;
-  grid-template-columns: 3.5rem minmax(0, 1fr);
-  gap: 1.4rem;
+  grid-template-columns: 6.5rem 1.5rem minmax(0, 1fr);
+  gap: 1.25rem;
   padding-block: 2.5rem;
   scroll-margin-top: 4rem;
 }
 
-.journey-chapter:target {
-  background: color-mix(in srgb, var(--soft) 55%, transparent);
-}
-
-.journey-chapter:target .journey-chapter-number {
-  border-color: var(--accent);
-  background: var(--accent);
-  color: var(--paper);
+.journey-chapter-phase {
+  padding-top: 0.15rem;
+  color: var(--muted);
+  font-size: var(--type-meta);
+  letter-spacing: 0.08em;
+  line-height: 1.6;
+  text-align: right;
+  text-transform: uppercase;
 }
 
 .journey-marker {
@@ -1176,33 +1219,50 @@ html[data-theme="dark"] .theme-knob {
   min-height: 100%;
 }
 
-.journey-chapter-number {
-  position: relative;
-  z-index: 1;
-  display: inline-flex;
-  min-width: 1.8rem;
-  min-height: 1.8rem;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid var(--rule);
-  background: var(--paper);
-  color: var(--accent);
-  font-family: var(--font-literata), Georgia, serif;
-  font-size: 0.72rem;
-}
-
-.journey-thread-segment {
+.journey-marker::before {
   position: absolute;
-  top: 1.8rem;
-  bottom: -2.5rem;
-  left: 0.9rem;
-  width: 1px;
-  background: var(--rule);
-  transform-origin: top;
+  top: 0.55rem;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  margin-left: -2.5px;
+  border-radius: 50%;
+  background: var(--accent);
+  content: "";
+  transition: transform var(--motion-micro) var(--ease-out-expo);
 }
 
-.journey-chapter:last-child .journey-thread-segment {
-  display: none;
+.journey-chapter:target .journey-marker::before,
+.journey-chapter:hover .journey-marker::before,
+.journey-chapter:focus-within .journey-marker::before {
+  transform: scale(1.8);
+}
+
+.journey-chapter:target {
+  background: color-mix(in srgb, var(--soft) 55%, transparent);
+}
+
+@keyframes journey-marker-pass {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.8);
+  }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    html[data-signature-motion="ready"] .journey-chapter {
+      view-timeline-name: --journey-chapter;
+    }
+    html[data-signature-motion="ready"] .journey-marker::before {
+      animation: journey-marker-pass linear both;
+      animation-timeline: --journey-chapter;
+      animation-range: cover 25% cover 75%;
+    }
+  }
 }
 
 .journey-chapter-copy {
@@ -1216,6 +1276,12 @@ html[data-theme="dark"] .theme-knob {
   gap: 1rem;
   color: var(--muted);
   font-size: 0.76rem;
+}
+
+@media (min-width: 701px) {
+  .journey-chapter-meta > span:first-child {
+    display: none;
+  }
 }
 
 .journey-chapter-copy h3 {
@@ -1941,11 +2007,7 @@ html[data-theme="dark"] .theme-knob {
 
   .journey-results-aside {
     position: static;
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    border-bottom: 1px solid var(--rule);
-    padding-bottom: 1rem;
+    padding-left: 1rem;
   }
 
   .journey-results-aside strong {
@@ -1966,10 +2028,18 @@ html[data-theme="dark"] .theme-knob {
     align-items: flex-start;
   }
 
+  .journey-thread {
+    --thread-x: 0.75rem;
+  }
+
   .journey-chapter {
-    grid-template-columns: 2.75rem minmax(0, 1fr);
+    grid-template-columns: 1.5rem minmax(0, 1fr);
     gap: 0.75rem;
     padding-block: 2.15rem;
+  }
+
+  .journey-chapter-phase {
+    display: none;
   }
 
   .journey-chapter-meta {
@@ -2058,6 +2128,32 @@ html[data-theme="dark"] .theme-knob {
 @media (prefers-reduced-motion: no-preference) {
   html[data-signature-motion="ready"] .editorial-reveal {
     animation: editorial-reveal var(--motion-duration) var(--motion-ease);
+  }
+}
+
+/* Scroll-driven arrival: a block settles into place (14px, from 30% opacity)
+   over the first third of its entry into the viewport. Scroll timelines are
+   not document-timeline animations, so nothing waits on them; without
+   support, or under reduced motion, the block is simply there. */
+@keyframes scroll-reveal {
+  from {
+    opacity: 0.3;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    html[data-signature-motion="ready"] .scroll-reveal,
+    html[data-signature-motion="ready"] .journey-chapter.editorial-reveal {
+      animation: scroll-reveal linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 30%;
+    }
   }
 }
 

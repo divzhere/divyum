@@ -22,7 +22,7 @@ export default async function NotesPage() {
           keeping.
         </p>
       </PageIntro>
-      <div className="index-content">
+      <div className="index-content scroll-reveal">
         <NoteList notes={notes} />
       </div>
     </div>

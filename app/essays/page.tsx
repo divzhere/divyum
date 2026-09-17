@@ -22,7 +22,7 @@ export default async function EssaysPage() {
           connect them.
         </p>
       </PageIntro>
-      <div className="index-content">
+      <div className="index-content scroll-reveal">
         <EssayList essays={essays} />
       </div>
     </div>
