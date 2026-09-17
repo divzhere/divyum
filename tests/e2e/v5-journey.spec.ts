@@ -51,18 +51,21 @@ test("every chapter is a marker on one thread, with its phase beside it on wide 
   expect(Math.abs(thread!.x + thread!.width / 2 - marker.x)).toBeLessThan(1.5);
   expect(marker.width).toBe("5px");
   expect(marker.transform).toBe("none");
-  const phase = chapters.first().locator(".journey-chapter-phase");
+  // One phase element per chapter: left of the thread on wide screens, in
+  // the meta row on phones.
+  const phase = chapters
+    .first()
+    .locator(".journey-chapter-meta > span")
+    .first();
+  await expect(phase).toHaveText("Origins");
+  const [phaseBox, threadBox] = await Promise.all([
+    phase.boundingBox(),
+    page.locator(".journey-reading-progress").boundingBox(),
+  ]);
   if ((viewport?.width ?? 0) > 700) {
-    await expect(phase).toBeVisible();
-    await expect(phase).toHaveText("Origins");
-    await expect(
-      chapters.first().locator(".journey-chapter-meta > span").first(),
-    ).toBeHidden();
+    expect(phaseBox!.x + phaseBox!.width).toBeLessThan(threadBox!.x);
   } else {
-    await expect(phase).toBeHidden();
-    await expect(
-      chapters.first().locator(".journey-chapter-meta"),
-    ).toContainText("Origins");
+    expect(phaseBox!.x).toBeGreaterThan(threadBox!.x);
   }
   await expect(page.locator(".journey-chapter-number")).toHaveCount(0);
 });

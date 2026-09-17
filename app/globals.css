@@ -1196,22 +1196,39 @@ html[data-theme="dark"] .theme-knob {
 }
 
 .journey-chapter {
+  position: relative;
   display: grid;
   min-width: 0;
   grid-template-columns: 6.5rem 1.5rem minmax(0, 1fr);
+  grid-template-areas: "phase marker copy";
   gap: 1.25rem;
   padding-block: 2.5rem;
   scroll-margin-top: 4rem;
 }
 
-.journey-chapter-phase {
-  padding-top: 0.15rem;
-  color: var(--muted);
-  font-size: var(--type-meta);
-  letter-spacing: 0.08em;
-  line-height: 1.6;
-  text-align: right;
-  text-transform: uppercase;
+.journey-marker {
+  grid-area: marker;
+}
+
+.journey-chapter-copy {
+  grid-area: copy;
+}
+
+/* The phase is the meta row's first span, lifted into the left column on
+   wide screens so it sits beside the marker, one element for both layouts. */
+@media (min-width: 701px) {
+  .journey-chapter-meta > span:first-child {
+    position: absolute;
+    top: 2.5rem;
+    left: 0;
+    width: 6.5rem;
+    padding-top: 0.15rem;
+    font-size: var(--type-meta);
+    letter-spacing: 0.08em;
+    line-height: 1.6;
+    text-align: right;
+    text-transform: uppercase;
+  }
 }
 
 .journey-marker {
@@ -1276,12 +1293,6 @@ html[data-theme="dark"] .theme-knob {
   gap: 1rem;
   color: var(--muted);
   font-size: 0.76rem;
-}
-
-@media (min-width: 701px) {
-  .journey-chapter-meta > span:first-child {
-    display: none;
-  }
 }
 
 .journey-chapter-copy h3 {
@@ -2034,12 +2045,9 @@ html[data-theme="dark"] .theme-knob {
 
   .journey-chapter {
     grid-template-columns: 1.5rem minmax(0, 1fr);
+    grid-template-areas: "marker copy";
     gap: 0.75rem;
     padding-block: 2.15rem;
-  }
-
-  .journey-chapter-phase {
-    display: none;
   }
 
   .journey-chapter-meta {

@@ -246,9 +246,6 @@ export function JourneyExplorer() {
                   key={chapter.id}
                   aria-labelledby={`${chapter.id}-title`}
                 >
-                  <span className="journey-chapter-phase" aria-hidden="true">
-                    {chapter.phase}
-                  </span>
                   <div className="journey-marker" aria-hidden="true" />
 
                   <article className="journey-chapter-copy">
