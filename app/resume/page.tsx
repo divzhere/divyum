@@ -9,7 +9,7 @@ const resumePath = "/resume/divyum-bhumra-resume.pdf";
 export const metadata: Metadata = createMetadata({
   title: "Resume",
   description:
-    "View or download Divyum Bhumra's resume for engineering leadership, product delivery and frontend architecture roles.",
+    "View or download Divyum Bhumra's resume for lead engineering, AI-native product engineering and frontend architecture roles.",
   path: "/resume",
 });
 
@@ -18,8 +18,8 @@ export default function ResumePage() {
     <div className="page-shell inner-page">
       <PageIntro title="Resume">
         <p>
-          Engineering leadership, product delivery and frontend architecture —
-          from discovery through production.
+          Lead engineering, AI-native product engineering and frontend
+          architecture — from ambiguous requirements through production.
         </p>
       </PageIntro>
 
@@ -91,7 +91,8 @@ export default function ResumePage() {
             <h2>Divyum Bhumra</h2>
             <p>
               <strong>
-                Lead Engineer · Product Engineering · Frontend Architecture
+                Lead Engineer · AI-Native Product Engineering · Frontend
+                Architecture
               </strong>
             </p>
             <address>
@@ -104,20 +105,23 @@ export default function ResumePage() {
           <section>
             <h3>Leadership profile</h3>
             <p>
-              Product-minded engineering leader with 7+ years of experience
-              turning ambiguous requirements into reliable, customer-facing
-              software. Leads Denim Health initiatives from discovery and PRDs
-              through architecture, sprint execution, UAT, production rollout
-              and post-release support. Combines deep React and TypeScript
-              expertise with client partnership, cross-functional leadership and
-              a record of improving performance, quality and delivery
-              confidence. Experienced building and guiding distributed teams
-              across product, design, backend, QA and customer-facing functions.
+              Product-minded Lead Engineer with 7+ years owning customer-facing
+              software from ambiguous requirements through architecture,
+              implementation, UAT and production. Deep React and TypeScript
+              background across healthcare, assessment and education platforms,
+              with product ownership spanning discovery, PRDs, user flows and
+              release planning, and experience leading distributed teams across
+              product, design, backend and QA. Works in an AI-native engineering
+              model — agentic coding workflows, context engineering and
+              multi-agent orchestration — to take on larger implementation
+              scopes while architecture, technical review and production
+              decisions stay human-owned, with spec-driven development and
+              Playwright-based verification gates holding the quality line.
             </p>
           </section>
 
           <section>
-            <h3>Core leadership and technical expertise</h3>
+            <h3>Core expertise</h3>
             <dl className={styles.expertise}>
               <div>
                 <dt>Product leadership</dt>
@@ -129,29 +133,43 @@ export default function ResumePage() {
               <div>
                 <dt>Engineering leadership</dt>
                 <dd>
-                  Frontend architecture, technical strategy, mentoring, code
-                  reviews, estimation, quality, performance and accessibility
+                  Technical strategy, system design, technical architecture,
+                  architectural ownership, mentoring, code review, estimation
+                  and cross-functional influence
                 </dd>
               </div>
               <div>
-                <dt>Delivery</dt>
+                <dt>AI-native engineering</dt>
                 <dd>
-                  Agile/Scrum, Jira, backlog refinement, dependencies,
-                  milestones, QA, UAT, defect triage and production releases
+                  Agentic coding workflows, multi-agent orchestration, context
+                  engineering, spec-driven development, prompt engineering,
+                  structured task decomposition, human-in-the-loop engineering,
+                  agentic QA, AI-assisted software delivery, Claude Code, OpenAI
+                  Codex and gstack
                 </dd>
               </div>
               <div>
-                <dt>Frontend</dt>
+                <dt>Frontend architecture</dt>
                 <dd>
                   React, TypeScript, JavaScript (ES6+), Next.js, Vite, Redux,
-                  Chakra UI, Storybook, HTML and CSS/Sass
+                  Chakra UI, Storybook, HTML, CSS/Sass, Web APIs, performance
+                  engineering and accessibility
                 </dd>
               </div>
               <div>
-                <dt>Quality and platforms</dt>
+                <dt>Quality and verification</dt>
                 <dd>
-                  Playwright, Jest, Enzyme, Auth0, Nx, Webpack, CI/CD, Azure App
-                  Service, Web APIs, Web Vitals and PWAs
+                  Playwright, E2E automation, verification harnesses, Jest,
+                  regression testing, UAT gates, release validation, production
+                  validation, observability and Web Vitals
+                </dd>
+              </div>
+              <div>
+                <dt>Delivery and platforms</dt>
+                <dd>
+                  Agile/Scrum, Jira, backlog refinement, dependencies,
+                  milestones, defect triage, CI/CD, Nx, Webpack, Auth0 and Azure
+                  App Service
                 </dd>
               </div>
             </dl>
@@ -162,50 +180,76 @@ export default function ResumePage() {
 
             <section className={styles.role}>
               <h4>Senior Software Engineer / Lead Engineer · Denim Health</h4>
-              <p>2023–Present · Remote, India</p>
+              <p>2023–September 2026 · Remote, India</p>
               <ul>
                 <li>
-                  Progressed into a lead frontend and UX role in 2025; now own
-                  product initiatives end-to-end—from client discovery,
+                  Progressed into a lead frontend and product role in 2025,
+                  owning initiatives end-to-end — client discovery,
                   requirements, PRDs, user flows and technical planning through
-                  development, QA, UAT, production rollout and post-release
+                  implementation, QA, UAT, production rollout and post-release
                   support.
                 </li>
                 <li>
-                  Partner directly with client stakeholders to understand
-                  operational workflows, turn feedback into prioritized product
-                  decisions, resolve issues and align upcoming releases.
+                  Led frontend architecture and delivery with React, TypeScript,
+                  Vite, Chakra UI, Auth0 and Playwright, staying hands-on across
+                  implementation, debugging, refactoring and UX decisions.
                 </li>
                 <li>
-                  Lead frontend architecture and delivery with React,
-                  TypeScript, Vite, Chakra UI, Auth0 and Playwright; contribute
-                  hands-on to implementation, debugging, refactoring and UX
-                  decisions.
+                  Built complex healthcare workflows on a platform used by
+                  hundreds of agents, spanning providers, practices, insurance,
+                  search, filters, maps, schedules, closures and operational
+                  data.
                 </li>
                 <li>
-                  Build complex healthcare workflows spanning providers,
-                  practices, search, filters, maps, schedules, closures and
-                  operational data.
+                  Contributed to conversational AI experiences handling large
+                  patient-call volumes, aligning frontend behavior, product
+                  decisions and operational edge cases across the flow.
                 </li>
                 <li>
-                  Reduced frontend API traffic in key workflows from 40+
-                  requests to approximately 10–12, improving performance and
-                  simplifying client-side orchestration.
+                  Reduced frontend API traffic in critical workflows from 40+
+                  requests to approximately 10–12 by redesigning data fetching
+                  and client-side orchestration, improving responsiveness and
+                  simplifying the frontend data architecture.
+                </li>
+                <li>
+                  Designed an AI-native software delivery workflow using Claude
+                  Code, Codex and gstack, orchestrating specialist agents across
+                  spec analysis, architecture, implementation, refactoring, code
+                  review, browser QA and release preparation while retaining
+                  ownership of architecture and production decisions.
                 </li>
                 <li>
                   Established Playwright end-to-end coverage for critical user
-                  journeys, increasing release confidence and reducing manual
-                  regression effort.
+                  journeys and grew it into a verification harness — explicit
+                  acceptance criteria, automated browser checks and UAT gates —
+                  that raised release confidence, cut manual regression effort
+                  and let AI-assisted implementation run at higher velocity
+                  without bypassing quality controls.
                 </li>
                 <li>
-                  Drive sprint execution in Jira across backlog refinement,
-                  prioritization, estimation, dependencies, milestones, defect
-                  triage and release readiness.
+                  Applied context engineering and structured task decomposition
+                  to parallelize feature work across specialist agents,
+                  compressing implementation cycles and shifting effort toward
+                  specification, architecture, review and system-level
+                  decisions.
                 </li>
                 <li>
-                  Coordinate UAT validation, production rollouts, release notes
-                  and cross-functional communication across engineering,
-                  product, UX, customer-facing teams and client stakeholders.
+                  Built internal observability and product analytics
+                  instrumentation, giving product and client stakeholders
+                  visibility into workflow health, adoption and failure
+                  patterns.
+                </li>
+                <li>
+                  Partnered directly with client stakeholders to understand
+                  operational workflows, turn feedback into prioritized product
+                  decisions, resolve production issues and align upcoming
+                  releases.
+                </li>
+                <li>
+                  Drove sprint execution in Jira — refinement, prioritization,
+                  estimation, dependencies, milestones, defect triage, release
+                  readiness — and coordinated UAT validation, production
+                  rollouts and cross-functional release communication.
                 </li>
               </ul>
             </section>
@@ -215,26 +259,27 @@ export default function ResumePage() {
               <p>October 2022–June 2023 · Hyderabad, India</p>
               <ul>
                 <li>
-                  Led frontend development for Calibrate, a multilingual
-                  coding-assessment platform with proctoring, candidate
-                  verification, cheating detection, live hiring events and an
-                  autocomplete-enabled coding environment.
+                  Led frontend development and architecture for Calibrate, a
+                  multilingual coding-assessment platform with proctoring,
+                  candidate verification, cheating detection, live hiring events
+                  and an autocomplete-enabled coding environment; the platform
+                  supported live hiring events and attracted 10,000+ users.
                 </li>
                 <li>
-                  Shaped product strategy, feature prioritization and frontend
-                  architecture while managing sprints and the Jira board; helped
-                  the platform support live hiring events and attract 10,000+
-                  users.
+                  Shaped product strategy, feature prioritization and technical
+                  direction while owning sprints and the Jira board, translating
+                  hiring-workflow requirements into scoped, shippable releases.
                 </li>
                 <li>
                   Led a cross-functional team of 3–4 frontend engineers, two QA
-                  engineers and one designer; mentored engineers, reviewed code
-                  and coordinated production deployments.
+                  engineers and one designer; mentored engineers, ran code
+                  reviews and coordinated production deployments.
                 </li>
                 <li>
                   Established the frontend foundation for Celito, a B2B biotech
-                  SaaS product, using React, TypeScript, Fluent UI, Webpack,
-                  Storybook and an MVC architecture.
+                  SaaS product, selecting React, TypeScript, Fluent UI, Webpack,
+                  Storybook and an MVC architecture to keep a new codebase
+                  consistent as the team grew.
                 </li>
               </ul>
             </section>
@@ -249,8 +294,8 @@ export default function ResumePage() {
                   Vietnam.
                 </li>
                 <li>
-                  Contributed to a product-wide design refresh that strengthened
-                  the learner experience for a platform receiving 200,000+ site
+                  Drove a product-wide design refresh that strengthened the
+                  learner experience for a platform receiving 200,000+ site
                   visits.
                 </li>
               </ul>
@@ -272,8 +317,8 @@ export default function ResumePage() {
                 </li>
                 <li>
                   Built a React application for IceCap Group&apos;s
-                  loan-underwriting workflow and configured delivery through
-                  Azure Pipelines and Azure App Service.
+                  loan-underwriting workflow and owned delivery through Azure
+                  Pipelines and Azure App Service.
                 </li>
               </ul>
             </section>
@@ -293,6 +338,55 @@ export default function ResumePage() {
                 </li>
               </ul>
             </section>
+          </section>
+
+          <section>
+            <h3>AI-native engineering system</h3>
+            <p>
+              How AI-assisted delivery is structured in practice, from
+              specification to production ownership.
+            </p>
+            <dl className={styles.expertise}>
+              <div>
+                <dt>Specification</dt>
+                <dd>
+                  Requirements and PRDs translated into explicit specs,
+                  acceptance criteria and decomposed workstreams before any
+                  agent runs
+                </dd>
+              </div>
+              <div>
+                <dt>Context</dt>
+                <dd>
+                  Curated repository context, conventions, constraints and prior
+                  decisions supplied to agents, rather than one-shot prompting
+                </dd>
+              </div>
+              <div>
+                <dt>Orchestration</dt>
+                <dd>
+                  Specialist agents assigned distinct responsibilities — spec
+                  analysis, architecture, implementation, debugging,
+                  refactoring, code review, browser and Playwright QA, release
+                  preparation — and run in parallel where work is independent
+                </dd>
+              </div>
+              <div>
+                <dt>Verification</dt>
+                <dd>
+                  Automated checks, Playwright E2E suites, browser validation
+                  and UAT gates that every agent-assisted change must clear
+                </dd>
+              </div>
+              <div>
+                <dt>Human ownership</dt>
+                <dd>
+                  Problem definition, architecture, system boundaries, technical
+                  review, testing strategy, release quality and production
+                  decisions stay with the engineer
+                </dd>
+              </div>
+            </dl>
           </section>
 
           <section>

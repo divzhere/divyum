@@ -18,7 +18,8 @@ describe("resume assets", () => {
 
     expect(source).toContain("Denim Health");
     expect(source).toContain("Remote, India");
-    expect(source).toContain("lead frontend and UX role in 2025");
+    expect(source).toContain("lead frontend and product role in 2025");
+    expect(source).toContain("AI-Native Product Engineering");
     expect(source).toContain("divyumbhumra.com");
     expect(source).not.toContain("98767");
   });
