@@ -33,9 +33,7 @@ test("resume can be previewed, opened and downloaded", async ({ page }) => {
   await page
     .getByText("Read the accessible text version", { exact: true })
     .click();
-  await expect(
-    page.getByRole("heading", { name: "Leadership profile" }),
-  ).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Summary" })).toBeVisible();
   await expect(
     page.getByRole("heading", {
       name: "Founding Engineer / Lead Engineer · Denim Health",

@@ -103,7 +103,7 @@ export default function ResumePage() {
           </header>
 
           <section>
-            <h3>Leadership profile</h3>
+            <h3>Summary</h3>
             <p>
               Product-minded Lead Engineer with 7+ years owning customer-facing
               software from ambiguous requirements through architecture,
@@ -120,13 +120,13 @@ export default function ResumePage() {
           </section>
 
           <section>
-            <h3>Core expertise</h3>
+            <h3>Expertise and technologies</h3>
             <dl className={styles.expertise}>
               <div>
                 <dt>Product leadership</dt>
                 <dd>
                   Discovery, PRDs, user flows, roadmaps, prioritization, feature
-                  scoping, customer feedback and release planning
+                  scoping, customer feedback, release planning and Agile/Scrum
                 </dd>
               </div>
               <div>
@@ -148,12 +148,12 @@ export default function ResumePage() {
                 </dd>
               </div>
               <div>
-                <dt>Frontend architecture</dt>
+                <dt>Languages and frameworks</dt>
                 <dd>
-                  React, TypeScript, JavaScript (ES6+), Next.js, Vite, Redux,
-                  Chakra UI, Storybook, HTML, CSS/Sass, Web APIs, route-level
-                  code splitting, bundle budgets, performance engineering and
-                  accessibility
+                  TypeScript, JavaScript (ES6+), React 19, Next.js, Vite, Redux,
+                  Chakra UI, React Router, React Hook Form, Zod, Storybook,
+                  HTML, CSS/Sass, Web APIs, code splitting, performance
+                  engineering and accessibility
                 </dd>
               </div>
               <div>
@@ -165,11 +165,11 @@ export default function ResumePage() {
                 </dd>
               </div>
               <div>
-                <dt>Delivery and platforms</dt>
+                <dt>Platforms and infrastructure</dt>
                 <dd>
-                  Agile/Scrum, Jira, backlog refinement, milestones, defect
-                  triage, CI/CD, GitHub Actions, GCP (App Engine, BigQuery,
-                  Cloud Logging), Grafana, Auth0 and Azure App Service
+                  GCP (App Engine, BigQuery, Cloud Logging), Grafana, GitHub
+                  Actions, CI/CD, Auth0, Azure App Service, Webpack, Nx and
+                  Google Maps API
                 </dd>
               </div>
             </dl>
@@ -183,15 +183,15 @@ export default function ResumePage() {
               <p>November 2023–September 2026 · Remote, India</p>
               <ul>
                 <li>
-                  Founding engineer on CHS Resource Matrix, a healthcare
-                  resource-management platform for Community Health Systems care
-                  coordinators: authored the initial commit and 87% of 3,379
-                  commits, shipping 87 releases across 1,362 merged PRs into an
-                  approximately 107K-line TypeScript and React system used
-                  weekly by roughly 200 care coordinators and 300–400 healthcare
-                  call agents; moved into the lead frontend and product role in
-                  2025, owning initiatives from discovery and PRDs through UAT,
-                  rollout and post-release support.
+                  Founding engineer on a healthcare resource-management platform
+                  for Community Health Systems care coordinators: authored the
+                  initial commit and 87% of 3,379 commits, shipping 87 releases
+                  across 1,362 merged PRs into an approximately 107K-line
+                  TypeScript and React system used weekly by roughly 200 care
+                  coordinators and 300–400 healthcare call agents; moved into
+                  the lead frontend and product role in 2025, owning initiatives
+                  from discovery and PRDs through UAT, rollout and post-release
+                  support.
                 </li>
                 <li>
                   Architected the React 19, TypeScript and Vite frontend — 58
@@ -201,28 +201,25 @@ export default function ResumePage() {
                   on.
                 </li>
                 <li>
-                  Shipped the platform&apos;s first AI features: a
+                  Shipped the platform&apos;s first three AI features: a
                   classification engine for daily alerts and office notes with
                   an agree/disagree feedback loop that logs disagreements as
-                  training data, and “Ask PAT”, a conversational assistant for
-                  market and practice questions — contributing to the
-                  conversational bot itself as well as its interface.
+                  training data; a conversational assistant answering market and
+                  practice questions, contributing to the underlying bot as well
+                  as its interface; and an AI call-deflection module for
+                  transitional care management, built as an 8,700-line isolated
+                  micro-frontend on Chakra v3 against a second API gateway
+                  inside the same app shell.
                 </li>
                 <li>
-                  Built an AI call-deflection (TCM) module handling large
-                  patient-call volumes as an 8,700-line isolated micro-frontend
-                  running Chakra v3 against a second API gateway inside the same
-                  app shell.
+                  Built the real-time call widget for patient conversation
+                  handling — movable picture-in-picture across 3 view modes,
+                  inline chart alerts and follow-up reminders, and integrations
+                  with 2 electronic health record systems, Athena and Cerner.
                 </li>
                 <li>
-                  Built the real-time Call Widget for patient conversation
-                  handling — movable picture-in-picture with modal, side-panel
-                  and top-banner modes, inline chart alerts and ticklers, and
-                  Athena and Cerner integrations.
-                </li>
-                <li>
-                  Designed and owned the core UX surfaces: a dual table/card
-                  ResourceGrid, unified omni-search, filter drawers with
+                  Designed and owned the core UX surfaces: a dual table and card
+                  resource grid, unified omni-search, filter drawers with
                   server-driven options, role-based rendering across 4
                   permission tiers, and a timezone-aware office-hours, closures
                   and absences system.
@@ -236,12 +233,12 @@ export default function ResumePage() {
                   diagnostic coverage.
                 </li>
                 <li>
-                  Designed a HIPAA-safe product analytics pipeline end to end
-                  (browser to App Engine, Cloud Logging, BigQuery, Grafana) with
-                  HMAC-pseudonymized IDs, fail-closed allowlisting and route
-                  templating so no PHI leaves the BAA boundary, replacing
-                  estimated usage with measured DAU/WAU/MAU ahead of a customer
-                  renewal, plus Slack alerts on slow API calls.
+                  Designed a HIPAA-safe product analytics pipeline across 5
+                  stages (browser, App Engine, Cloud Logging, BigQuery, Grafana)
+                  with HMAC-pseudonymized IDs, fail-closed allowlisting and
+                  route templating so zero PHI leaves the BAA boundary,
+                  replacing estimated usage with measured DAU/WAU/MAU ahead of a
+                  customer renewal, plus Slack alerts on slow API calls.
                 </li>
                 <li>
                   Cut frontend API traffic in critical workflows from 40+
@@ -260,11 +257,11 @@ export default function ResumePage() {
                 <li>
                   Designed an AI-native software delivery workflow using Claude
                   Code, Codex and gstack, orchestrating specialist agents across
-                  spec analysis, architecture, implementation, code review,
-                  browser QA and release preparation, and applied context
-                  engineering and structured task decomposition to parallelize
-                  feature work while keeping ownership of architecture and
-                  production decisions.
+                  6 responsibilities — spec analysis, architecture,
+                  implementation, code review, browser QA and release
+                  preparation — and applied context engineering and structured
+                  task decomposition to parallelize feature work while keeping
+                  ownership of architecture and production decisions.
                 </li>
               </ul>
             </section>
@@ -297,7 +294,7 @@ export default function ResumePage() {
 
             <section className={styles.role}>
               <h4>Software Engineer · Topica Edtech Group</h4>
-              <p>November 2021–October 2022 · Gurugram, India</p>
+              <p>2021–2022 · Gurugram, India</p>
               <ul>
                 <li>
                   Owned and delivered React and Next.js features for Edumall, a
@@ -311,16 +308,13 @@ export default function ResumePage() {
 
             <section className={styles.role}>
               <h4>Frontend Engineer · Independent / Remote</h4>
-              <p>February 2020–September 2021 · India</p>
+              <p>2020–2021 · India</p>
               <ul>
                 <li>
                   Built Zollege, a college-search platform, from the ground up
-                  with Next.js; the product grew to more than 2.5 million site
-                  visits.
-                </li>
-                <li>
-                  Translated Figma designs into production React interfaces for
-                  a hotel-management SaaS product, and built IceCap Group&apos;s
+                  with Next.js, growing it past 2.5 million site visits; also
+                  translated Figma designs into production React interfaces for
+                  a hotel-management SaaS product and built IceCap Group&apos;s
                   loan-underwriting application, owning delivery through Azure
                   Pipelines and Azure App Service.
                 </li>
@@ -329,7 +323,7 @@ export default function ResumePage() {
 
             <section className={styles.role}>
               <h4>UI Developer Intern · XenonStack</h4>
-              <p>July 2019–January 2020 · Chandigarh, India</p>
+              <p>2019–2020 · Chandigarh, India</p>
               <ul>
                 <li>
                   Revamped XenonStack&apos;s careers portal with React, Redux
@@ -389,7 +383,7 @@ export default function ResumePage() {
             <h3>Leadership beyond engineering</h3>
             <section className={styles.role}>
               <h4>President · Rotaract Club Chandigarh Himalayan</h4>
-              <p>June 2018–June 2019 · Chandigarh, India</p>
+              <p>2018–2019 · Chandigarh, India</p>
               <ul>
                 <li>
                   Led an 800+ member service organization, overseeing programs,
@@ -401,7 +395,7 @@ export default function ResumePage() {
             </section>
             <section className={styles.role}>
               <h4>Team Leader · Smart India Hackathon 2018</h4>
-              <p>January–May 2018 · National finalist</p>
+              <p>2018 · National finalist</p>
               <ul>
                 <li>
                   Led e-Rozgaar, an online file-tracking system for government
