@@ -168,8 +168,8 @@ export default function ResumePage() {
                 <dt>Delivery and platforms</dt>
                 <dd>
                   Agile/Scrum, Jira, backlog refinement, dependencies,
-                  milestones, defect triage, CI/CD, Nx, Webpack, Auth0 and Azure
-                  App Service
+                  milestones, defect triage, CI/CD, GCP, Nx, Webpack, Auth0 and
+                  Azure App Service
                 </dd>
               </div>
             </dl>
@@ -195,10 +195,10 @@ export default function ResumePage() {
                   implementation, debugging, refactoring and UX decisions.
                 </li>
                 <li>
-                  Built complex healthcare workflows on a platform used by
-                  hundreds of agents, spanning providers, practices, insurance,
-                  search, filters, maps, schedules, closures and operational
-                  data.
+                  Built complex healthcare workflows on a platform used weekly
+                  by 300–400 healthcare call agents, spanning providers,
+                  practices, insurance, search, filters, maps, schedules,
+                  closures and operational data.
                 </li>
                 <li>
                   Contributed to conversational AI experiences handling large
@@ -214,30 +214,33 @@ export default function ResumePage() {
                 <li>
                   Designed an AI-native software delivery workflow using Claude
                   Code, Codex and gstack, orchestrating specialist agents across
-                  spec analysis, architecture, implementation, refactoring, code
-                  review, browser QA and release preparation while retaining
-                  ownership of architecture and production decisions.
+                  spec analysis, architecture, implementation, code review,
+                  browser QA and release preparation while keeping ownership of
+                  architecture and production decisions.
                 </li>
                 <li>
-                  Established Playwright end-to-end coverage for critical user
-                  journeys and grew it into a verification harness — explicit
-                  acceptance criteria, automated browser checks and UAT gates —
-                  that raised release confidence, cut manual regression effort
-                  and let AI-assisted implementation run at higher velocity
-                  without bypassing quality controls.
+                  Grew Playwright end-to-end coverage of critical user journeys
+                  into a verification harness — acceptance criteria, automated
+                  browser checks and UAT gates — that raised release confidence,
+                  cut manual regression effort and let AI-assisted
+                  implementation run fast without bypassing quality controls.
                 </li>
                 <li>
                   Applied context engineering and structured task decomposition
                   to parallelize feature work across specialist agents,
                   compressing implementation cycles and shifting effort toward
-                  specification, architecture, review and system-level
-                  decisions.
+                  specification, architecture and system-level review.
                 </li>
                 <li>
-                  Built internal observability and product analytics
-                  instrumentation, giving product and client stakeholders
-                  visibility into workflow health, adoption and failure
-                  patterns.
+                  Designed an event telemetry API and product analytics store
+                  tracking in-app time, feature usage and drop-off, giving
+                  product and client stakeholders direct visibility into
+                  adoption and workflow health.
+                </li>
+                <li>
+                  Built an in-house, Sentry-style error-tracking service on GCP
+                  with Slack alerting on slow API calls, surfacing production
+                  errors and latency regressions as they happened.
                 </li>
                 <li>
                   Partnered directly with client stakeholders to understand
@@ -247,9 +250,9 @@ export default function ResumePage() {
                 </li>
                 <li>
                   Drove sprint execution in Jira — refinement, prioritization,
-                  estimation, dependencies, milestones, defect triage, release
-                  readiness — and coordinated UAT validation, production
-                  rollouts and cross-functional release communication.
+                  estimation, dependencies, milestones, defect triage — and
+                  coordinated UAT validation, production rollouts and
+                  cross-functional release communication.
                 </li>
               </ul>
             </section>
