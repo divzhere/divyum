@@ -38,7 +38,7 @@ test("resume can be previewed, opened and downloaded", async ({ page }) => {
   ).toBeVisible();
   await expect(
     page.getByRole("heading", {
-      name: "Senior Software Engineer / Lead Engineer · Denim Health",
+      name: "Founding Engineer / Lead Engineer · Denim Health",
     }),
   ).toBeVisible();
   await expect(page.locator("main")).not.toContainText("98767");

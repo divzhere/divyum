@@ -107,16 +107,15 @@ export default function ResumePage() {
             <p>
               Product-minded Lead Engineer with 7+ years owning customer-facing
               software from ambiguous requirements through architecture,
-              implementation, UAT and production. Deep React and TypeScript
-              background across healthcare, assessment and education platforms,
-              with product ownership spanning discovery, PRDs, user flows and
-              release planning, and experience leading distributed teams across
-              product, design, backend and QA. Works in an AI-native engineering
-              model — agentic coding workflows, context engineering and
-              multi-agent orchestration — to take on larger implementation
-              scopes while architecture, technical review and production
-              decisions stay human-owned, with spec-driven development and
-              Playwright-based verification gates holding the quality line.
+              implementation, UAT and production. Founding engineer on a
+              healthcare platform led from its initial commit to production,
+              pairing deep React and TypeScript work with product ownership and
+              distributed-team leadership. Works in an AI-native engineering
+              model — agentic coding, context engineering and multi-agent
+              orchestration — to take on larger implementation scopes while
+              architecture, review and production decisions stay human-owned,
+              with spec-driven development and Playwright-based verification
+              gates holding the line.
             </p>
           </section>
 
@@ -152,24 +151,25 @@ export default function ResumePage() {
                 <dt>Frontend architecture</dt>
                 <dd>
                   React, TypeScript, JavaScript (ES6+), Next.js, Vite, Redux,
-                  Chakra UI, Storybook, HTML, CSS/Sass, Web APIs, performance
-                  engineering and accessibility
+                  Chakra UI, Storybook, HTML, CSS/Sass, Web APIs, route-level
+                  code splitting, bundle budgets, performance engineering and
+                  accessibility
                 </dd>
               </div>
               <div>
                 <dt>Quality and verification</dt>
                 <dd>
-                  Playwright, E2E automation, verification harnesses, Jest,
-                  regression testing, UAT gates, release validation, production
-                  validation, observability and Web Vitals
+                  Playwright, E2E automation, verification harnesses, Vitest,
+                  Jest, regression testing, UAT gates, release validation,
+                  Sentry, observability and Core Web Vitals
                 </dd>
               </div>
               <div>
                 <dt>Delivery and platforms</dt>
                 <dd>
-                  Agile/Scrum, Jira, backlog refinement, dependencies,
-                  milestones, defect triage, CI/CD, GCP, Nx, Webpack, Auth0 and
-                  Azure App Service
+                  Agile/Scrum, Jira, backlog refinement, milestones, defect
+                  triage, CI/CD, GitHub Actions, GCP (App Engine, BigQuery,
+                  Cloud Logging), Grafana, Auth0 and Azure App Service
                 </dd>
               </div>
             </dl>
@@ -179,80 +179,92 @@ export default function ResumePage() {
             <h3>Professional experience</h3>
 
             <section className={styles.role}>
-              <h4>Senior Software Engineer / Lead Engineer · Denim Health</h4>
-              <p>2023–September 2026 · Remote, India</p>
+              <h4>Founding Engineer / Lead Engineer · Denim Health</h4>
+              <p>November 2023–September 2026 · Remote, India</p>
               <ul>
                 <li>
-                  Progressed into a lead frontend and product role in 2025,
-                  owning initiatives end-to-end — client discovery,
-                  requirements, PRDs, user flows and technical planning through
-                  implementation, QA, UAT, production rollout and post-release
-                  support.
+                  Founding engineer on CHS Resource Matrix, a healthcare
+                  resource-management platform for Community Health Systems care
+                  coordinators: authored the initial commit and 87% of 3,379
+                  commits, shipping 87 releases across 1,362 merged PRs into an
+                  approximately 107K-line TypeScript and React system used
+                  weekly by roughly 200 care coordinators and 300–400 healthcare
+                  call agents; moved into the lead frontend and product role in
+                  2025, owning initiatives from discovery and PRDs through UAT,
+                  rollout and post-release support.
                 </li>
                 <li>
-                  Led frontend architecture and delivery with React, TypeScript,
-                  Vite, Chakra UI, Auth0 and Playwright, staying hands-on across
-                  implementation, debugging, refactoring and UX decisions.
+                  Architected the React 19, TypeScript and Vite frontend — 58
+                  component families, 15 custom hooks and a 20-module typed API
+                  service layer — setting the Chakra UI design system, routing,
+                  form, auth and state conventions every later engineer built
+                  on.
                 </li>
                 <li>
-                  Built complex healthcare workflows on a platform used weekly
-                  by 300–400 healthcare call agents, spanning providers,
-                  practices, insurance, search, filters, maps, schedules,
-                  closures and operational data.
+                  Shipped the platform&apos;s first AI features: a
+                  classification engine for daily alerts and office notes with
+                  an agree/disagree feedback loop that logs disagreements as
+                  training data, and “Ask PAT”, a conversational assistant for
+                  market and practice questions — contributing to the
+                  conversational bot itself as well as its interface.
                 </li>
                 <li>
-                  Contributed to conversational AI experiences handling large
-                  patient-call volumes, aligning frontend behavior, product
-                  decisions and operational edge cases across the flow.
+                  Built an AI call-deflection (TCM) module handling large
+                  patient-call volumes as an 8,700-line isolated micro-frontend
+                  running Chakra v3 against a second API gateway inside the same
+                  app shell.
                 </li>
                 <li>
-                  Reduced frontend API traffic in critical workflows from 40+
+                  Built the real-time Call Widget for patient conversation
+                  handling — movable picture-in-picture with modal, side-panel
+                  and top-banner modes, inline chart alerts and ticklers, and
+                  Athena and Cerner integrations.
+                </li>
+                <li>
+                  Designed and owned the core UX surfaces: a dual table/card
+                  ResourceGrid, unified omni-search, filter drawers with
+                  server-driven options, role-based rendering across 4
+                  permission tiers, and a timezone-aware office-hours, closures
+                  and absences system.
+                </li>
+                <li>
+                  Re-architected Sentry instrumentation — eliminating 94,000+
+                  daily spurious auth errors, fixing 401 redirect loops, and
+                  adding route-aware sampling and a 5-minute TTL dedup cache —
+                  cutting error volume from 272K to roughly 75K per month and
+                  session replays from 96K to under 1K with no loss of
+                  diagnostic coverage.
+                </li>
+                <li>
+                  Designed a HIPAA-safe product analytics pipeline end to end
+                  (browser to App Engine, Cloud Logging, BigQuery, Grafana) with
+                  HMAC-pseudonymized IDs, fail-closed allowlisting and route
+                  templating so no PHI leaves the BAA boundary, replacing
+                  estimated usage with measured DAU/WAU/MAU ahead of a customer
+                  renewal, plus Slack alerts on slow API calls.
+                </li>
+                <li>
+                  Cut frontend API traffic in critical workflows from 40+
                   requests to approximately 10–12 by redesigning data fetching
-                  and client-side orchestration, improving responsiveness and
-                  simplifying the frontend data architecture.
+                  and client-side orchestration, and eliminated 90%+ of
+                  redundant requests with a custom-fields caching layer.
+                </li>
+                <li>
+                  Established the team&apos;s quality and release infrastructure
+                  — Vitest and Playwright across 61 test files, a critical E2E
+                  suite gating every PR in GitHub Actions, Husky pre-push hooks,
+                  and 8 CI/CD workflows driving automated semver releases and
+                  QA/UAT/Prod deploys to App Engine — which doubles as the
+                  verification harness around AI-assisted implementation.
                 </li>
                 <li>
                   Designed an AI-native software delivery workflow using Claude
                   Code, Codex and gstack, orchestrating specialist agents across
                   spec analysis, architecture, implementation, code review,
-                  browser QA and release preparation while keeping ownership of
-                  architecture and production decisions.
-                </li>
-                <li>
-                  Grew Playwright end-to-end coverage of critical user journeys
-                  into a verification harness — acceptance criteria, automated
-                  browser checks and UAT gates — that raised release confidence,
-                  cut manual regression effort and let AI-assisted
-                  implementation run fast without bypassing quality controls.
-                </li>
-                <li>
-                  Applied context engineering and structured task decomposition
-                  to parallelize feature work across specialist agents,
-                  compressing implementation cycles and shifting effort toward
-                  specification, architecture and system-level review.
-                </li>
-                <li>
-                  Designed an event telemetry API and product analytics store
-                  tracking in-app time, feature usage and drop-off, giving
-                  product and client stakeholders direct visibility into
-                  adoption and workflow health.
-                </li>
-                <li>
-                  Built an in-house, Sentry-style error-tracking service on GCP
-                  with Slack alerting on slow API calls, surfacing production
-                  errors and latency regressions as they happened.
-                </li>
-                <li>
-                  Partnered directly with client stakeholders to understand
-                  operational workflows, turn feedback into prioritized product
-                  decisions, resolve production issues and align upcoming
-                  releases.
-                </li>
-                <li>
-                  Drove sprint execution in Jira — refinement, prioritization,
-                  estimation, dependencies, milestones, defect triage — and
-                  coordinated UAT validation, production rollouts and
-                  cross-functional release communication.
+                  browser QA and release preparation, and applied context
+                  engineering and structured task decomposition to parallelize
+                  feature work while keeping ownership of architecture and
+                  production decisions.
                 </li>
               </ul>
             </section>
@@ -264,14 +276,10 @@ export default function ResumePage() {
                 <li>
                   Led frontend development and architecture for Calibrate, a
                   multilingual coding-assessment platform with proctoring,
-                  candidate verification, cheating detection, live hiring events
-                  and an autocomplete-enabled coding environment; the platform
-                  supported live hiring events and attracted 10,000+ users.
-                </li>
-                <li>
-                  Shaped product strategy, feature prioritization and technical
-                  direction while owning sprints and the Jira board, translating
-                  hiring-workflow requirements into scoped, shippable releases.
+                  candidate verification, cheating detection and an
+                  autocomplete-enabled coding environment; shaped product
+                  strategy and technical direction while owning sprints and the
+                  Jira board, supporting live hiring events and 10,000+ users.
                 </li>
                 <li>
                   Led a cross-functional team of 3–4 frontend engineers, two QA
@@ -294,12 +302,9 @@ export default function ResumePage() {
                 <li>
                   Owned and delivered React and Next.js features for Edumall, a
                   short-skills learning platform serving Thailand, Indonesia and
-                  Vietnam.
-                </li>
-                <li>
-                  Drove a product-wide design refresh that strengthened the
-                  learner experience for a platform receiving 200,000+ site
-                  visits.
+                  Vietnam, and drove a product-wide design refresh that
+                  strengthened the learner experience for a platform receiving
+                  200,000+ site visits.
                 </li>
               </ul>
             </section>
@@ -314,13 +319,9 @@ export default function ResumePage() {
                   visits.
                 </li>
                 <li>
-                  Delivered new workflows and translated Figma designs into
-                  production React interfaces for a hotel-management SaaS
-                  product.
-                </li>
-                <li>
-                  Built a React application for IceCap Group&apos;s
-                  loan-underwriting workflow and owned delivery through Azure
+                  Translated Figma designs into production React interfaces for
+                  a hotel-management SaaS product, and built IceCap Group&apos;s
+                  loan-underwriting application, owning delivery through Azure
                   Pipelines and Azure App Service.
                 </li>
               </ul>
@@ -332,12 +333,9 @@ export default function ResumePage() {
               <ul>
                 <li>
                   Revamped XenonStack&apos;s careers portal with React, Redux
-                  and Sass, contributing to a 5× increase in job applications.
-                </li>
-                <li>
-                  Developed and documented reusable design-system packages;
-                  added unit coverage with Jest and Enzyme and automation
-                  coverage with Taiko.
+                  and Sass, contributing to a 5× increase in job applications,
+                  and documented reusable design-system packages with Jest,
+                  Enzyme and Taiko coverage.
                 </li>
               </ul>
             </section>
@@ -351,18 +349,13 @@ export default function ResumePage() {
             </p>
             <dl className={styles.expertise}>
               <div>
-                <dt>Specification</dt>
+                <dt>Specification and context</dt>
                 <dd>
                   Requirements and PRDs translated into explicit specs,
                   acceptance criteria and decomposed workstreams before any
-                  agent runs
-                </dd>
-              </div>
-              <div>
-                <dt>Context</dt>
-                <dd>
-                  Curated repository context, conventions, constraints and prior
-                  decisions supplied to agents, rather than one-shot prompting
+                  agent runs, with curated repository context, conventions and
+                  prior decisions supplied up front rather than one-shot
+                  prompting
                 </dd>
               </div>
               <div>
@@ -377,8 +370,8 @@ export default function ResumePage() {
               <div>
                 <dt>Verification</dt>
                 <dd>
-                  Automated checks, Playwright E2E suites, browser validation
-                  and UAT gates that every agent-assisted change must clear
+                  Automated checks, Playwright E2E suites and UAT gates that
+                  every agent-assisted change must clear
                 </dd>
               </div>
               <div>

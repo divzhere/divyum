@@ -38,7 +38,7 @@ describe("resume page", () => {
         .getAttribute("href"),
     ).toBe(pdfPath);
     expect(container.querySelector("details")?.textContent).toContain(
-      "Senior Software Engineer / Lead Engineer · Denim Health",
+      "Founding Engineer / Lead Engineer · Denim Health",
     );
     expect(container.querySelector("details")?.textContent).not.toContain(
       "98767",
