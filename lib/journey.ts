@@ -193,9 +193,9 @@ export const journeyChapters: readonly JourneyChapter[] = [
     sequence: 12,
     phase: "Inner life",
     place: "Within",
-    title: "Yoga, a beard and a different rhythm",
+    title: "Yoga, Vedanta and a different rhythm",
     summary:
-      "Somewhere along the way I found yoga, grew a beard and started paying closer attention to consciousness and the inner life.",
+      "Somewhere along the way I found yoga and Vedanta. Their questions about consciousness, freedom and the divinity within gave my inner life a different rhythm.",
     themes: ["inner-life"],
     primaryTheme: "inner-life",
   },
@@ -206,7 +206,7 @@ export const journeyChapters: readonly JourneyChapter[] = [
     place: "Still unfolding",
     title: "The threads keep crossing",
     summary:
-      "Software, remote work, travel, service, writing and the study of consciousness now share the same path. This page will keep changing as the journey does.",
+      "Software, remote work, travel, service, writing and the study of consciousness now share the same path. Vedanta has given me a language for the inward part of that journey, which continues to unfold.",
     themes: ["travel", "community", "inner-life"],
     primaryTheme: "inner-life",
     anchor: true,
