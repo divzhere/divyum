@@ -13,6 +13,6 @@ export const currentlyItems = [
   },
   {
     label: "Writing",
-    detail: "Essays coming soon.",
+    detail: "Essays on product, technology, Vedanta and consciousness.",
   },
 ] as const;

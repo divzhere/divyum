@@ -60,43 +60,28 @@ test("the 404 is a lost point with a dashed trace and no horizon participant", a
 });
 
 for (const path of ["/essays", "/notes"]) {
-  test(`${path} shows one forthcoming edition and no invented entries`, async ({
+  test(`${path} shows published writing instead of a forthcoming placeholder`, async ({
     page,
   }) => {
     await page.goto(path);
     const content = page.locator(".index-content");
-    await expect(content.locator(".edition-row")).toHaveCount(1);
-    await expect(content.locator(".edition-row")).toContainText("Forthcoming");
-    await expect(content.locator(".edition-row")).toContainText(
-      /(Essay|Note) 001/,
-    );
-    await expect(content.locator("a")).toHaveCount(0);
+    await expect(content.locator(".edition-row")).toHaveCount(0);
+    await expect(content.getByText("Forthcoming")).toHaveCount(0);
+    expect(await content.locator("a.entry-row").count()).toBeGreaterThan(0);
     await expect(content.locator(".empty-state-title")).toHaveCount(0);
-    const row = content.locator(".edition-row");
-    const [rowBox, leader] = await Promise.all([
-      row.boundingBox(),
-      content.locator(".edition-leader").boundingBox(),
-    ]);
-    expect(rowBox!.height).toBeLessThan(40);
-    expect(leader!.width).toBeGreaterThanOrEqual(32);
   });
 }
 
-test("the home library preview is five points in waiting on the shelf line", async ({
+test("the home library preview is hidden while the library route remains available", async ({
   page,
 }) => {
   await page.goto("/");
   const library = page.getByRole("region", { name: "Library", exact: true });
-  const points = library.locator("li[data-placeholder]");
-  await expect(points).toHaveCount(5);
-  for (const point of await points.all()) {
-    const box = await point.boundingBox();
-    expect(box!.width).toBe(9);
-    expect(box!.height).toBe(9);
-  }
-  await expect(library).toContainText("Five spines in waiting.");
-  await expect(library.locator("a[href^='/library/']")).toHaveCount(0);
-  await expect(library.locator("li").first()).toContainText("Shelf 001");
+  await expect(library).toHaveCount(0);
+
+  const response = await page.goto("/library");
+  expect(response?.status()).toBe(200);
+  await expect(page.getByRole("heading", { name: "Library" })).toBeVisible();
 });
 
 test("the library shelf numbers its spines in waiting and marks them forthcoming", async ({

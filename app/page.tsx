@@ -6,18 +6,19 @@ import { KnowledgeTree } from "@/components/frameworks/knowledge-tree";
 import { frameworkGlyphs } from "@/components/frameworks/glyphs";
 import { getAllContent } from "@/lib/content";
 import { getAllFrameworks, lineageLabels } from "@/lib/frameworks";
-import { getShelf, waitingCaption } from "@/lib/library";
+// import { getShelf, waitingCaption } from "@/lib/library";
 import { journeyChapters } from "@/lib/journey";
 import styles from "./home.module.css";
 
 /*
-  The home page reads as a table of contents for a life: six chapters, each
+  The home page reads as a table of contents for a life: five visible chapters,
+  each
   opening with the point on its hairline and a roman numeral. The Knowledge
   Tree is the living instrument (the real component, not a picture); three
   plates beneath it show one framework per lineage.
 */
 
-const numerals = ["I", "II", "III", "IV", "V", "VI"] as const;
+const numerals = ["I", "II", "III", "IV", "V"] as const;
 
 function Numeral({ index }: { index: number }) {
   return (
@@ -28,10 +29,9 @@ function Numeral({ index }: { index: number }) {
 }
 
 export default async function HomePage() {
-  const [essays, frameworks, shelf] = await Promise.all([
+  const [essays, frameworks] = await Promise.all([
     getAllContent("essays"),
     getAllFrameworks(),
-    getShelf(),
   ]);
   const instrument = frameworks.find((item) => item.slug === "knowledge-tree");
   const featured = [
@@ -42,8 +42,6 @@ export default async function HomePage() {
   const moments = journeyChapters.filter((chapter) =>
     ["punjab", "remote-life", "yoga"].includes(chapter.id),
   );
-  const preview = shelf.slice(0, 5);
-  const waiting = preview.filter((book) => book.placeholder).length;
 
   return (
     <div className={`page-shell home-page ${styles.home}`}>
@@ -170,6 +168,7 @@ export default async function HomePage() {
           ))}
         </ol>
       </section>
+      {/*
       <section
         className={`${styles.section} scroll-reveal ${styles.library}`}
         aria-labelledby="library-title"
@@ -212,12 +211,13 @@ export default async function HomePage() {
           )}
         </div>
       </section>
+      */}
       <section
         className={`${styles.section} scroll-reveal ${styles.about}`}
         aria-labelledby="about-title"
       >
         <div className={styles.sectionHead}>
-          <Numeral index={5} />
+          <Numeral index={4} />
           <h2 id="about-title">About</h2>
         </div>
         <div className={styles.aboutCopy}>

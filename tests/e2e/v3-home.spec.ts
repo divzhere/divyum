@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-test("home introduces all six destinations through distinct, truthful sections", async ({
+test("home introduces its five visible destinations through distinct, truthful sections", async ({
   page,
 }) => {
   await page.goto("/");
@@ -9,7 +9,6 @@ test("home introduces all six destinations through distinct, truthful sections",
     "Writing",
     "Frameworks",
     "Journey",
-    "Library",
     "About",
   ]);
   const frameworks = page.getByRole("region", {
@@ -21,7 +20,13 @@ test("home introduces all six destinations through distinct, truthful sections",
   await expect(journey.locator('a[href^="/journey#"]')).toHaveCount(3);
   await expect(
     page.getByRole("region", { name: "Library", exact: true }),
-  ).toContainText("in waiting");
+  ).toHaveCount(0);
+  await expect(page.getByText("Essays coming soon.")).toHaveCount(0);
+  await expect(
+    page.getByText("Essays on product, technology, Vedanta and consciousness."),
+  ).toBeVisible();
+  await expect(page.getByText(/At 15, I moved to Chandigarh/)).toBeVisible();
+  await expect(page.getByText(/landed up in Rishikesh/)).toBeVisible();
   const footer = page.getByRole("navigation", { name: "Footer navigation" });
   for (const name of [
     "Essays",

@@ -165,6 +165,7 @@ export function KnowledgeTree() {
             type="button"
             aria-pressed={trunkBuilt}
             aria-label="Build the trunk: the fundamental principles"
+            data-hint="Start here"
             onClick={clickTrunk}
             style={{ left: "50%", top: "82%" }}
           >
@@ -172,11 +173,12 @@ export function KnowledgeTree() {
           </button>
           {branches.map((branch, index) => (
             <button
-              className="fw-hotspot"
+              className="fw-hotspot fw-hotspot-branch"
               key={branch.id}
               type="button"
               aria-pressed={builtBranches.includes(branch.id)}
               aria-label={`Build branch ${branch.id.toUpperCase()}: a ${branch.label}`}
+              data-hint="Build branch"
               onClick={() => clickBranch(branch.id)}
               style={{
                 left: `${[37.5, 51.5, 62.5][index]}%`,
@@ -193,6 +195,7 @@ export function KnowledgeTree() {
               type="button"
               aria-pressed={attachedLeaves.includes(leaf.id)}
               aria-label={`Attach leaf ${leaf.id.toUpperCase()}: a detail on branch ${leaf.branch.toUpperCase()}`}
+              data-hint="Attach leaf"
               onClick={() => clickLeaf(leaf.id, leaf.branch)}
               style={{
                 left: `${(leaf.x / 400) * 100}%`,

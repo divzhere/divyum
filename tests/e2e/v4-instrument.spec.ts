@@ -177,3 +177,40 @@ test("the trunk shows its resting affordance and the caption comes from the fram
     region(page).getByRole("link", { name: /Read the framework/ }),
   ).toHaveAttribute("href", "/frameworks/knowledge-tree");
 });
+
+test("a branch reveals a clear click affordance on hover and keyboard focus", async ({
+  page,
+  viewport,
+}) => {
+  test.skip(viewport?.width !== 1280, "hover affordance is checked on desktop");
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/");
+  const branch = region(page).getByRole("button", {
+    name: "Build branch A: a core truth",
+  });
+
+  await expect(branch).toHaveAttribute("data-hint", "Build branch");
+  expect(
+    await branch.evaluate((node) =>
+      getComputedStyle(node, "::after").getPropertyValue("opacity"),
+    ),
+  ).toBe("0");
+
+  await branch.hover();
+  await expect
+    .poll(() =>
+      branch.evaluate((node) =>
+        getComputedStyle(node, "::after").getPropertyValue("opacity"),
+      ),
+    )
+    .toBe("1");
+
+  await branch.focus();
+  await expect
+    .poll(() =>
+      branch.evaluate((node) =>
+        getComputedStyle(node, "::after").getPropertyValue("opacity"),
+      ),
+    )
+    .toBe("1");
+});

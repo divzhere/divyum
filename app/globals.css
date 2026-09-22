@@ -1616,6 +1616,606 @@ html[data-theme="dark"] .theme-knob {
   background: var(--rule);
 }
 
+/* The pointer acts as the observer: waves recede and the figure resolves into
+   particles. The same state is available by keyboard and tap. */
+.observer-figure {
+  margin-block: 3.5rem !important;
+}
+
+.observer-field {
+  position: relative;
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  border: 1px solid var(--rule);
+  border-radius: 0;
+  padding: 0;
+  background: var(--soft);
+  color: var(--ink);
+  cursor: crosshair;
+  text-align: left;
+}
+
+.observer-art {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.observer-axis,
+.observer-slits,
+.observer-waves,
+.observer-human {
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.observer-axis {
+  stroke: var(--rule);
+}
+
+.observer-slits {
+  stroke: var(--muted);
+  stroke-width: 5;
+}
+
+.observer-waves {
+  stroke: var(--accent);
+  stroke-width: 1.4;
+  transform-origin: center;
+  transition:
+    opacity 500ms var(--ease-out-expo),
+    transform 500ms var(--ease-out-expo);
+}
+
+.observer-wave {
+  opacity: 0.72;
+}
+
+.observer-wave:nth-child(2) {
+  opacity: 0.58;
+}
+
+.observer-wave:nth-child(3) {
+  opacity: 0.44;
+}
+
+.observer-wave:nth-child(4) {
+  opacity: 0.3;
+}
+
+.observer-human {
+  stroke: var(--ink);
+  stroke-width: 2;
+  opacity: 0.46;
+  transition:
+    opacity 500ms var(--ease-out-expo),
+    stroke 500ms var(--ease-out-expo);
+}
+
+.observer-particle {
+  fill: var(--accent);
+  opacity: 0.12;
+  transform-box: fill-box;
+  transform-origin: center;
+  transition:
+    opacity 420ms var(--ease-out-expo),
+    transform 420ms var(--ease-out-expo);
+}
+
+.observer-source {
+  fill: var(--accent);
+}
+
+.observer-field[data-observed] .observer-waves,
+.observer-field:hover .observer-waves,
+.observer-field:focus-visible .observer-waves {
+  opacity: 0.16;
+  transform: scaleX(0.92);
+}
+
+.observer-field[data-observed] .observer-human,
+.observer-field:hover .observer-human,
+.observer-field:focus-visible .observer-human {
+  stroke: var(--accent);
+  opacity: 0.95;
+}
+
+.observer-field[data-observed] .observer-particle,
+.observer-field:hover .observer-particle,
+.observer-field:focus-visible .observer-particle {
+  opacity: 0.92;
+  transform: scale(1.25);
+}
+
+.observer-instruction {
+  position: absolute;
+  right: 1rem;
+  bottom: 0.8rem;
+  color: var(--muted);
+  font-family: var(--font-public-sans), Arial, sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.02em;
+}
+
+.observer-figure figcaption {
+  display: flex;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-top: 0.75rem;
+  color: var(--muted);
+  font-family: var(--font-public-sans), Arial, sans-serif;
+  font-size: 0.75rem;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .observer-wave {
+    animation: observer-breathe 3.8s ease-in-out infinite alternate;
+  }
+
+  .observer-wave:nth-child(2) {
+    animation-delay: -0.9s;
+  }
+
+  .observer-wave:nth-child(3) {
+    animation-delay: -1.8s;
+  }
+
+  .observer-wave:nth-child(4) {
+    animation-delay: -2.7s;
+  }
+
+  .observer-field[data-observed] .observer-particle,
+  .observer-field:hover .observer-particle,
+  .observer-field:focus-visible .observer-particle {
+    animation: observer-particle-pulse 1.6s ease-in-out infinite alternate;
+    animation-delay: calc(var(--particle-index) * -90ms);
+  }
+}
+
+@keyframes observer-breathe {
+  from {
+    transform: translateX(-4px);
+  }
+  to {
+    transform: translateX(4px);
+  }
+}
+
+@keyframes observer-particle-pulse {
+  from {
+    opacity: 0.55;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1.35);
+  }
+}
+
+@media (max-width: 640px) {
+  .observer-figure {
+    margin-block: 2.5rem !important;
+  }
+
+  .observer-instruction {
+    position: static;
+    display: block;
+    border-top: 1px solid var(--rule);
+    padding: 0.75rem 1rem;
+  }
+
+  .observer-figure figcaption {
+    display: grid;
+    gap: 0.2rem;
+  }
+}
+
+/* A launch resolves to a line with an endpoint. The operating view restores
+   the parts of product work that feed evidence into the next decision. */
+.product-loop-figure {
+  width: min(62rem, calc(100vw - 2 * var(--page-gutter)));
+  margin: 4.5rem 0 !important;
+  margin-left: 50% !important;
+  border: 1px solid var(--rule);
+  background: color-mix(in srgb, var(--soft) 52%, var(--paper));
+  font-family: var(--font-public-sans), Arial, sans-serif;
+  transform: translateX(-50%);
+}
+
+.product-loop-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 2rem;
+  align-items: start;
+  border-bottom: 1px solid var(--rule);
+  padding: clamp(1.25rem, 3vw, 2rem);
+}
+
+.prose .product-loop-header h2 {
+  margin: 0;
+  font-family: var(--font-literata), Georgia, serif;
+  font-size: clamp(1.55rem, 3vw, 2.3rem);
+  font-weight: 520;
+  line-height: 1.15;
+}
+
+.product-loop-header p {
+  max-width: 38rem;
+  margin: 0.7rem 0 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+.product-loop-switch {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border: 1px solid var(--rule);
+}
+
+.product-loop-switch button,
+.product-loop-steps button {
+  min-height: 44px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  font: inherit;
+  transition:
+    background-color var(--motion-ui) var(--ease-out-expo),
+    color var(--motion-ui) var(--ease-out-expo),
+    transform var(--motion-micro) var(--ease-out-expo);
+}
+
+.product-loop-switch button {
+  padding: 0.65rem 0.9rem;
+  white-space: nowrap;
+}
+
+.product-loop-switch button + button {
+  border-left: 1px solid var(--rule);
+}
+
+.product-loop-switch button[aria-pressed="true"] {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.product-loop-switch button:active,
+.product-loop-steps button:active {
+  transform: translateY(1px);
+}
+
+.product-loop-stage {
+  display: grid;
+  min-height: 32rem;
+  grid-template-columns: minmax(22rem, 1.15fr) minmax(18rem, 0.85fr);
+}
+
+.product-loop-canvas {
+  display: grid;
+  min-width: 0;
+  place-items: center;
+  border-right: 1px solid var(--rule);
+  padding: clamp(1rem, 3vw, 2.5rem);
+  background:
+    radial-gradient(
+      circle at center,
+      color-mix(in srgb, var(--paper) 76%, transparent) 0 31%,
+      transparent 31.5%
+    ),
+    var(--soft);
+}
+
+.product-loop-canvas svg {
+  display: block;
+  width: min(100%, 28rem);
+  height: auto;
+  overflow: visible;
+}
+
+.product-launch-view,
+.product-operating-view {
+  opacity: 0;
+  transform: scale(0.985);
+  transform-origin: center;
+  transition:
+    opacity 360ms var(--ease-out-expo),
+    transform 520ms var(--ease-out-expo);
+}
+
+.product-launch-view[data-visible],
+.product-operating-view[data-visible] {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.product-launch-line,
+.product-launch-stop,
+.product-loop-base,
+.product-loop-flow,
+.product-loop-segment,
+.product-launch-node circle,
+.product-loop-node circle {
+  fill: none;
+  vector-effect: non-scaling-stroke;
+}
+
+#product-loop-arrow path {
+  fill: var(--accent);
+}
+
+.product-launch-line {
+  stroke: var(--accent);
+  stroke-dasharray: 5 9;
+  stroke-width: 2;
+}
+
+.product-launch-stop {
+  stroke: var(--accent);
+  stroke-width: 2;
+}
+
+.product-launch-node circle {
+  fill: var(--paper);
+  stroke: var(--rule);
+  stroke-width: 1;
+}
+
+.product-launch-node:last-of-type circle {
+  fill: var(--accent);
+  stroke: var(--accent);
+}
+
+.product-launch-node text,
+.product-launch-caption,
+.product-loop-node text,
+.product-loop-center-note {
+  font-family: var(--font-public-sans), Arial, sans-serif;
+}
+
+.product-launch-node text {
+  fill: var(--muted);
+  font-size: 10px;
+  font-weight: 650;
+  text-anchor: middle;
+}
+
+.product-launch-node:last-of-type text {
+  fill: var(--paper);
+}
+
+.product-launch-caption {
+  fill: var(--muted);
+  font-size: 10px;
+  text-anchor: middle;
+}
+
+.product-loop-base {
+  stroke: color-mix(in srgb, var(--accent) 18%, var(--rule));
+  stroke-width: 18;
+}
+
+.product-loop-flow {
+  stroke: var(--accent);
+  stroke-dasharray: 3 11;
+  stroke-linecap: round;
+  stroke-width: 1.5;
+}
+
+.product-loop-segment {
+  stroke: color-mix(in srgb, var(--accent) 26%, var(--rule));
+  stroke-linecap: butt;
+  stroke-width: 18;
+  transform: rotate(-90deg);
+  transform-origin: 180px 180px;
+  transition:
+    stroke 320ms var(--ease-out-expo),
+    stroke-width 320ms var(--ease-out-expo);
+}
+
+.product-loop-segment[data-active] {
+  stroke: var(--accent);
+  stroke-width: 24;
+}
+
+.product-loop-node circle {
+  fill: var(--paper);
+  stroke: var(--rule);
+  stroke-width: 1;
+  transition:
+    fill 320ms var(--ease-out-expo),
+    stroke 320ms var(--ease-out-expo),
+    transform 320ms var(--ease-out-expo);
+}
+
+.product-loop-node text {
+  fill: var(--muted);
+  font-size: 8.5px;
+  font-weight: 650;
+  text-anchor: middle;
+  transition: fill 320ms var(--ease-out-expo);
+}
+
+.product-loop-node[data-active] circle {
+  fill: var(--accent);
+  stroke: var(--accent);
+}
+
+.product-loop-node[data-active] text {
+  fill: var(--paper);
+}
+
+.product-loop-center-label {
+  fill: var(--ink);
+  font-family: var(--font-literata), Georgia, serif;
+  font-size: 23px;
+  font-weight: 520;
+  text-anchor: middle;
+}
+
+.product-loop-center-note {
+  fill: var(--muted);
+  font-size: 9px;
+  letter-spacing: 0.04em;
+  text-anchor: middle;
+}
+
+.product-loop-reading {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(1.5rem, 4vw, 3.5rem);
+}
+
+.product-loop-status {
+  min-height: 10rem;
+}
+
+.product-loop-status strong,
+.product-loop-status span {
+  display: block;
+}
+
+.product-loop-status strong {
+  font-family: var(--font-literata), Georgia, serif;
+  font-size: clamp(2rem, 4vw, 3.35rem);
+  font-weight: 480;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+
+.product-loop-status span {
+  max-width: 27rem;
+  margin-top: 1rem;
+  color: var(--muted);
+  font-size: 0.96rem;
+  line-height: 1.6;
+}
+
+.product-loop-steps {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.45rem;
+  margin-top: 1.25rem;
+}
+
+.product-loop-steps button {
+  border-left: 2px solid var(--rule);
+  padding: 0.6rem 0.75rem;
+  text-align: left;
+}
+
+.product-loop-steps button:last-child {
+  grid-column: 1 / -1;
+}
+
+.product-loop-steps button:hover,
+.product-loop-steps button:focus-visible,
+.product-loop-steps button[aria-pressed="true"] {
+  border-left-color: var(--accent);
+  background: var(--paper);
+  color: var(--ink);
+}
+
+.product-loop-figure figcaption {
+  display: flex;
+  justify-content: space-between;
+  gap: 1.5rem;
+  border-top: 1px solid var(--rule);
+  margin: 0;
+  padding: 0.85rem clamp(1.25rem, 3vw, 2rem);
+  color: var(--muted);
+  font-size: 0.72rem;
+  line-height: 1.45;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .product-loop-flow,
+  .product-loop-figure[data-view="launch"] .product-launch-line {
+    animation: product-loop-circulate 3.6s linear infinite;
+  }
+}
+
+@keyframes product-loop-circulate {
+  to {
+    stroke-dashoffset: -56;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .product-loop-figure *,
+  .product-loop-figure *::before,
+  .product-loop-figure *::after {
+    animation-duration: 0s !important;
+    transition-duration: 0s !important;
+  }
+}
+
+@media (max-width: 900px) {
+  .product-loop-figure {
+    width: 100%;
+    margin-block: 3rem !important;
+    margin-left: 0 !important;
+    transform: none;
+  }
+
+  .product-loop-header,
+  .product-loop-stage {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .product-loop-switch {
+    width: 100%;
+  }
+
+  .product-loop-canvas {
+    border-right: 0;
+    border-bottom: 1px solid var(--rule);
+    padding: 1rem;
+  }
+
+  .product-loop-reading {
+    padding: 1.5rem;
+  }
+
+  .product-loop-status {
+    min-height: 8.5rem;
+  }
+
+  .product-loop-figure figcaption {
+    display: grid;
+    gap: 0.25rem;
+  }
+}
+
+@media print {
+  .product-loop-figure {
+    width: 100%;
+    margin-left: 0 !important;
+    transform: none;
+  }
+
+  .product-loop-header,
+  .product-loop-stage {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .product-loop-switch,
+  .product-loop-steps {
+    display: none;
+  }
+
+  .product-loop-canvas {
+    border-right: 0;
+  }
+}
+
 .prose .footnotes {
   margin-top: 4rem;
   border-top: 1px solid var(--rule);
@@ -2821,8 +3421,44 @@ html[data-theme="dark"] .theme-knob {
 }
 
 .fw-hotspot:hover span,
+.fw-hotspot:focus-visible span,
 .fw-hotspot-trunk span {
   background: color-mix(in srgb, var(--ink) 10%, transparent);
+}
+
+.fw-hotspot::after {
+  position: absolute;
+  top: calc(100% + 0.3rem);
+  left: 50%;
+  z-index: 1;
+  width: max-content;
+  border: 1px solid var(--rule);
+  background: var(--paper);
+  color: var(--ink);
+  content: attr(data-hint);
+  font-family: var(--font-public-sans), Arial, sans-serif;
+  font-size: 0.68rem;
+  line-height: 1;
+  opacity: 0;
+  padding: 0.4rem 0.5rem;
+  pointer-events: none;
+  transform: translate(-50%, -2px);
+  transition:
+    opacity var(--motion-micro) var(--ease-out-expo),
+    transform var(--motion-micro) var(--ease-out-expo);
+  white-space: nowrap;
+}
+
+.fw-hotspot:hover::after,
+.fw-hotspot:focus-visible::after {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+.fw-hotspot-branch:hover span,
+.fw-hotspot-branch:focus-visible span {
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
+  box-shadow: inset 0 0 0 1px var(--accent);
 }
 
 .fw-tree-footer {

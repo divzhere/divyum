@@ -3,6 +3,8 @@ import type { ComponentPropsWithoutRef } from "react";
 import Link from "next/link";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import remarkGfm from "remark-gfm";
+import { ObserverEffect } from "@/components/observer-effect";
+import { ProductLoopDiagram } from "@/components/product-loop-diagram";
 
 function MdxLink({
   href = "",
@@ -25,6 +27,8 @@ function MdxLink({
 }
 
 const components = {
+  ObserverEffect,
+  ProductLoopDiagram,
   a: MdxLink,
   pre: (props: ComponentPropsWithoutRef<"pre">) => (
     <pre {...props} tabIndex={0} role="region" aria-label="Code example" />

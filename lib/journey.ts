@@ -67,7 +67,7 @@ export const journeyChapters: readonly JourneyChapter[] = [
     place: "Punjab",
     title: "Born in Punjab",
     summary:
-      "My story begins in Punjab. It is the first place in this journey and the starting point for everything that followed.",
+      "My story begins in Punjab. At 15, I moved to Chandigarh, the city that became the starting point for everything that followed.",
     themes: ["travel", "inner-life"],
     primaryTheme: "travel",
     anchor: true,
@@ -195,7 +195,7 @@ export const journeyChapters: readonly JourneyChapter[] = [
     place: "Within",
     title: "Yoga, Vedanta and a different rhythm",
     summary:
-      "Somewhere along the way I found yoga and Vedanta. Their questions about consciousness, freedom and the divinity within gave my inner life a different rhythm.",
+      "While travelling, I landed up in Rishikesh and found yoga, Reiki, Vedanta and breathwork. They gave my inner life a different rhythm.",
     themes: ["inner-life"],
     primaryTheme: "inner-life",
   },
