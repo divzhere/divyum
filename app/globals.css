@@ -1563,6 +1563,79 @@ html[data-theme="dark"] .theme-knob {
   content: "";
 }
 
+.journey-travel-maps {
+  max-width: 38rem;
+  margin-top: 2.25rem;
+}
+
+.journey-travel-maps > header {
+  display: grid;
+  gap: 0.45rem;
+  margin-bottom: 1.25rem;
+}
+
+.journey-travel-maps h4 {
+  margin: 0;
+  font-family: var(--font-literata), Georgia, serif;
+  font-size: clamp(1.25rem, 2.4vw, 1.65rem);
+  font-weight: 500;
+  line-height: 1.35;
+  letter-spacing: -0.025em;
+}
+
+.journey-travel-maps > header p {
+  max-width: 34rem;
+  margin: 0;
+  color: var(--muted);
+  font-family: var(--font-literata), Georgia, serif;
+  font-size: 0.9rem;
+  line-height: 1.7;
+}
+
+.journey-travel-map-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.journey-travel-map-card {
+  min-width: 0;
+  margin: 0;
+  border: 1px solid var(--rule);
+  background: var(--paper);
+}
+
+.journey-travel-map-frame {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  background: #061429;
+}
+
+.journey-travel-map-frame img {
+  object-fit: cover;
+  object-position: 50% 42%;
+}
+
+.journey-travel-map-card figcaption {
+  display: grid;
+  gap: 0.2rem;
+  padding: 0.8rem 0.9rem 0.9rem;
+  border-top: 1px solid var(--rule);
+}
+
+.journey-travel-map-card figcaption strong {
+  font-family: var(--font-literata), Georgia, serif;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.journey-travel-map-card figcaption span {
+  color: var(--muted);
+  font-size: 0.72rem;
+  line-height: 1.5;
+}
+
 .journey-chapter-media {
   max-width: 38rem;
   margin: 1.5rem 0 0;
@@ -2973,6 +3046,10 @@ html[data-theme="dark"] .theme-knob {
   .journey-travel-history-body > ol > li {
     grid-template-columns: minmax(0, 1fr);
     gap: 0.65rem;
+  }
+
+  .journey-travel-map-grid {
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 

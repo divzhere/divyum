@@ -77,6 +77,20 @@ describe("journey selection", () => {
     expect(within(disclosure).getByText(/motorcycle racing camp/)).toBeTruthy();
   });
 
+  it("shows both supplied photo-map views inside the travel chapter", () => {
+    const { result } = setup();
+    const maps = within(result).getAllByRole("img", {
+      name: /Google Photos travel map/,
+    });
+
+    expect(maps).toHaveLength(2);
+    expect(maps.every((map) => map.getAttribute("loading") === "lazy")).toBe(
+      true,
+    );
+    expect(within(result).getByText("Closer view")).toBeTruthy();
+    expect(within(result).getByText("Wider view")).toBeTruthy();
+  });
+
   it("keeps the current story visible while choices are staged, then applies them on submit", async () => {
     const { user, result, submit } = setup();
     const technology = screen.getByRole("checkbox", { name: /^Technology/ });

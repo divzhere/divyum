@@ -91,7 +91,7 @@ test("the travel decade opens as an accordion without shifting the page sideways
   page,
 }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
-  await page.goto("/journey#travel");
+  await page.goto("/journey?thread=travel#travel");
   const disclosure = page.locator(".journey-travel-history");
 
   await expect(disclosure).not.toHaveAttribute("open", "");
@@ -100,6 +100,11 @@ test("the travel decade opens as an accordion without shifting the page sideways
   await expect(disclosure.getByText("2016", { exact: true })).toBeVisible();
   await expect(disclosure.getByText(/Kuala Lumpur/)).toBeVisible();
   await expect(disclosure.getByText(/Late April–June/)).toBeVisible();
+  const mapCards = page.locator(".journey-travel-map-card");
+  await expect(mapCards).toHaveCount(2);
+  await expect(
+    mapCards.getByRole("img", { name: /Google Photos travel map/ }),
+  ).toHaveCount(2);
   expect(
     await page.evaluate(
       () => document.documentElement.scrollWidth <= window.innerWidth,

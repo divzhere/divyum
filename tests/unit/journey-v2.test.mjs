@@ -118,7 +118,7 @@ describe("journey chapters", () => {
     expect(remoteLife?.summary).toContain("Southeast Asia");
   });
 
-  it("ships no media before Divyum approves it", () => {
+  it("keeps optional chapter photography empty", () => {
     expect(journeyChapters.every(({ media }) => media === undefined)).toBe(
       true,
     );
