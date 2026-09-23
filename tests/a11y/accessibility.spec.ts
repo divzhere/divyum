@@ -15,6 +15,9 @@ for (const route of [...publicRoutes, { path: "/journey?thread=technology" }]) {
       }, theme);
       await page.goto(route.path);
       await expect(page.locator("html")).toHaveAttribute("data-theme", theme);
+      if (route.path === "/journey") {
+        await page.locator(".journey-travel-history summary").click();
+      }
       await page.waitForLoadState("networkidle");
       await page.waitForTimeout(50);
 

@@ -64,6 +64,19 @@ describe("journey selection", () => {
     ).toBeTruthy();
   });
 
+  it("keeps the decade-long travel history in a collapsed editorial archive", () => {
+    const { result } = setup();
+    const disclosure = within(result)
+      .getByText("Travel in my 20s")
+      .closest("details");
+
+    expect(disclosure).toBeTruthy();
+    expect(disclosure.open).toBe(false);
+    expect(within(disclosure).getByText("2016–2026")).toBeTruthy();
+    expect(within(disclosure).getByText(/Kuala Lumpur/)).toBeTruthy();
+    expect(within(disclosure).getByText(/motorcycle racing camp/)).toBeTruthy();
+  });
+
   it("keeps the current story visible while choices are staged, then applies them on submit", async () => {
     const { user, result, submit } = setup();
     const technology = screen.getByRole("checkbox", { name: /^Technology/ });

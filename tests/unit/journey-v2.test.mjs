@@ -6,6 +6,7 @@ import {
   parseJourneyThreads,
   sortJourneyChapters,
 } from "../../lib/journey.ts";
+import { travelHistory } from "../../lib/travel-history.ts";
 
 describe("journey URL state", () => {
   it("keeps only known, unique threads in their canonical order", () => {
@@ -120,6 +121,23 @@ describe("journey chapters", () => {
   it("ships no media before Divyum approves it", () => {
     expect(journeyChapters.every(({ media }) => media === undefined)).toBe(
       true,
+    );
+  });
+});
+
+describe("travel history", () => {
+  it("keeps the supplied decade in chronological order", () => {
+    expect(travelHistory.map(({ year }) => year)).toEqual([
+      2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026,
+    ]);
+    expect(travelHistory.find(({ year }) => year === 2025)?.entries).toEqual(
+      expect.arrayContaining([
+        expect.stringContaining("Kuala Lumpur"),
+        expect.stringContaining("Bali"),
+      ]),
+    );
+    expect(travelHistory.at(-1)?.entries).toContain(
+      "Late April–June — Chennai.",
     );
   });
 });
