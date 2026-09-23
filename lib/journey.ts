@@ -175,7 +175,7 @@ export const journeyChapters: readonly JourneyChapter[] = [
     place: "Many places",
     title: "Work without one fixed place",
     summary:
-      "Remote work gave me the freedom to work from different places. Over time, that became a digital-nomad way of life.",
+      "Remote work gave me the freedom to work from different places. Over time, that became a digital-nomad way of life, with most of the map so far drawn across India and stretching into Southeast Asia.",
     themes: ["travel"],
     primaryTheme: "travel",
   },

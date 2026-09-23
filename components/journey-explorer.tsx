@@ -5,6 +5,8 @@ import type { FormEvent } from "react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { motion, useScroll } from "framer-motion";
 import { LocalTime } from "@/components/local-time";
+import { TravelGlobe } from "@/components/travel-globe";
+import { TravelHistory } from "@/components/travel-history";
 import { siteConfig } from "@/lib/site";
 import {
   filterJourneyChapters,
@@ -279,6 +281,8 @@ export function JourneyExplorer() {
                         {chapter.descriptor}
                       </p>
                     )}
+                    {chapter.id === "remote-life" && <TravelGlobe />}
+                    {chapter.id === "travel" && <TravelHistory />}
                     {chapter.media && (
                       <figure className="journey-chapter-media">
                         <Image
