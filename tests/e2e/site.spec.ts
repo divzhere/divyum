@@ -183,6 +183,17 @@ test("journey chapter links are shareable and professional chapters stay distill
     "href",
     "#rotaract",
   );
+  await expect
+    .poll(() =>
+      page.evaluate(
+        () =>
+          getComputedStyle(
+            document.querySelector("#rotaract .journey-marker")!,
+            "::before",
+          ).transform,
+      ),
+    )
+    .toBe("matrix(1.8, 0, 0, 1.8, 0, 0)");
 
   await page.goto("/journey?thread=technology&order=thematic#technology");
   await expect(page.locator("#technology")).toBeInViewport();

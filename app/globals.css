@@ -1259,12 +1259,14 @@ html[data-theme="dark"] .theme-knob {
 }
 
 .journey-chapter:target .journey-marker::before,
+.journey-chapter:has(.journey-anchor-alias:target) .journey-marker::before,
 .journey-chapter:hover .journey-marker::before,
 .journey-chapter:focus-within .journey-marker::before {
   transform: scale(1.8);
 }
 
-.journey-chapter:target {
+.journey-chapter:target,
+.journey-chapter:has(.journey-anchor-alias:target) {
   background: color-mix(in srgb, var(--soft) 55%, transparent);
 }
 
