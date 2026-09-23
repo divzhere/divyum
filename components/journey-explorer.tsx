@@ -246,6 +246,13 @@ export function JourneyExplorer() {
                   key={chapter.id}
                   aria-labelledby={`${chapter.id}-title`}
                 >
+                  {chapter.legacyId && (
+                    <span
+                      className="journey-anchor-alias"
+                      id={chapter.legacyId}
+                      aria-hidden="true"
+                    />
+                  )}
                   <div className="journey-marker" aria-hidden="true" />
 
                   <article className="journey-chapter-copy">

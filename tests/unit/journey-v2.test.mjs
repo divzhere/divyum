@@ -101,6 +101,7 @@ describe("journey chapters", () => {
 
     expect(rotaract?.summary).toContain("800+ member service organization");
     expect(rotaract?.summary).toContain("INR 10 lakh");
+    expect(rotaract?.legacyId).toBe("rotary");
     expect(denim?.summary).toContain("first three AI features");
     expect(gtTrack).toMatchObject({
       phase: "January 2026",

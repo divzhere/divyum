@@ -1206,6 +1206,15 @@ html[data-theme="dark"] .theme-knob {
   scroll-margin-top: 4rem;
 }
 
+.journey-anchor-alias {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+}
+
 .journey-marker {
   grid-area: marker;
 }

@@ -43,6 +43,7 @@ type JourneyChapterBase = {
   primaryTheme: JourneyTheme | null;
   media?: JourneyMedia;
   anchor?: boolean;
+  legacyId?: string;
 };
 
 type JourneyLifeChapter = JourneyChapterBase & {
@@ -85,6 +86,7 @@ export const journeyChapters: readonly JourneyChapter[] = [
   },
   {
     id: "rotaract",
+    legacyId: "rotary",
     sequence: 3,
     phase: "2018–2019",
     place: "Chandigarh",

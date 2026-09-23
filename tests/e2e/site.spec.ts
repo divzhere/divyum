@@ -176,9 +176,13 @@ test("journey chapter links are shareable and professional chapters stay distill
 }) => {
   test.skip(viewport?.width !== 768, "covered once per browser engine");
   await page.emulateMedia({ reducedMotion: "reduce" });
-  await page.goto("/journey#rotaract");
+  await page.goto("/journey#rotary");
   await expect(page.locator("#rotaract")).toBeInViewport();
-  await expect(page).toHaveURL(/#rotaract$/);
+  await expect(page).toHaveURL(/#rotary$/);
+  await expect(page.locator("#rotaract h3 a")).toHaveAttribute(
+    "href",
+    "#rotaract",
+  );
 
   await page.goto("/journey?thread=technology&order=thematic#technology");
   await expect(page.locator("#technology")).toBeInViewport();
