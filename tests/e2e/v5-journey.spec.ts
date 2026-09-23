@@ -112,6 +112,43 @@ test("the travel decade opens as an accordion without shifting the page sideways
   ).toBe(true);
 });
 
+test("the community chapter keeps the two-year progression and club structure readable", async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/journey?thread=community#rotaract");
+
+  const community = page.locator(".journey-community");
+  await expect(community).toBeInViewport();
+  await expect(community).toContainText("July 2017–June 2019");
+  await expect(community.locator(".journey-community-roles > li")).toHaveCount(
+    4,
+  );
+  await expect(community.locator(".journey-community-org-level")).toHaveCount(
+    5,
+  );
+  await expect(community.getByText("1:7–8", { exact: true })).toBeVisible();
+  await expect(community.getByText("40–50", { exact: true })).toBeVisible();
+  await expect(community.getByText("10–15", { exact: true })).toBeVisible();
+
+  const disclosures = community.locator(".journey-community-details");
+  await expect(disclosures).toHaveCount(3);
+  for (const disclosure of await disclosures.all()) {
+    await disclosure.locator("summary").click();
+    await expect(disclosure).toHaveAttribute("open", "");
+  }
+  await expect(community.getByText("Pirates of the City")).toBeVisible();
+  await expect(
+    community.getByText("Happy School", { exact: true }),
+  ).toBeVisible();
+  await expect(community.getByText("RotaTech")).toBeVisible();
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth <= window.innerWidth,
+    ),
+  ).toBe(true);
+});
+
 test("the thread fills as the reader scrolls and the current chapter's marker becomes an origin", async ({
   page,
 }) => {

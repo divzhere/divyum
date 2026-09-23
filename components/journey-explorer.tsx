@@ -4,6 +4,7 @@ import Image from "next/image";
 import type { FormEvent } from "react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { motion, useScroll } from "framer-motion";
+import { CommunityServiceJourney } from "@/components/community-service-journey";
 import { LocalTime } from "@/components/local-time";
 import { TravelGlobe } from "@/components/travel-globe";
 import { TravelHistory } from "@/components/travel-history";
@@ -282,6 +283,7 @@ export function JourneyExplorer() {
                         {chapter.descriptor}
                       </p>
                     )}
+                    {chapter.id === "rotaract" && <CommunityServiceJourney />}
                     {chapter.id === "remote-life" && <TravelGlobe />}
                     {chapter.id === "travel" && (
                       <>

@@ -14,6 +14,22 @@ import { journeyChapters } from "../../lib/journey.ts";
 
 beforeEach(() => {
   window.history.replaceState({}, "", "/journey");
+  vi.stubGlobal(
+    "IntersectionObserver",
+    class IntersectionObserver {
+      constructor(callback) {
+        this.callback = callback;
+      }
+
+      observe(target) {
+        this.callback([{ isIntersecting: true, target }]);
+      }
+
+      unobserve() {}
+
+      disconnect() {}
+    },
+  );
   vi.stubGlobal("matchMedia", (query) => ({
     matches: [
       "(prefers-reduced-motion)",
@@ -91,6 +107,35 @@ describe("journey selection", () => {
     expect(within(result).getByText("Wider view")).toBeTruthy();
   });
 
+  it("shows a dated community-service record with its archive collapsed", () => {
+    const { result } = setup();
+    const community = within(result)
+      .getByRole("heading", { name: "From one team to the whole club" })
+      .closest(".journey-community");
+
+    expect(community).toBeTruthy();
+    expect(within(community).getByText("July 2017–June 2019")).toBeTruthy();
+    expect(within(community).getByText("Team Leader")).toBeTruthy();
+    expect(within(community).getByText("Joint Secretary")).toBeTruthy();
+    expect(
+      within(community).getByRole("heading", {
+        name: "How the club was structured",
+      }),
+    ).toBeTruthy();
+    expect(
+      community.querySelectorAll(".journey-community-org-level"),
+    ).toHaveLength(5);
+    expect(
+      community.querySelectorAll(".journey-community-details"),
+    ).toHaveLength(3);
+    expect(
+      Array.from(
+        community.querySelectorAll(".journey-community-details"),
+        (details) => details.open,
+      ),
+    ).toEqual([false, false, false]);
+  });
+
   it("keeps the current story visible while choices are staged, then applies them on submit", async () => {
     const { user, result, submit } = setup();
     const technology = screen.getByRole("checkbox", { name: /^Technology/ });
@@ -112,6 +157,11 @@ describe("journey selection", () => {
       within(result).getByRole("heading", { name: title("technology") }),
     ).toBeTruthy();
     expect(within(result).queryByRole("figure")).toBeNull();
+    expect(
+      within(result).queryByRole("heading", {
+        name: "From one team to the whole club",
+      }),
+    ).toBeNull();
     expect(
       within(result).queryByRole("heading", { name: title("punjab") }),
     ).toBeNull();

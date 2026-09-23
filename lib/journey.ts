@@ -88,11 +88,11 @@ export const journeyChapters: readonly JourneyChapter[] = [
     id: "rotaract",
     legacyId: "rotary",
     sequence: 3,
-    phase: "2018–2019",
+    phase: "Jul 2017–Jun 2019",
     place: "Chandigarh",
     title: "Leading Rotaract Club Chandigarh Himalayan",
     summary:
-      "As president, I led an 800+ member service organization and presided over club and board meetings. I coached committees across professional development and service projects while overseeing people policies, team structure, budgets, marketing and external representation; we raised INR 10 lakh for community initiatives.",
+      "I grew from team leader to team coordinator and joint secretary before serving as president. I led an 800+ member service organization, overseeing people policies, team structure, budgets, marketing and external representation; together, we raised INR 10 lakh for community initiatives.",
     themes: ["community"],
     primaryTheme: "community",
   },
