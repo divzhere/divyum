@@ -120,6 +120,10 @@ test("the community chapter keeps the two-year progression and club structure re
 
   const community = page.locator(".journey-community");
   await expect(community).toBeInViewport();
+  const leadership = community.locator(".journey-community-leadership");
+  await expect(leadership).not.toHaveAttribute("open", "");
+  await leadership.locator("summary").click();
+  await expect(leadership).toHaveAttribute("open", "");
   await expect(community).toContainText("July 2017–June 2019");
   await expect(community.locator(".journey-community-roles > li")).toHaveCount(
     4,

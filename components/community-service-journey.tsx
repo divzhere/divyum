@@ -29,71 +29,88 @@ export function CommunityServiceJourney() {
 
   return (
     <div className="journey-community">
-      <header className="journey-community-intro">
-        <p className="journey-community-period">July 2017–June 2019</p>
-        <h4 id="journey-community-title">From one team to the whole club</h4>
-        <p>
-          I spent two years moving through the club before becoming president.
-          That progression mattered: by the time I led it, I understood the
-          volunteer experience at every level.
-        </p>
-      </header>
+      <details className="journey-community-leadership">
+        <summary>
+          <span>
+            <strong>Leadership progression and club structure</strong>
+            <small>4 roles · July 2017–June 2019</small>
+          </span>
+          <span className="journey-community-details-mark" aria-hidden="true" />
+        </summary>
+        <div className="journey-community-leadership-body">
+          <header className="journey-community-intro">
+            <p className="journey-community-period">July 2017–June 2019</p>
+            <h4 id="journey-community-title">
+              From one team to the whole club
+            </h4>
+            <p>
+              I spent two years moving through the club before becoming
+              president. That progression mattered: by the time I led it, I
+              understood the volunteer experience at every level.
+            </p>
+          </header>
 
-      <ol className="journey-community-roles" aria-label="Leadership roles">
-        {rotaractRoles.map((role) => (
-          <li key={role.title}>
-            <time dateTime={role.dateTime}>{role.period}</time>
-            <div>
-              <h5>{role.title}</h5>
-              <p>{role.description}</p>
-            </div>
-          </li>
-        ))}
-      </ol>
+          <ol className="journey-community-roles" aria-label="Leadership roles">
+            {rotaractRoles.map((role) => (
+              <li key={role.title}>
+                <time dateTime={role.dateTime}>{role.period}</time>
+                <div>
+                  <h5>{role.title}</h5>
+                  <p>{role.description}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
 
-      <div className="journey-community-structure">
-        <header>
-          <h4>How the club was structured</h4>
-          <p>
-            A volunteer organisation at this scale needed clear lines of care,
-            responsibility and accountability—not only titles.
-          </p>
-        </header>
+          <div className="journey-community-structure">
+            <header>
+              <h4>How the club was structured</h4>
+              <p>
+                A volunteer organisation at this scale needed clear lines of
+                care, responsibility and accountability—not only titles.
+              </p>
+            </header>
 
-        <ol
-          className="journey-community-org"
-          ref={structureRef}
-          aria-label="Club reporting structure from president to general body members"
-        >
-          {rotaractStructure.map((level, index) => (
-            <motion.li
-              key={level.title}
-              className={`journey-community-org-level journey-community-org-level-${index + 1}`}
-              initial={
-                reducedMotion ? false : { opacity: 0.24, y: 14, scale: 0.985 }
-              }
-              animate={
-                reducedMotion || structureIsVisible
-                  ? { opacity: 1, y: 0, scale: 1 }
-                  : { opacity: 0.24, y: 14, scale: 0.985 }
-              }
-              transition={{
-                duration: reducedMotion ? 0 : 0.42,
-                delay: reducedMotion
-                  ? 0
-                  : (rotaractStructure.length - index - 1) * 0.12,
-                ease: [0.22, 1, 0.36, 1],
-              }}
+            <ol
+              className="journey-community-org"
+              ref={structureRef}
+              aria-label="Club reporting structure from president to general body members"
             >
-              <span className="journey-community-org-count">{level.count}</span>
-              <span>
-                <strong>{level.title}</strong>
-                <small>{level.detail}</small>
-              </span>
-            </motion.li>
-          ))}
-        </ol>
-      </div>
+              {rotaractStructure.map((level, index) => (
+                <motion.li
+                  key={level.title}
+                  className={`journey-community-org-level journey-community-org-level-${index + 1}`}
+                  initial={
+                    reducedMotion
+                      ? false
+                      : { opacity: 0.24, y: 14, scale: 0.985 }
+                  }
+                  animate={
+                    reducedMotion || structureIsVisible
+                      ? { opacity: 1, y: 0, scale: 1 }
+                      : { opacity: 0.24, y: 14, scale: 0.985 }
+                  }
+                  transition={{
+                    duration: reducedMotion ? 0 : 0.42,
+                    delay: reducedMotion
+                      ? 0
+                      : (rotaractStructure.length - index - 1) * 0.12,
+                    ease: [0.22, 1, 0.36, 1],
+                  }}
+                >
+                  <span className="journey-community-org-count">
+                    {level.count}
+                  </span>
+                  <span>
+                    <strong>{level.title}</strong>
+                    <small>{level.detail}</small>
+                  </span>
+                </motion.li>
+              ))}
+            </ol>
+          </div>
+        </div>
+      </details>
 
       <div className="journey-community-archive">
         <details className="journey-community-details">

@@ -198,9 +198,10 @@ test("journey chapter links are shareable and professional chapters stay distill
   await page.goto("/journey?thread=technology&order=thematic#technology");
   await expect(page.locator("#technology")).toBeInViewport();
   await expect(
-    page
-      .locator("#technology")
-      .getByText("UI Developer Intern · React · Redux · Sass"),
+    page.locator("#technology").getByText("UI Developer Intern"),
+  ).toBeVisible();
+  await expect(
+    page.locator("#technology").getByText("React · Redux · Sass"),
   ).toBeVisible();
   await expect(page.locator(".journey-chapter h3")).toHaveText([
     "XenonStack",
@@ -215,7 +216,10 @@ test("journey chapter links are shareable and professional chapters stay distill
   await expect(current).toBeInViewport();
   await expect(current.getByText(/initial commit to production/)).toBeVisible();
   await expect(
-    current.getByText("Founding Engineer / Lead Engineer · Healthcare"),
+    current.getByText("Founding Engineer / Lead Engineer"),
+  ).toBeVisible();
+  await expect(
+    current.getByText("Healthcare · React · TypeScript · Product"),
   ).toBeVisible();
   await expect(
     page.locator(

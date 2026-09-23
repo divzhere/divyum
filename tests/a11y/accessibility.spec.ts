@@ -18,7 +18,9 @@ for (const route of [...publicRoutes, { path: "/journey?thread=technology" }]) {
       if (route.path === "/journey") {
         await page.locator(".journey-travel-history summary").click();
         for (const summary of await page
-          .locator(".journey-community-details summary")
+          .locator(
+            ".journey-community-leadership > summary, .journey-community-details summary",
+          )
           .all()) {
           await summary.click();
         }

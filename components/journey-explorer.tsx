@@ -272,11 +272,19 @@ export function JourneyExplorer() {
                         </span>
                       )}
                     </div>
-                    <h3 id={`${chapter.id}-title`}>
-                      <a href={`#${chapter.id}`} title="Link to this chapter">
-                        {chapter.title}
-                      </a>
-                    </h3>
+                    <div className="journey-chapter-heading">
+                      <h3 id={`${chapter.id}-title`}>
+                        <a href={`#${chapter.id}`} title="Link to this chapter">
+                          {chapter.title}
+                        </a>
+                      </h3>
+                      {chapter.type === "professional" &&
+                        chapter.designation && (
+                          <p className="journey-chapter-designation">
+                            {chapter.designation}
+                          </p>
+                        )}
+                    </div>
                     <p>{chapter.summary}</p>
                     {chapter.descriptor && (
                       <p className="journey-chapter-descriptor">
