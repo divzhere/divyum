@@ -13,14 +13,19 @@ describe("resume assets", () => {
     expect(source.subarray(0, 5).toString()).toBe("%PDF-");
   });
 
-  it("keeps current employer and location in the resume source", async () => {
+  it("keeps current employer, location and contact links in the resume source", async () => {
     const source = await readFile("resume/divyum-bhumra-resume.tex", "utf8");
 
     expect(source).toContain("Denim Health");
     expect(source).toContain("Remote, India");
     expect(source).toContain("lead frontend and product role in 2025");
     expect(source).toContain("AI-Native Product Engineering");
-    expect(source).toContain("divyumbhumra.com");
+    expect(source).toContain(
+      "\\href{https://www.divyumbhumra.com/}{divyumbhumra.com}",
+    );
+    expect(source).toContain(
+      "\\href{https://www.linkedin.com/in/divyum/}{linkedin.com/in/divyum}",
+    );
     expect(source).not.toContain("98767");
   });
 
