@@ -60,13 +60,13 @@ describe("journey selection", () => {
 
     expect(technology.checked).toBe(true);
     expect(
-      within(result).getByRole("heading", { name: title("rotary") }),
+      within(result).getByRole("heading", { name: title("rotaract") }),
     ).toBeTruthy();
     await user.click(submit);
 
     await waitFor(() => {
       expect(
-        within(result).queryByRole("heading", { name: title("rotary") }),
+        within(result).queryByRole("heading", { name: title("rotaract") }),
       ).toBeNull();
     });
     expect(
@@ -94,7 +94,7 @@ describe("journey selection", () => {
 
     await waitFor(() => {
       expect(
-        within(result).queryByRole("heading", { name: title("rotary") }),
+        within(result).queryByRole("heading", { name: title("rotaract") }),
       ).toBeNull();
     });
     expect(
@@ -178,16 +178,16 @@ describe("journey selection", () => {
       6,
     );
     const current = within(result).getByRole("listitem", {
-      name: "Beyond Engineering",
+      name: "Denim Health",
     });
-    expect(within(current).getByText("2023–Now")).toBeTruthy();
+    expect(within(current).getByText("Nov 2023–Sep 2026")).toBeTruthy();
     expect(
-      within(current).getByText(
-        "I grew from senior engineering into a lead frontend and UX role. Today I connect customer needs, engineering and reliable delivery for U.S. healthcare.",
-      ),
+      within(current).getByText(/initial commit to production/),
     ).toBeTruthy();
     expect(
-      within(current).getByText("Lead Engineer · Health Technology"),
+      within(current).getByText(
+        "Founding Engineer / Lead Engineer · Healthcare",
+      ),
     ).toBeTruthy();
     expect(
       result.querySelectorAll("dl, details, .journey-chapter ul"),
@@ -223,12 +223,12 @@ describe("journey selection", () => {
             .getAllByRole("heading", { level: 3 })
             .map((heading) => heading.textContent),
         ).toEqual([
-          "Interfaces",
-          "Building",
-          "Scale",
-          "Ownership",
-          "Beyond Engineering",
-          "Building My Own",
+          "XenonStack",
+          "Independent / Remote",
+          "Topica Edtech Group",
+          "CAW Studios",
+          "Denim Health",
+          "AI-native engineering",
         ]);
         const images = within(result).queryAllByRole("img");
         expect(images).toHaveLength(count);

@@ -349,14 +349,17 @@ Journey copy and structure live in `lib/journey.ts`. Add a `JourneyChapter`
 there with a permanent, URL-safe `id`, a unique `sequence`, zero or more
 `themes`, and either a `primaryTheme` used by the thematic view or `null` for an
 unthemed chapter. The `id` becomes the shareable fragment
-(`/journey#chapter-id`), so do not change it after publishing.
+(`/journey#chapter-id`), so do not change it after publishing. When a factual
+correction requires a new `id`, preserve the previous fragment with `legacyId`.
 
 Professional chapters use `type: "professional"`, `phase` for the era, a short
 `title`, one- or two-sentence `summary`, and a small `descriptor`. Keep the six transitions
-concise; do not add résumé tables, technology lists, employer/client names,
-product names or private source context. This module is included in public HTML
-and client JavaScript. The Technology filter shows the six professional chapters;
-life threads retain their origin/current anchors, and mixed selections form a union.
+concise and align employer names, product names, dates and outcomes with the
+published résumé. Include only evidence already approved for public use; keep
+private source context and unapproved client identities out. This module is
+included in public HTML and client JavaScript. The Technology filter shows the
+six professional chapters; life threads retain their origin/current anchors,
+and mixed selections form a union.
 
 The optional `media` field accepts one personally supplied, approved image per
 chapter with `src`, descriptive `alt`, intrinsic `width`, `height` and optional
@@ -434,7 +437,7 @@ These are intentional authoring placeholders, not invented personal claims.
       Replace or remove the private `content/library/example-book.mdx` scaffold;
       write its description and reading notes if publishing it. Ratings are optional.
 - [ ] Optionally select and privacy-review a few personal Journey photographs.
-      Keep professional employer/client identities and detailed source material private.
+      Keep unapproved client identities and detailed source material private.
 - [ ] Write real essays and notes. Each `content:new` scaffold marks its missing
       description (and framework origin/framing or book author) with `TODO(divyum)`.
       Replace those fields before changing `draft` to `false`.

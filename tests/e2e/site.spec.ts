@@ -121,7 +121,7 @@ test("journey choices are staged, combine as a union and reset", async ({
   await expect(travel).toBeChecked();
   await expect(
     results.getByRole("heading", {
-      name: "Leading Rotary Chandigarh Himalayan",
+      name: "Leading Rotaract Club Chandigarh Himalayan",
     }),
   ).toBeVisible();
   await page.getByRole("button", { name: "Show this journey" }).click();
@@ -130,13 +130,15 @@ test("journey choices are staged, combine as a union and reset", async ({
     page.getByRole("region", { name: "Technology + Travel and place" }),
   ).toBeVisible();
   await expect(
-    page.getByRole("heading", { name: "Interfaces", exact: true }),
+    page.getByRole("heading", { name: "XenonStack", exact: true }),
   ).toBeVisible();
   await expect(
     page.getByRole("heading", { name: "Travel became part of how I learn" }),
   ).toBeVisible();
   await expect(
-    page.getByRole("heading", { name: "Leading Rotary Chandigarh Himalayan" }),
+    page.getByRole("heading", {
+      name: "Leading Rotaract Club Chandigarh Himalayan",
+    }),
   ).toHaveCount(0);
 
   await page.getByRole("button", { name: "Thematic", exact: true }).click();
@@ -165,7 +167,7 @@ test("journey choices are staged, combine as a union and reset", async ({
   await expect(
     page.getByRole("region", { name: "The whole journey" }),
   ).toBeVisible();
-  await expect(page.locator(".journey-chapter")).toHaveCount(13);
+  await expect(page.locator(".journey-chapter")).toHaveCount(15);
 });
 
 test("journey chapter links are shareable and professional chapters stay distilled", async ({
@@ -175,32 +177,45 @@ test("journey chapter links are shareable and professional chapters stay distill
   test.skip(viewport?.width !== 768, "covered once per browser engine");
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/journey#rotary");
-  await expect(page.locator("#rotary")).toBeInViewport();
+  await expect(page.locator("#rotaract")).toBeInViewport();
   await expect(page).toHaveURL(/#rotary$/);
+  await expect(page.locator("#rotaract h3 a")).toHaveAttribute(
+    "href",
+    "#rotaract",
+  );
+  await expect
+    .poll(() =>
+      page.evaluate(
+        () =>
+          getComputedStyle(
+            document.querySelector("#rotaract .journey-marker")!,
+            "::before",
+          ).transform,
+      ),
+    )
+    .toBe("matrix(1.8, 0, 0, 1.8, 0, 0)");
 
   await page.goto("/journey?thread=technology&order=thematic#technology");
   await expect(page.locator("#technology")).toBeInViewport();
   await expect(
-    page.locator("#technology").getByText("UI Engineering"),
+    page
+      .locator("#technology")
+      .getByText("UI Developer Intern · React · Redux · Sass"),
   ).toBeVisible();
   await expect(page.locator(".journey-chapter h3")).toHaveText([
-    "Interfaces",
-    "Building",
-    "Scale",
-    "Ownership",
-    "Beyond Engineering",
-    "Building My Own",
+    "XenonStack",
+    "Independent / Remote",
+    "Topica Edtech Group",
+    "CAW Studios",
+    "Denim Health",
+    "AI-native engineering",
   ]);
   await page.goto("/journey?thread=technology#beyond-engineering");
   const current = page.locator("#beyond-engineering");
   await expect(current).toBeInViewport();
+  await expect(current.getByText(/initial commit to production/)).toBeVisible();
   await expect(
-    current.getByText(
-      "I grew from senior engineering into a lead frontend and UX role. Today I connect customer needs, engineering and reliable delivery for U.S. healthcare.",
-    ),
-  ).toBeVisible();
-  await expect(
-    current.getByText("Lead Engineer · Health Technology"),
+    current.getByText("Founding Engineer / Lead Engineer · Healthcare"),
   ).toBeVisible();
   await expect(
     page.locator(
@@ -261,10 +276,12 @@ test("journey URL filters remain readable without JavaScript", async ({
     viewport: { width: 375, height: 812 },
   });
   const page = await context.newPage();
-  await page.goto("/journey?thread=community#rotary");
-  await expect(page.locator(".journey-chapter")).toHaveCount(13);
+  await page.goto("/journey?thread=community#rotaract");
+  await expect(page.locator(".journey-chapter")).toHaveCount(15);
   await expect(
-    page.getByRole("heading", { name: "Leading Rotary Chandigarh Himalayan" }),
+    page.getByRole("heading", {
+      name: "Leading Rotaract Club Chandigarh Himalayan",
+    }),
   ).toBeVisible();
   await context.close();
 });
@@ -328,9 +345,9 @@ test("server-rendered reading remains visible without JavaScript", async ({
     ).toBeVisible();
     await expect(page.locator("main")).toBeVisible();
     if (route.path === "/journey") {
-      await expect(page.locator(".journey-chapter")).toHaveCount(13);
+      await expect(page.locator(".journey-chapter")).toHaveCount(15);
       await expect(page.locator("#beyond-engineering")).toContainText(
-        "I grew from senior engineering into a lead frontend and UX role. Today I connect customer needs, engineering and reliable delivery for U.S. healthcare.",
+        /initial commit to production/,
       );
     }
   }
