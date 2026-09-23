@@ -107,13 +107,19 @@ describe("journey selection", () => {
     expect(within(result).getByText("Wider view")).toBeTruthy();
   });
 
-  it("shows a dated community-service record with its archive collapsed", () => {
-    const { result } = setup();
+  it("shows a dated community-service record with its archive collapsed", async () => {
+    const { result, user } = setup();
     const community = within(result)
-      .getByRole("heading", { name: "From one team to the whole club" })
-      .closest(".journey-community");
+      .getByRole("listitem", { name: title("rotaract") })
+      .querySelector(".journey-community");
+    const leadership = community.querySelector(".journey-community-leadership");
 
     expect(community).toBeTruthy();
+    expect(leadership.open).toBe(false);
+    await user.click(
+      within(leadership).getByText("Leadership progression and club structure"),
+    );
+    expect(leadership.open).toBe(true);
     expect(within(community).getByText("July 2017–June 2019")).toBeTruthy();
     expect(within(community).getByText("Team Leader")).toBeTruthy();
     expect(within(community).getByText("Joint Secretary")).toBeTruthy();

@@ -51,6 +51,20 @@ describe("journey chapters", () => {
     expect(sortJourneyChapters(chapters, "thematic")).toEqual(chapters);
   });
 
+  it("keeps company designations aligned with the resume", () => {
+    expect(
+      filterJourneyChapters(["technology"])
+        .filter(({ designation }) => designation)
+        .map(({ title, designation }) => [title, designation]),
+    ).toEqual([
+      ["XenonStack", "UI Developer Intern"],
+      ["Independent / Remote", "Frontend Engineer"],
+      ["Topica Edtech Group", "Software Engineer"],
+      ["CAW Studios", "Software Development Engineer 3"],
+      ["Denim Health", "Founding Engineer / Lead Engineer"],
+    ]);
+  });
+
   it("filters selected threads as a union while retaining anchor chapters", () => {
     const filtered = filterJourneyChapters(["technology", "community"]);
 
