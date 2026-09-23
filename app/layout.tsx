@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Literata, Public_Sans } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import { Footer } from "@/components/footer";
 import { JsonLd } from "@/components/json-ld";
 import { MotionProvider } from "@/components/motion-provider";
@@ -132,6 +133,7 @@ export default function RootLayout({
           </main>
           <Footer />
         </MotionProvider>
+        {process.env.VERCEL === "1" ? <Analytics /> : null}
       </body>
     </html>
   );
