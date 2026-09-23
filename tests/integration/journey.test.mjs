@@ -275,9 +275,10 @@ describe("journey selection", () => {
       within(current).getByText(/initial commit to production/),
     ).toBeTruthy();
     expect(
-      within(current).getByText(
-        "Founding Engineer / Lead Engineer · Healthcare",
-      ),
+      within(current).getByText("Founding Engineer / Lead Engineer"),
+    ).toBeTruthy();
+    expect(
+      within(current).getByText("Healthcare · React · TypeScript · Product"),
     ).toBeTruthy();
     expect(
       result.querySelectorAll("dl, details, .journey-chapter ul"),

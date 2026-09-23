@@ -54,6 +54,7 @@ type JourneyLifeChapter = JourneyChapterBase & {
 
 type JourneyProfessionalChapter = JourneyChapterBase & {
   type: "professional";
+  designation?: string;
   descriptor: string;
   place?: never;
 };
@@ -102,9 +103,10 @@ export const journeyChapters: readonly JourneyChapter[] = [
     phase: "2019–20",
     type: "professional",
     title: "XenonStack",
+    designation: "UI Developer Intern",
     summary:
       "I revamped the careers portal with React, Redux and Sass, contributing to a 5× increase in job applications, and documented reusable design-system packages with Jest, Enzyme and Taiko coverage.",
-    descriptor: "UI Developer Intern · React · Redux · Sass",
+    descriptor: "React · Redux · Sass",
     themes: ["technology"],
     primaryTheme: "technology",
   },
@@ -114,9 +116,10 @@ export const journeyChapters: readonly JourneyChapter[] = [
     phase: "2020–21",
     type: "professional",
     title: "Independent / Remote",
+    designation: "Frontend Engineer",
     summary:
       "I built Zollege from the ground up with Next.js and grew it past 2.5 million site visits, then shipped React interfaces for hotel-management SaaS and a loan-underwriting application through Azure Pipelines and Azure App Service.",
-    descriptor: "Frontend Engineer · Next.js · React · Azure",
+    descriptor: "Next.js · React · Azure",
     themes: ["technology"],
     primaryTheme: "technology",
   },
@@ -126,9 +129,10 @@ export const journeyChapters: readonly JourneyChapter[] = [
     phase: "2021–22",
     type: "professional",
     title: "Topica Edtech Group",
+    designation: "Software Engineer",
     summary:
       "I owned React and Next.js features for Edumall across Thailand, Indonesia and Vietnam, and drove a product-wide design refresh for a learning platform receiving 200,000+ site visits.",
-    descriptor: "Software Engineer · React · Next.js",
+    descriptor: "React · Next.js",
     themes: ["technology"],
     primaryTheme: "technology",
   },
@@ -138,9 +142,10 @@ export const journeyChapters: readonly JourneyChapter[] = [
     phase: "2022–23",
     type: "professional",
     title: "CAW Studios",
+    designation: "Software Development Engineer 3",
     summary:
       "I led frontend architecture for Calibrate, a multilingual coding-assessment platform supporting live hiring events and 10,000+ users, guided a cross-functional delivery team, and established the React and TypeScript foundation for Celito's B2B biotech SaaS product.",
-    descriptor: "Software Development Engineer 3 · Frontend Lead",
+    descriptor: "Frontend architecture · React · TypeScript",
     themes: ["technology"],
     primaryTheme: "technology",
   },
@@ -150,9 +155,10 @@ export const journeyChapters: readonly JourneyChapter[] = [
     phase: "Nov 2023–Sep 2026",
     type: "professional",
     title: "Denim Health",
+    designation: "Founding Engineer / Lead Engineer",
     summary:
       "As founding engineer, I took a healthcare resource-management platform from its initial commit to production, architected its React and TypeScript frontend, shipped its first three AI features, and moved into the lead frontend and product role owning work from discovery and PRDs through UAT and rollout.",
-    descriptor: "Founding Engineer / Lead Engineer · Healthcare",
+    descriptor: "Healthcare · React · TypeScript · Product",
     themes: ["technology"],
     primaryTheme: "technology",
   },
