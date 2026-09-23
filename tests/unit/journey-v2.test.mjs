@@ -7,6 +7,13 @@ import {
   sortJourneyChapters,
 } from "../../lib/journey.ts";
 import { travelHistory } from "../../lib/travel-history.ts";
+import {
+  rotaractCommittees,
+  rotaractEvents,
+  rotaractInitiatives,
+  rotaractRoles,
+  rotaractStructure,
+} from "../../lib/community-service.ts";
 
 describe("journey URL state", () => {
   it("keeps only known, unique threads in their canonical order", () => {
@@ -100,6 +107,8 @@ describe("journey chapters", () => {
       ({ id }) => id === "reiki-certification",
     );
 
+    expect(rotaract).toMatchObject({ phase: "Jul 2017–Jun 2019" });
+    expect(rotaract?.summary).toContain("team leader to team coordinator");
     expect(rotaract?.summary).toContain("800+ member service organization");
     expect(rotaract?.summary).toContain("INR 10 lakh");
     expect(rotaract?.legacyId).toBe("rotary");
@@ -122,6 +131,46 @@ describe("journey chapters", () => {
     expect(journeyChapters.every(({ media }) => media === undefined)).toBe(
       true,
     );
+  });
+});
+
+describe("Rotaract community service record", () => {
+  it("keeps the four leadership roles in dated order", () => {
+    expect(rotaractRoles.map(({ title }) => title)).toEqual([
+      "Team Leader",
+      "Team Coordinator",
+      "Joint Secretary",
+      "President",
+    ]);
+    expect(rotaractRoles.at(0)?.period).toBe("July–September 2017");
+    expect(rotaractRoles.at(-1)?.period).toBe("June 2018–June 2019");
+  });
+
+  it("preserves the supplied organisation scale and programme coverage", () => {
+    expect(rotaractStructure.map(({ count }) => count)).toEqual([
+      "1",
+      "Board",
+      "1:7–8",
+      "40–50",
+      "10–15",
+    ]);
+    expect(rotaractEvents.map(({ title }) => title)).toEqual(
+      expect.arrayContaining([
+        "Annual recruitment",
+        "Pirates of the City",
+        "Kids' Olympics",
+        "Salsa Slam",
+      ]),
+    );
+    expect(rotaractInitiatives.map(({ title }) => title)).toEqual(
+      expect.arrayContaining([
+        "Happy School",
+        "Apni Pathshala",
+        "Menstrual Hygiene",
+        "Animal Welfare",
+      ]),
+    );
+    expect(rotaractCommittees).toHaveLength(11);
   });
 });
 
