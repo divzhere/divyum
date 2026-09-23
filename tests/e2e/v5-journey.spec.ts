@@ -70,6 +70,23 @@ test("every chapter is a marker on one thread, with its phase beside it on wide 
   await expect(page.locator(".journey-chapter-number")).toHaveCount(0);
 });
 
+test("the remote-life chapter carries a responsive travel globe", async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/journey#remote-life");
+  const globe = page.getByRole("figure", { name: /India → Southeast Asia/ });
+
+  await expect(globe).toBeInViewport();
+  await expect(globe).toContainText("many roads across India");
+  await expect(globe.locator("svg")).toBeVisible();
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth <= window.innerWidth,
+    ),
+  ).toBe(true);
+});
+
 test("the thread fills as the reader scrolls and the current chapter's marker becomes an origin", async ({
   page,
 }) => {

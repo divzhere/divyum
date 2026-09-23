@@ -110,6 +110,13 @@ describe("journey chapters", () => {
     expect(reiki).toMatchObject({ phase: "March 2026", place: "Level 1 & 2" });
   });
 
+  it("describes remote travel only at the regional level supported by the source map", () => {
+    const remoteLife = journeyChapters.find(({ id }) => id === "remote-life");
+
+    expect(remoteLife?.summary).toContain("across India");
+    expect(remoteLife?.summary).toContain("Southeast Asia");
+  });
+
   it("ships no media before Divyum approves it", () => {
     expect(journeyChapters.every(({ media }) => media === undefined)).toBe(
       true,

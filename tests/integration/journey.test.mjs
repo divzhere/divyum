@@ -52,6 +52,18 @@ function setup() {
 }
 
 describe("journey selection", () => {
+  it("shows the travel globe with a truthful regional caption in the whole story", () => {
+    const { result } = setup();
+    const globe = within(result).getByRole("figure", {
+      name: /India → Southeast Asia/,
+    });
+
+    expect(globe).toBeTruthy();
+    expect(
+      within(globe).getByText(/many roads across India, then farther/),
+    ).toBeTruthy();
+  });
+
   it("keeps the current story visible while choices are staged, then applies them on submit", async () => {
     const { user, result, submit } = setup();
     const technology = screen.getByRole("checkbox", { name: /^Technology/ });
@@ -72,6 +84,7 @@ describe("journey selection", () => {
     expect(
       within(result).getByRole("heading", { name: title("technology") }),
     ).toBeTruthy();
+    expect(within(result).queryByRole("figure")).toBeNull();
     expect(
       within(result).queryByRole("heading", { name: title("punjab") }),
     ).toBeNull();

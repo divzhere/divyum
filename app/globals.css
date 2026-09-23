@@ -1346,6 +1346,91 @@ html[data-theme="dark"] .theme-knob {
   line-height: 1.5;
 }
 
+.journey-travel-globe {
+  display: grid;
+  max-width: 38rem;
+  grid-template-columns: minmax(11rem, 15rem) minmax(0, 1fr);
+  gap: clamp(1.25rem, 4vw, 2.5rem);
+  align-items: center;
+  margin: 1.75rem 0 0;
+  padding-block: 1.5rem;
+  border-block: 1px solid var(--rule);
+}
+
+.journey-travel-globe-illustration {
+  color: var(--accent);
+}
+
+.journey-travel-globe svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.travel-globe-sphere {
+  fill: color-mix(in srgb, var(--soft) 68%, transparent);
+}
+
+.travel-globe-grid {
+  fill: none;
+  stroke: var(--rule);
+  stroke-width: 1;
+}
+
+.travel-globe-land {
+  fill: color-mix(in srgb, var(--ink) 12%, transparent);
+  stroke: color-mix(in srgb, var(--ink) 36%, transparent);
+  stroke-linejoin: round;
+  stroke-width: 1.1;
+}
+
+.travel-globe-route path {
+  fill: none;
+  stroke: currentColor;
+  stroke-dasharray: 2 7;
+  stroke-linecap: round;
+  stroke-width: 2;
+}
+
+.travel-globe-route circle {
+  fill: var(--paper);
+  stroke: currentColor;
+  stroke-width: 2;
+}
+
+.travel-globe-route circle:first-of-type {
+  fill: currentColor;
+  stroke: var(--paper);
+  stroke-width: 4;
+}
+
+.travel-globe-outline {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 1.5;
+}
+
+.journey-travel-globe figcaption {
+  display: grid;
+  gap: 0.55rem;
+  margin: 0;
+}
+
+.journey-travel-globe figcaption strong {
+  font-family: var(--font-literata), Georgia, serif;
+  font-size: clamp(1.1rem, 2vw, 1.35rem);
+  font-weight: 500;
+  line-height: 1.35;
+  letter-spacing: -0.02em;
+}
+
+.journey-travel-globe figcaption span {
+  color: var(--muted);
+  font-size: 0.78rem;
+  line-height: 1.65;
+}
+
 .journey-chapter-media {
   max-width: 38rem;
   margin: 1.5rem 0 0;
@@ -2671,6 +2756,11 @@ html[data-theme="dark"] .theme-knob {
     font-size: 1.4rem;
   }
 
+  .journey-travel-globe {
+    grid-template-columns: minmax(0, 13rem) minmax(0, 1fr);
+    gap: 1rem;
+  }
+
   .project-list a {
     grid-template-columns: 1fr auto;
     gap: 0.4rem 1rem;
@@ -2730,6 +2820,16 @@ html[data-theme="dark"] .theme-knob {
 
   .footer-links {
     justify-content: flex-start;
+  }
+}
+
+@media (max-width: 460px) {
+  .journey-travel-globe {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .journey-travel-globe-illustration {
+    width: min(100%, 15rem);
   }
 }
 
