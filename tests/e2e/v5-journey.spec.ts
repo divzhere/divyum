@@ -31,7 +31,7 @@ test("every chapter is a marker on one thread, with its phase beside it on wide 
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/journey");
   const chapters = page.locator(".journey-chapter");
-  await expect(chapters).toHaveCount(13);
+  await expect(chapters).toHaveCount(15);
   await expect(page.locator(".journey-reading-progress")).toHaveCount(1);
   const [thread, marker] = await Promise.all([
     page.locator(".journey-reading-progress").boundingBox(),
@@ -74,14 +74,14 @@ test("the thread fills as the reader scrolls and the current chapter's marker be
   page,
 }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
-  await page.goto("/journey#rotary");
-  await expect(page.locator("#rotary")).toBeInViewport();
+  await page.goto("/journey#rotaract");
+  await expect(page.locator("#rotaract")).toBeInViewport();
   await expect
     .poll(() =>
       page.evaluate(
         () =>
           getComputedStyle(
-            document.querySelector("#rotary .journey-marker")!,
+            document.querySelector("#rotaract .journey-marker")!,
             "::before",
           ).transform,
       ),
