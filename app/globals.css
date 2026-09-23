@@ -1695,7 +1695,7 @@ html[data-theme="dark"] .theme-knob {
 .journey-travel-globe {
   display: grid;
   max-width: 38rem;
-  grid-template-columns: minmax(11rem, 15rem) minmax(0, 1fr);
+  grid-template-columns: minmax(9rem, 15rem) minmax(5.5rem, 1fr);
   gap: clamp(1.25rem, 4vw, 2.5rem);
   align-items: center;
   margin: 1.75rem 0 0;
