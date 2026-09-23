@@ -21,7 +21,7 @@ test("the identity block says only what the site already asserts", async ({
   await expect(aside).toContainText("India / elsewhere");
   await expect(aside).toContainText("Est. Punjab");
   await expect(aside.locator(".hero-time-slot")).toHaveText("07:53 IST");
-  await expect(aside).toContainText("13 chapters");
+  await expect(aside).toContainText("15 chapters");
 });
 
 test("every chapter is a marker on one thread, with its phase beside it on wide screens", async ({

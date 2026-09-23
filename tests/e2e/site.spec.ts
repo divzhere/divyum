@@ -183,7 +183,9 @@ test("journey chapter links are shareable and professional chapters stay distill
   await page.goto("/journey?thread=technology&order=thematic#technology");
   await expect(page.locator("#technology")).toBeInViewport();
   await expect(
-    page.locator("#technology").getByText("UI Engineering"),
+    page
+      .locator("#technology")
+      .getByText("UI Developer Intern · React · Redux · Sass"),
   ).toBeVisible();
   await expect(page.locator(".journey-chapter h3")).toHaveText([
     "XenonStack",
