@@ -1640,7 +1640,9 @@ html[data-theme="dark"] .theme-knob {
 }
 
 .journey-community-details-body a {
-  display: inline-block;
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
   margin-top: 0.65rem;
   color: var(--ink);
   font-size: 0.72rem;
