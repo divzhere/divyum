@@ -7,6 +7,7 @@ import { motion, useScroll } from "framer-motion";
 import { LocalTime } from "@/components/local-time";
 import { TravelGlobe } from "@/components/travel-globe";
 import { TravelHistory } from "@/components/travel-history";
+import { TravelMapCards } from "@/components/travel-map-cards";
 import { siteConfig } from "@/lib/site";
 import {
   filterJourneyChapters,
@@ -282,7 +283,12 @@ export function JourneyExplorer() {
                       </p>
                     )}
                     {chapter.id === "remote-life" && <TravelGlobe />}
-                    {chapter.id === "travel" && <TravelHistory />}
+                    {chapter.id === "travel" && (
+                      <>
+                        <TravelHistory />
+                        <TravelMapCards />
+                      </>
+                    )}
                     {chapter.media && (
                       <figure className="journey-chapter-media">
                         <Image

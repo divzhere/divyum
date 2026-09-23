@@ -37,6 +37,24 @@ for (const route of routes) {
         ).toBeChecked();
         await expect(page.locator(".journey-chapter")).toHaveCount(6);
       }
+      if (route.snapshot === "journey") {
+        const travelMaps = page.locator(".journey-travel-map-card img");
+        await expect(travelMaps).toHaveCount(2);
+        await travelMaps.last().scrollIntoViewIfNeeded();
+        await expect
+          .poll(() =>
+            travelMaps.evaluateAll((images) =>
+              images.every(
+                (image) =>
+                  image instanceof HTMLImageElement &&
+                  image.complete &&
+                  image.naturalWidth > 0,
+              ),
+            ),
+          )
+          .toBe(true);
+        await page.evaluate(() => window.scrollTo(0, 0));
+      }
       if (route.snapshot === "resume") {
         const previews = page.locator('img[src*="divyum-bhumra-resume-page-"]');
         await expect(previews).toHaveCount(2);
