@@ -4681,3 +4681,67 @@ a.library-spine:focus-visible {
     writing-mode: horizontal-tb;
   }
 }
+
+/* Reading thread: the point and horizon, extended by how far the reader has
+   scrolled through an essay or note. Scroll-driven, so it needs no JavaScript.
+   Guarded like every other scroll animation on the site: browsers without
+   `animation-timeline` and readers who prefer reduced motion see nothing
+   rather than a horizon claiming progress that was never measured. */
+.reading-thread {
+  position: fixed;
+  inset-block-start: 0;
+  inset-inline: 0;
+  height: 9px;
+  z-index: 20;
+  pointer-events: none;
+}
+.reading-thread-point {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--accent);
+  opacity: 0;
+}
+.reading-thread-line {
+  position: absolute;
+  top: 4px;
+  inset-inline: 4px 0;
+  height: 1px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .reading-thread-point {
+      animation: reading-thread-arrive linear both;
+      animation-timeline: scroll(root block);
+    }
+    .reading-thread-line {
+      animation: reading-thread-extend linear both;
+      animation-timeline: scroll(root block);
+    }
+  }
+}
+@keyframes reading-thread-arrive {
+  from {
+    opacity: 0;
+  }
+  2% {
+    opacity: 1;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes reading-thread-extend {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}

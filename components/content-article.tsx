@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Prose } from "@/components/prose";
 import { PointRule } from "@/components/point-rule";
+import { ReadingThread } from "@/components/reading-thread";
 import type { ContentEntry } from "@/lib/content";
 import { formatDate } from "@/lib/utils";
 
@@ -42,6 +43,7 @@ export function ContentArticle({
       </header>
 
       <PointRule className="article-horizon" />
+      <ReadingThread />
 
       <div className="article-content-grid">
         <div aria-hidden="true" />
