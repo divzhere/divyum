@@ -1,0 +1,563 @@
+---
+title: "How I Run a Team of AI Agents"
+description: "A setup guide for orchestrating AI coding agents: one shared rules file, a routing table, narrow agents, a test gate, and parallel workspaces. Every file is copy-pasteable."
+publishedAt: "2026-09-24"
+tags:
+  - AI
+  - Engineering
+  - Systems
+featured: false
+draft: false
+---
+
+## TL;DR
+
+I stopped using one AI agent in one chat window. I now run several, each with a
+narrow job, against a set of rules written down in files.
+
+The whole setup is six files and one habit.
+
+| What | Where it lives | What it does |
+| --- | --- | --- |
+| Rules file | `~/AGENTS.md` and `~/.claude/CLAUDE.md` | How every agent should behave, everywhere |
+| Routing table | `<project>/CLAUDE.md` | Which workflow handles which kind of request |
+| Agent files | `~/.claude/agents/*.md` | Named roles, each with its own tools and model |
+| Test gate | `pnpm quality` | The check an agent has to pass before I believe it |
+| Brief | A markdown file per big task | The long prompt, written like a spec |
+| Workspaces | Conductor | Several agents running at once, each in its own folder |
+| Ship loop | `/ship` then `/land-and-deploy` | Opens the PR, merges it, deploys, checks production |
+
+Nothing here is a product I am selling. Most of it is open source, and I will
+link everything.
+
+## Abstract
+
+This is a setup guide, not a think piece. It covers how I structure rules for
+AI coding agents, how I split work across several of them, how I write the long
+prompt that starts a big task, and how I check the output.
+
+I use Claude Code and Codex for the agents, [gstack](https://github.com/garrytan/gstack)
+for the workflows, and [Conductor](https://conductor.build) to run several
+agents side by side. You can copy the structure with none of those, because the
+structure is just markdown files in the right places.
+
+I will also be clear about what I did not build myself. The rules file is not
+mine. The workflow suite is not mine. The part I built is how they fit together.
+
+## What you need before you start
+
+Nothing exotic. If you already use an AI coding agent in a terminal, you have
+most of it.
+
+- **An agent that reads a rules file.** Claude Code, Codex, Cursor and OpenCode
+  all do. Any one of them is enough.
+- **A git repo with at least one check that can fail.** Tests, lint, types,
+  a build. One is enough to begin.
+- **About two hours for steps 1 to 4.** Those steps are writing, not coding.
+- **Steps 5 to 9 are optional.** Each one adds something. Stop at whichever
+  point it stops paying you back.
+
+Everything I link to is free. The only cost is the agent subscription you are
+already paying for.
+
+## First, how an orchestra actually works
+
+I keep coming back to this comparison because it holds up.
+
+An orchestra is roughly eighty people playing at the same time, and it does not
+sound like noise. Four things make that possible.
+
+**There is a score.** The music is written down before anyone plays. Every
+musician reads the same score. Nobody is guessing what the piece is supposed to
+sound like, and nobody has to remember it.
+
+**Each section plays one part.** The violins play the violin part. The timpani
+player does not decide to add a flute line. The parts are narrow on purpose,
+and that narrowness is what lets them stack.
+
+**The conductor does not play an instrument.** Their job is to hold the shape of
+the whole thing: who comes in, when, how loud. If the conductor also tried to
+play the cello, the orchestra would fall apart.
+
+**They rehearse.** They play it, hear what is wrong, fix it, and play it again.
+The performance is the end of a loop, not the start.
+
+Now map that onto AI agents.
+
+| Orchestra | My setup |
+| --- | --- |
+| The score | The rules file, plus the brief for the task at hand |
+| Sections with narrow parts | Named agents, each given only the tools its job needs |
+| The conductor | Me, plus the routing table that picks the workflow |
+| Rehearsal | The test suite the agent has to turn green |
+
+Most people who say agents did not work for them are missing the score and the
+rehearsal. They have one agent, doing everything, with no written rules and
+nothing to check the output against. That is not an orchestra. That is one
+person improvising in an empty hall.
+
+Here is how to build the other thing, in order.
+
+## Step 1: Write the rules file
+
+Start with one file that says how an agent should behave. Not what to build.
+How to behave.
+
+Mine is not original, and this is the part I want to be loud about. It is a
+copy of [multica-ai/andrej-karpathy-skills](https://github.com/multica-ai/andrej-karpathy-skills),
+a repo that turns Andrej Karpathy's public observations about where LLMs go
+wrong on code into a single rules file. Karpathy did not write the repo. He
+described the problems, and Jiayuan ([@jiayuan_jy](https://x.com/jiayuan_jy))
+turned them into four principles.
+
+I use it word for word. I have not improved on it, and I stopped trying.
+
+The four rules:
+
+**1. Think before coding.** State your assumptions. If there are two readings
+of the request, show both instead of silently picking one. If a simpler
+approach exists, say so. If something is unclear, stop and name it.
+
+**2. Simplicity first.** Minimum code that solves the problem. No features
+nobody asked for. No abstraction for something used once. No error handling for
+situations that cannot happen. If it is 200 lines and could be 50, rewrite it.
+
+**3. Surgical changes.** Touch only what you must. Do not improve the code next
+to your change. Do not reformat. Match the existing style even if you would
+write it differently. If you notice dead code, mention it, do not delete it.
+
+**4. Goal-driven execution.** Turn the task into something checkable. "Add
+validation" becomes "write tests for invalid input, then make them pass."
+
+Each rule points at a real failure. Karpathy's description of the first one is
+worth quoting directly:
+
+> The models make wrong assumptions on your behalf and just run along with them
+> without checking. They don't manage their confusion, don't seek
+> clarifications, don't surface inconsistencies, don't present tradeoffs, don't
+> push back when they should.
+
+One line in that file matters more than the rules:
+
+> These guidelines bias toward caution over speed. For trivial tasks, use
+> judgment.
+
+Without it, an agent applies all four rules to a one-line typo fix and asks you
+three questions about it. A rule with no stated tradeoff gets applied where it
+does not belong.
+
+**Do this:** download that repo's `CLAUDE.md` and save it as `~/AGENTS.md`.
+That is the whole step. Do not write your own yet, and do not edit it for a
+few weeks. Live with it first and change it when it actually annoys you.
+
+## Step 2: Give the same file two names
+
+Claude Code reads `CLAUDE.md`. Codex reads `AGENTS.md`. Same idea, different
+filename.
+
+So I keep both:
+
+```
+~/AGENTS.md          # Codex reads this
+~/.claude/CLAUDE.md  # Claude Code reads this
+```
+
+They are identical, byte for byte, except the heading on line one. I do not
+write my standards twice. Two copies drift, and then you have two behaviours
+and no idea which one is in charge.
+
+**Do this:** `cp ~/AGENTS.md ~/.claude/CLAUDE.md`, then change the heading on
+line one. If you use only one tool, skip this step until you add a second.
+
+## Step 3: Put a routing table in each project
+
+This is the part people expect to be big and it is the opposite.
+
+The `CLAUDE.md` inside my website repo is 807 bytes. It pulls in the shared
+rules, then does one job: it routes.
+
+```md
+@AGENTS.md
+
+## Skill routing
+
+When the user's request matches an available skill, invoke it.
+
+- Product ideas / brainstorming  → /office-hours
+- Strategy / scope               → /plan-ceo-review
+- Architecture                   → /plan-eng-review
+- Design system                  → /design-consultation
+- Full review pipeline           → /autoplan
+- Bugs / errors                  → /investigate
+- QA / testing behaviour         → /qa
+- Code review / diff check       → /review
+- Visual polish                  → /design-review
+- Ship / deploy / PR             → /ship or /land-and-deploy
+- Save progress                  → /context-save
+```
+
+The `@AGENTS.md` line imports the shared file. Everything after it is a lookup
+table: a kind of request on the left, the workflow that handles it on the right.
+
+The split is the point. **Behaviour is inherited. Routing is local.** How an
+agent should behave is the same in every repo I own, so it lives once, at the
+top. Which workflow to reach for depends on the project, so it lives in the
+project.
+
+Those slash commands are [gstack](https://github.com/garrytan/gstack), Garry
+Tan's open source workflow suite. If you do not use gstack, route to plain
+descriptions instead: "bugs and errors → write a failing test first, then fix."
+The table works either way. The value is that the agent stops choosing its own
+approach for common requests.
+
+Most project rules files I see try to hold both behaviour and routing, and grow
+to a thousand lines nobody rereads. Mine is one page, so I actually keep it
+current.
+
+**Do this:** add a `CLAUDE.md` to one project. Import your rules file on line
+one, then write five routing lines. Five is plenty. Add a line each time you
+catch yourself explaining the same approach twice.
+
+## Step 4: Match the strictness to what a mistake costs
+
+Not every repo should get the same treatment.
+
+My website's rules file is 807 bytes. A Rust codebase I work in ships a 38KB
+one. I did not write that file and I have not touched it, because it is the
+best example I have seen of rules matched to risk. It opens like this:
+
+```
+RULE 0 - THE FUNDAMENTAL OVERRIDE PREROGATIVE
+If I tell you to do something, even if it goes against what follows
+below, YOU MUST LISTEN TO ME. I AM IN CHARGE, NOT YOU.
+
+RULE NUMBER 1: NO FILE DELETION
+YOU ARE NEVER ALLOWED TO DELETE A FILE WITHOUT EXPRESS PERMISSION.
+Even a new file that you yourself created.
+```
+
+It then names commands that are simply forbidden (`git reset --hard`,
+`git clean -fd`, `rm -rf`), and says that even after I approve a destructive
+command, the agent must restate it word for word, list exactly what it will
+affect, and wait for me to confirm.
+
+That is heavy. It is the right weight for a repo where one wrong command
+destroys work you cannot get back. My website has a full test suite and 228
+committed screenshots. It can survive a bad afternoon.
+
+**Do this:** for each repo, ask what the worst mistake an agent could make
+costs you. If the answer is "an afternoon", keep the rules light. If the answer
+is "work I cannot get back", write the no-deletion rules and the forbidden
+command list.
+
+## Step 5: Make named agents, and give them narrow tools
+
+Now the sections of the orchestra.
+
+Each agent is one small markdown file in `~/.claude/agents/`. Here is a real
+one, complete:
+
+```md
+---
+name: reviewer
+description: Read-only reviewer for correctness, security,
+  maintainability, regressions, and release risk.
+tools: Read, Grep, Glob, Bash
+model: sonnet
+---
+
+You are a strict read-only reviewer.
+
+Responsibilities:
+- Inspect the current diff against the plan.
+- Identify correctness, security, performance, and rollout issues.
+- Group findings as P0, P1, P2, or P3.
+- Prefer minimal, actionable fixes.
+
+Do not edit files.
+Do not restate obvious positives unless they affect ship readiness.
+```
+
+I keep a handful:
+
+- **implementer** makes the smallest change the plan calls for
+- **reviewer** reads the diff and grades findings P0 to P3
+- **qa-runner** runs tests and reports pass or fail with repro steps
+- **release-manager** checks the work against the definition of done, drafts
+  the PR from the real diff
+- **docs writer** writes release notes and changelog entries
+
+Two lines in that file do the heavy lifting.
+
+**`model: sonnet`.** The model is part of the role. Routine work runs on a
+smaller, faster model. Judgment-heavy work runs on the strongest one I have. I
+do not pay top rates for a changelog entry.
+
+**`tools: Read, Grep, Glob, Bash`.** No `Edit`. No `Write`. I am not asking the
+reviewer to avoid editing files. It cannot edit files.
+
+That second one is the highest-value line in my entire setup, and it is one
+line of config. Telling an agent "do not do X" is a hope. Not handing it the
+tool is a fact. If you take one thing from this post, take that.
+
+**Do this:** make one agent, the reviewer, and copy the file above. Give it
+`Read`, `Grep`, `Glob` and nothing else. Use it on your next pull request
+before you add any others.
+
+## Step 6: Build the gate before you scale the agents
+
+This is the rehearsal, and it is the step people skip.
+
+An agent's output is only as good as the check it has to pass. If the only
+check is you reading the diff, you are the bottleneck and you will get tired
+and start approving things.
+
+My website repo has:
+
+- a browser test matrix of 13 configurations: seven Chromium widths from 375px
+  to 1728px, and six WebKit ones
+- 228 committed screenshots, compared pixel by pixel, light theme and dark
+- separate suites for behaviour, accessibility, reduced motion, and reading
+  with JavaScript turned off
+- a bundle budget that fails the build if a route's JavaScript grows more than
+  40KB over the recorded baseline
+- Lighthouse running in CI
+
+And one command that runs the important ones in order:
+
+```json
+"quality": "pnpm lint && pnpm typecheck && pnpm content:check && pnpm test:unit && pnpm build && pnpm bundle:check"
+```
+
+That command is why I can hand over real work. The agent is not trying to
+please me. It is trying to turn a red gate green. When it says the work is
+done, I can check the claim in about a minute, and 228 screenshots have an
+opinion about whether it is true.
+
+You do not need my setup. You need one command that fails loudly. Start with
+lint, types, and your existing tests. Add one more check each time an agent
+breaks something the gate did not catch.
+
+Build this before you add more agents. Without it you are not orchestrating
+anything, you are generating code and hoping.
+
+**Do this:** add one script to `package.json` (or a `Makefile`, or a shell
+script) that chains the checks you already have with `&&`. Name it `quality`.
+Tell your agent, in the project rules file, that work is not done until that
+command exits clean.
+
+## Step 7: Write a brief, not a request
+
+For a big task, the prompt is the score, and it takes real time to write.
+
+The best one I have written lives in this repo, and the site you are reading
+was built from it. It has seven parts, and you can reuse the shape for
+anything.
+
+**1. Role and standard.** Not "you are a helpful assistant." Name the job and
+the bar it is measured against. Mine names an art director whose benchmark is a
+specific design award, scored 40% design, 30% usability, 20% creativity, 10%
+content. A concrete standard gives the agent something to grade itself with.
+
+**2. Who this is for.** Who the reader is, what the thing is, and what it is
+not. Mine says the site is a personal instrument, not a freelance funnel: no
+"hire me", no services grid, no client logos.
+
+**3. What already exists, and must not be reinvented.** Almost everyone skips
+this, and skipping it is why agents hand back rewrites instead of improvements.
+I list the framework, the colour tokens, the two fonts, the grid, the existing
+animation and its exact timing. The instruction is plain: keep these.
+
+**4. The thesis, in one sentence.** One idea the whole thing has to defend. For
+this site it is a point and a line: the point is me, the horizon is what I am
+exploring, and every page is a new meeting of the two. A sentence like that
+settles a hundred small decisions the agent would otherwise guess at.
+
+**5. Directives from research, not from taste.** Before writing the brief I had
+an agent open five sites in a real browser and screenshot them. Every directive
+points at a specific thing a specific site does, and says what to take from it.
+A table at the bottom lists each site and the pattern taken.
+
+This is the difference between "make it look premium" and an instruction an
+agent can execute. One is a mood. The other has a source.
+
+**6. Hard laws.** Things that disqualify the work. Mine bans gradients, glow,
+glassmorphism, stock photography, custom cursors, scroll hijacking and loading
+screens. It bans new fonts and new colours. It bans invented content, which
+matters more than it sounds: an agent filling empty sections with plausible
+fake essays is worse than an agent leaving them empty. Then the floors, as
+numbers: zero accessibility violations in both themes, 44px touch targets,
+Lighthouse at or above 0.95, bundle growth capped at 40KB.
+
+**7. Deliverables and definition of done.** A numbered list of what must exist
+at the end, and which gates must be green.
+
+Role, audience, what to keep, the thesis, researched directives, hard laws,
+definition of done. Most of my effort goes into parts three and six, because
+those are the two that stop an agent from confidently doing the wrong thing.
+
+**Do this:** next time you have a task bigger than an afternoon, open a
+markdown file first. Write part three (what already exists, do not reinvent it)
+and part six (what would disqualify the work). Those two alone will change the
+result. Add the other five when you see why they matter.
+
+A note on how these get written. I talk them out loud. Most of my long prompts
+start as dictation, a few hundred words of context, and end with the name of
+the workflow I want to run. Speaking is faster than typing, and it forces me to
+explain my reasoning, which is exactly the context the agent needs.
+
+## Step 8: Run more than one at a time
+
+A single agent working through a long list is still a queue.
+
+I use [Conductor](https://conductor.build), a Mac app that runs several coding
+agents at once, each in its own git worktree. A worktree is a second checkout
+of the same repo on its own branch, so two agents can work on the same project
+without touching each other's files. It drives Claude Code, Codex, Cursor and
+OpenCode under the hood, so you bring your own subscriptions.
+
+Seventeen of my repos have a workspace in it. A few have two or three live at
+the same time.
+
+Conductor names each workspace for you, and the names happen to be cities, so
+my machine has a `kelowna`, a `raleigh`, a `port-louis`. Next to each one I
+keep a symlink named after the actual job, pointing at the city. So the folder
+I open reads `codebase-review-cicd-setup`, the branch reads `qa-verify`, and
+the workspace underneath is called `chennai`. It looks absurd from outside.
+From the inside it means I can see what every running agent is doing without
+remembering which city I gave it.
+
+The reason for all this is isolation. An agent doing a design pass cannot break
+the working tree of an agent fixing a bug. They meet later, as pull requests,
+which is where disagreements belong.
+
+You do not need the app for this. `git worktree add ../myrepo-bugfix bugfix`
+gives you the same isolation for free, and you can open a second terminal in
+it. The app just makes it pleasant.
+
+**Do this:** the next time you have two unrelated tasks, put the second one in
+its own worktree instead of waiting. Two at once is already a different way of
+working.
+
+## Step 9: Hand over the boring half of shipping
+
+Writing the code is half the job. The other half is opening the pull request,
+merging it, waiting for the deploy, and checking that production actually
+works. That half is pure procedure, which makes it the easiest thing to hand
+over and the last thing most people automate.
+
+Two commands do it for me, and they hand off to each other:
+
+- **`/ship`** works out the base branch, runs the tests, reviews the diff,
+  bumps the version, updates the changelog, commits, pushes, and opens the PR.
+- **`/land-and-deploy`** takes over from there: merges the PR, waits for CI,
+  waits for the deploy to go live, then runs checks against production.
+
+Both come from gstack. The second one is the one I lean on hardest, because it
+covers the window where mistakes are most expensive and attention is lowest:
+after the merge, when the work feels finished.
+
+The part that makes it trustworthy is that it writes down what it checked.
+Every run leaves a report in `.gstack/deploy-reports/`. Here is a real one from
+this site, trimmed:
+
+```md
+# PR #55 deployment report
+
+- Merge commit: d6cee861e52d5f41f872f9f4a100c0aff1b0ccf0
+- Platform: Vercel
+- Status: Ready
+
+## Verification
+- Production home page returned HTTP 200.
+- Browser recorded page-view events for / and /journey after
+  client-side navigation.
+- Browser console had no errors.
+- Production browser load completed in 1.553 seconds.
+
+## Local checks
+- Lint passed. Typecheck passed. 136 unit tests passed.
+- Content validation passed. Production build passed.
+- Bundle budget passed.
+- Targeted Playwright site suite: 47 passed, 2 skipped.
+```
+
+That report is the whole point. A deploy step that reports "done" tells me
+nothing. A deploy step that says production returned 200, analytics fired, the
+console was clean, and the page loaded in 1.553 seconds is a claim I can go and
+check myself.
+
+It is the same idea as Step 6, moved one stage later. The test gate proves the
+code is right. The deploy report proves the thing people actually visit is
+right.
+
+**Do this:** you do not need these exact commands. Open a file and write down,
+in order, every step you take after a PR is approved. When that list stops
+changing week to week, it has become a procedure, and a procedure is something
+you can hand to an agent. Start by having the agent do it while you watch.
+
+## What this costs, and what it does not do
+
+Writing the rules, the routing table, the agent files and the gate took me a
+few evenings spread over a couple of months. It is not a weekend project, and
+it is not free.
+
+I am not going to give you a productivity multiple. I have never measured one,
+and most of the numbers quoted for this are invented. What I can say is what
+changed: the small repetitive work mostly stopped reaching me, and the work
+that reaches me now usually needs a decision.
+
+What it does not do is have ideas. It does not decide what is worth building.
+It has never once told me the thing I was building did not need to exist.
+
+There is a harder limit too. My own design review document, written at the end
+of a redesign, ends by admitting that the biggest remaining gap on this site is
+real writing, and that no redesign can close it. That is still true. The agents
+built the instrument. The essays are mine, and this is one of them.
+
+## Numbers from this site
+
+So you can judge the scale honestly: this website has 117 commits and 24 merged
+pull requests. Seventeen commits credit an AI co-author, across three model
+versions, because the models changed under me while the work continued.
+
+It is a personal site, not a system serving millions. I am not going to dress
+it up.
+
+## The shortest version
+
+If you want to start today:
+
+1. Save the [Karpathy-inspired rules file](https://github.com/multica-ai/andrej-karpathy-skills)
+   as `~/AGENTS.md`. Copy it to `~/.claude/CLAUDE.md` if you use Claude Code.
+2. Add a `CLAUDE.md` to one project. Import the rules file, then write ten
+   lines routing common requests to a consistent approach.
+3. Write one command that runs your checks and fails loudly.
+4. Make one read-only reviewer agent. Give it `Read` and `Grep` and nothing
+   else.
+5. The next time you have a big task, spend twenty minutes writing what already
+   exists and what would disqualify the work, before you write what you want.
+6. When that feels normal, run two agents at once, in two git worktrees.
+7. Last, write down what you do after a PR is approved, and hand that list over
+   too.
+
+The shift for me was not better wording. It was accepting that an agent is not
+a colleague who reads my mind. It is a fast worker that does what the written
+system says. So I got better at writing the system down.
+
+That turns out to be the same skill as running a team.
+
+## Credits
+
+- [multica-ai/andrej-karpathy-skills](https://github.com/multica-ai/andrej-karpathy-skills)
+  by [@jiayuan_jy](https://x.com/jiayuan_jy), derived from Andrej Karpathy's
+  observations. This is the rules file, used verbatim.
+- [gstack](https://github.com/garrytan/gstack) by Garry Tan. Open source. Every
+  slash command in this post, including `/ship` and `/land-and-deploy`. I
+  configured them for my projects and wrote none of them.
+- [Conductor](https://conductor.build) for parallel agent workspaces.
+- The design review skills come from the openly published `awesome-ux-skills`
+  collection.
+
+The routing table, the agent roster, the briefs and the test gate are mine. The
+rest I adopted, and I would rather say so than let you assume otherwise.

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Currently } from "@/components/currently";
 import { EssayList } from "@/components/essay-list";
 import { HeroExperience } from "@/components/hero-experience";
+import { ArrowUpRight } from "@/components/icons";
 import { KnowledgeTree } from "@/components/frameworks/knowledge-tree";
 import { frameworkGlyphs } from "@/components/frameworks/glyphs";
 import { getAllContent } from "@/lib/content";
@@ -65,10 +66,16 @@ export default async function HomePage() {
           <h2 id="writing-title">Writing</h2>
           <div className={styles.links}>
             <Link className="text-link" href="/essays">
-              Essays <span aria-hidden="true">↗</span>
+              Essays{" "}
+              <span aria-hidden="true">
+                <ArrowUpRight />
+              </span>
             </Link>
             <Link className="text-link" href="/notes">
-              Notes <span aria-hidden="true">↗</span>
+              Notes{" "}
+              <span aria-hidden="true">
+                <ArrowUpRight />
+              </span>
             </Link>
           </div>
         </div>
@@ -85,7 +92,10 @@ export default async function HomePage() {
           <h2 id="frameworks-title">Frameworks</h2>
           <p>Ways of seeing, made tangible.</p>
           <Link className="text-link" href="/frameworks">
-            Explore the thinking tools <span aria-hidden="true">↗</span>
+            Explore the thinking tools{" "}
+            <span aria-hidden="true">
+              <ArrowUpRight />
+            </span>
           </Link>
         </div>
         {instrument && (
@@ -102,7 +112,10 @@ export default async function HomePage() {
                 className="text-link"
                 href={`/frameworks/${instrument.slug}`}
               >
-                Read the framework <span aria-hidden="true">↗</span>
+                Read the framework{" "}
+                <span aria-hidden="true">
+                  <ArrowUpRight />
+                </span>
               </Link>
             </div>
             <div className={styles.instrumentCanvas}>
@@ -134,7 +147,9 @@ export default async function HomePage() {
                 </div>
                 <h3>
                   {framework.title}
-                  <span aria-hidden="true">↗</span>
+                  <span aria-hidden="true">
+                    <ArrowUpRight />
+                  </span>
                 </h3>
                 <p>{framework.subtitle}</p>
               </Link>
@@ -151,7 +166,10 @@ export default async function HomePage() {
           <h2 id="journey-title">Journey</h2>
           <p>One life, viewed through different threads.</p>
           <Link className="text-link" href="/journey">
-            Choose a path <span aria-hidden="true">↗</span>
+            Choose a path{" "}
+            <span aria-hidden="true">
+              <ArrowUpRight />
+            </span>
           </Link>
         </div>
         <ol className={styles.moments}>
@@ -178,7 +196,9 @@ export default async function HomePage() {
           <h2 id="library-title">Library</h2>
           <p>Books, and the ideas they leave behind.</p>
           <Link className="text-link" href="/library">
-            Visit the shelf <span aria-hidden="true">↗</span>
+            Visit the shelf <span aria-hidden="true">
+                <ArrowUpRight />
+              </span>
           </Link>
         </div>
         <div className={styles.shelfPreview}>
@@ -226,7 +246,10 @@ export default async function HomePage() {
             in public through writing, travel and direct experience.
           </p>
           <Link className="text-link" href="/about">
-            More about me <span aria-hidden="true">↗</span>
+            More about me{" "}
+            <span aria-hidden="true">
+              <ArrowUpRight />
+            </span>
           </Link>
         </div>
       </section>
