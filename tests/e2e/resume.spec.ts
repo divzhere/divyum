@@ -39,7 +39,10 @@ test("resume can be previewed, opened and downloaded", async ({ page }) => {
       name: "Founding Engineer / Lead Engineer · Denim Health",
     }),
   ).toBeVisible();
-  await expect(page.locator("main")).not.toContainText("98767");
+  await expect(
+    page.getByRole("link", { name: "+91 98767 67356" }),
+  ).toHaveAttribute("href", "tel:+919876767356");
+  await expect(page.locator("address")).not.toContainText("Remote, India");
 
   const response = await page.request.get(pdfPath);
   expect(response.status()).toBe(200);

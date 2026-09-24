@@ -40,8 +40,13 @@ describe("resume page", () => {
     expect(container.querySelector("details")?.textContent).toContain(
       "Founding Engineer / Lead Engineer · Denim Health",
     );
-    expect(container.querySelector("details")?.textContent).not.toContain(
-      "98767",
+    expect(
+      screen
+        .getByRole("link", { name: "+91 98767 67356" })
+        .getAttribute("href"),
+    ).toBe("tel:+919876767356");
+    expect(container.querySelector("address")?.textContent).not.toContain(
+      "Remote, India",
     );
   });
 

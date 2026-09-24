@@ -96,9 +96,12 @@ export default function ResumePage() {
               </strong>
             </p>
             <address>
-              Remote, India ·{" "}
+              <a href="tel:+919876767356">+91 98767 67356</a> ·{" "}
               <a href="mailto:divz7777@gmail.com">divz7777@gmail.com</a> ·{" "}
-              <a href="https://divyumbhumra.com">divyumbhumra.com</a>
+              <a href="https://www.divyumbhumra.com/">divyumbhumra.com</a> ·{" "}
+              <a href="https://www.linkedin.com/in/divyum/">
+                linkedin.com/in/divyum
+              </a>
             </address>
           </header>
 
