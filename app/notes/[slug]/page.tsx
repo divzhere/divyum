@@ -19,7 +19,9 @@ export async function generateStaticParams() {
   return notes.map((note) => ({ slug: note.slug }));
 }
 
-export async function generateMetadata({ params }: NotePageProps): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: NotePageProps): Promise<Metadata> {
   const { slug } = await params;
   const note = await getContentBySlug("notes", slug);
 
@@ -31,6 +33,7 @@ export async function generateMetadata({ params }: NotePageProps): Promise<Metad
     title: note.title,
     description: note.description,
     path: `/notes/${note.slug}`,
+    imagePath: `/notes/${note.slug}/opengraph-image`,
     type: "article",
     publishedTime: note.publishedAt,
     modifiedTime: note.updatedAt,

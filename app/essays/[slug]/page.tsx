@@ -19,7 +19,9 @@ export async function generateStaticParams() {
   return essays.map((essay) => ({ slug: essay.slug }));
 }
 
-export async function generateMetadata({ params }: EssayPageProps): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: EssayPageProps): Promise<Metadata> {
   const { slug } = await params;
   const essay = await getContentBySlug("essays", slug);
 
@@ -31,6 +33,7 @@ export async function generateMetadata({ params }: EssayPageProps): Promise<Meta
     title: essay.title,
     description: essay.description,
     path: `/essays/${essay.slug}`,
+    imagePath: `/essays/${essay.slug}/opengraph-image`,
     type: "article",
     publishedTime: essay.publishedAt,
     modifiedTime: essay.updatedAt,

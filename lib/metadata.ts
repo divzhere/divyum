@@ -10,6 +10,7 @@ type MetadataInput = {
   modifiedTime?: string;
   tags?: string[];
   imagePath?: string;
+  imageAlt?: string;
 };
 
 export function createMetadata({
@@ -21,12 +22,14 @@ export function createMetadata({
   modifiedTime,
   tags,
   imagePath = "/opengraph-image",
+  imageAlt = `${title} — ${siteConfig.name}`,
 }: MetadataInput): Metadata {
   const canonical = absoluteUrl(path);
 
   return {
     title,
     description,
+    keywords: tags,
     alternates: { canonical },
     openGraph: {
       type,
@@ -35,7 +38,15 @@ export function createMetadata({
       url: canonical,
       siteName: siteConfig.name,
       locale: siteConfig.locale,
-      images: [{ url: absoluteUrl(imagePath), width: 1200, height: 630 }],
+      images: [
+        {
+          url: absoluteUrl(imagePath),
+          width: 1200,
+          height: 630,
+          alt: imageAlt,
+          type: "image/png",
+        },
+      ],
       ...(type === "article" && {
         publishedTime,
         modifiedTime,
@@ -47,7 +58,7 @@ export function createMetadata({
       card: "summary_large_image",
       title,
       description,
-      images: [absoluteUrl(imagePath)],
+      images: [{ url: absoluteUrl(imagePath), alt: imageAlt }],
     },
   };
 }

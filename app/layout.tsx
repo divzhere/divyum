@@ -43,16 +43,37 @@ export const metadata: Metadata = {
     title: siteConfig.name,
     description: siteConfig.description,
     images: [
-      { url: absoluteUrl("/opengraph-image"), width: 1200, height: 630 },
+      {
+        url: absoluteUrl("/opengraph-image"),
+        width: 1200,
+        height: 630,
+        alt: "Divyum Bhumra — technologist, software engineer and independent thinker",
+        type: "image/png",
+      },
     ],
   },
   twitter: {
     card: "summary_large_image",
     title: siteConfig.name,
     description: siteConfig.description,
-    images: [absoluteUrl("/opengraph-image")],
+    images: [
+      {
+        url: absoluteUrl("/opengraph-image"),
+        alt: "Divyum Bhumra — technologist, software engineer and independent thinker",
+      },
+    ],
   },
-  robots: { index: true, follow: true },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
 };
 
 export const viewport: Viewport = {

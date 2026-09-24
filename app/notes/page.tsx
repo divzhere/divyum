@@ -9,6 +9,7 @@ export const metadata: Metadata = createMetadata({
   description:
     "Short observations, questions, book notes and field notes by Divyum Bhumra.",
   path: "/notes",
+  imagePath: "/notes/opengraph-image",
 });
 
 export default async function NotesPage() {

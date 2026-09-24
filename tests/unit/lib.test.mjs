@@ -28,6 +28,7 @@ describe("shared site data", () => {
   });
 
   it("builds canonical URLs and page metadata from site configuration", () => {
+    expect(siteConfig.url).toBe("https://www.divyumbhumra.com");
     expect(absoluteUrl("/about")).toBe(
       new URL("/about", siteConfig.url).toString(),
     );
@@ -41,11 +42,21 @@ describe("shared site data", () => {
     });
 
     expect(metadata.alternates?.canonical).toBe(absoluteUrl("/about"));
+    expect(metadata.keywords).toEqual(["Technology"]);
     expect(metadata.openGraph).toMatchObject({
       title: "About",
       type: "article",
       publishedTime: "2024-01-01",
       tags: ["Technology"],
+      images: [
+        {
+          url: absoluteUrl("/opengraph-image"),
+          width: 1200,
+          height: 630,
+          alt: "About — Divyum Bhumra",
+          type: "image/png",
+        },
+      ],
     });
   });
 });

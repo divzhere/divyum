@@ -9,6 +9,7 @@ export const metadata: Metadata = createMetadata({
   description:
     "Essays by Divyum Bhumra on technology, AI, entrepreneurship, philosophy, consciousness and life.",
   path: "/essays",
+  imagePath: "/essays/opengraph-image",
 });
 
 export default async function EssaysPage() {

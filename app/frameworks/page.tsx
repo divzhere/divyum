@@ -9,6 +9,7 @@ export const metadata: Metadata = createMetadata({
   description:
     "Thinking tools Divyum Bhumra actually uses, each rendered as a purpose-built interactive diagram.",
   path: "/frameworks",
+  imagePath: "/frameworks/opengraph-image",
 });
 
 export default async function FrameworksPage() {

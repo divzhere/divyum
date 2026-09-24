@@ -3,13 +3,13 @@ export const siteConfig = {
   shortDescription: "Technologist, software engineer and independent thinker.",
   description:
     "Divyum Bhumra builds software and writes about technology, artificial intelligence, entrepreneurship, philosophy and consciousness.",
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://divyumbhumra.com",
+  url: "https://www.divyumbhumra.com",
   locale: "en_IN",
   location: "India / elsewhere",
   projectsVisible: false,
   social: {
     x: "",
-    linkedin: "",
+    linkedin: "https://www.linkedin.com/in/divyum/",
     github: "",
     email: "",
   },
