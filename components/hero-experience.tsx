@@ -39,9 +39,19 @@ export function HeroExperience() {
           I build software and write about technology, artificial intelligence,
           entrepreneurship, philosophy and consciousness.
         </p>
-        <Link className="text-link hero-link" href="/frameworks">
-          Explore the frameworks
-        </Link>
+        <div className="hero-actions">
+          <a
+            className="hero-booking-link"
+            href={siteConfig.bookingUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Book a 30-minute meeting
+          </a>
+          <Link className="text-link hero-link" href="/frameworks">
+            Explore the frameworks
+          </Link>
+        </div>
       </div>
       <p className="hero-spine" aria-hidden="true">
         Divyum Bhumra — Est. Punjab

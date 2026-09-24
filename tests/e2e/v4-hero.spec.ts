@@ -162,3 +162,21 @@ test("the arrival still settles by 1,150ms, runs once, and the first click lands
   ).toHaveAttribute("href", "/frameworks");
   await expect(page.locator(".hero-spine")).toHaveCSS("opacity", "1");
 });
+
+test("the hero offers a direct 30-minute booking link", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/");
+
+  const bookingLink = page.getByRole("link", {
+    name: "Book a 30-minute meeting",
+    exact: true,
+  });
+
+  await expect(bookingLink).toBeVisible();
+  await expect(bookingLink).toHaveAttribute(
+    "href",
+    "https://cal.com/divyum-bhumra-6zkfhd/30min",
+  );
+  await expect(bookingLink).toHaveAttribute("target", "_blank");
+  await expect(bookingLink).toHaveAttribute("rel", "noopener noreferrer");
+});

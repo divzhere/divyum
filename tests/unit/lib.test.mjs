@@ -29,6 +29,9 @@ describe("shared site data", () => {
 
   it("builds canonical URLs and page metadata from site configuration", () => {
     expect(siteConfig.url).toBe("https://www.divyumbhumra.com");
+    expect(siteConfig.bookingUrl).toBe(
+      "https://cal.com/divyum-bhumra-6zkfhd/30min",
+    );
     expect(absoluteUrl("/about")).toBe(
       new URL("/about", siteConfig.url).toString(),
     );

@@ -6,6 +6,7 @@ export const siteConfig = {
   url: "https://www.divyumbhumra.com",
   locale: "en_IN",
   location: "India / elsewhere",
+  bookingUrl: "https://cal.com/divyum-bhumra-6zkfhd/30min",
   projectsVisible: false,
   social: {
     x: "",

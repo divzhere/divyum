@@ -481,9 +481,36 @@ html[data-theme="dark"] .theme-knob {
   font-size: clamp(1.125rem, 1.6vw, 1.375rem);
   line-height: 1.6;
 }
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.9rem 1.25rem;
+  margin-top: 1.5rem;
+}
+.hero-booking-link {
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
+  border: 1px solid var(--ink);
+  padding: 0.6rem 0.9rem;
+  background: var(--ink);
+  color: var(--paper);
+  font-size: 0.875rem;
+  text-decoration: none;
+  transition:
+    border-color var(--motion-ui) var(--ease-out-expo),
+    background var(--motion-ui) var(--ease-out-expo),
+    color var(--motion-ui) var(--ease-out-expo);
+}
+.hero-booking-link:hover,
+.hero-booking-link:focus-visible {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--paper);
+}
 .hero-link {
   display: inline-block;
-  margin-top: 1.5rem;
   font-size: 0.875rem;
 }
 @keyframes horizon-extend {
