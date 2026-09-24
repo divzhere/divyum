@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import { ArrowDown, ArrowUpRight } from "@/components/icons";
 import { PageIntro } from "@/components/page-intro";
 import { createMetadata } from "@/lib/metadata";
 import styles from "./resume.module.css";
@@ -36,14 +37,20 @@ export default function ResumePage() {
               target="_blank"
               rel="noreferrer"
             >
-              View PDF <span aria-hidden="true">↗</span>
+              View PDF{" "}
+              <span aria-hidden="true">
+                <ArrowUpRight />
+              </span>
             </a>
             <a
               className={`text-link ${styles.action}`}
               href={resumePath}
               download="Divyum-Bhumra-Resume.pdf"
             >
-              Download PDF <span aria-hidden="true">↓</span>
+              Download PDF{" "}
+              <span aria-hidden="true">
+                <ArrowDown />
+              </span>
             </a>
           </div>
         </div>
@@ -84,7 +91,9 @@ export default function ResumePage() {
       <details className={styles.textVersion}>
         <summary>
           <span>Read the accessible text version</span>
-          <span aria-hidden="true">↓</span>
+          <span aria-hidden="true">
+            <ArrowDown />
+          </span>
         </summary>
         <article className={"prose " + styles.textContent}>
           <header>

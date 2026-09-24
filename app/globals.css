@@ -4745,3 +4745,10 @@ a.library-spine:focus-visible {
     transform: scaleX(1);
   }
 }
+
+/* Inline icons sit on the text baseline the arrow glyphs used to occupy. They
+   inherit colour from the link, so the existing accent rules keep working. */
+.icon {
+  display: inline-block;
+  vertical-align: -0.125em;
+}
